@@ -14,6 +14,9 @@ module.exports = {
       success: "#27AE60",
       waring: "#E2B93B",
       error: "#EB5757",
+      gray1: '#333333',
+      gray2 : '#4F4F4F',
+      gray3 : '#828282', 
       ...colors
     },
     boxShadow: {
