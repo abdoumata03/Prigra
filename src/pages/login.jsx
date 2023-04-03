@@ -1,8 +1,8 @@
-import React from 'react'
+import React, {useRef, useEffect} from 'react'
 import {useForm} from 'react-hook-form'
 import {yupResolver} from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import {login, logo, checkbox} from '../assets'
+import {login, logo, checkbox, shape1, shape2, shape3, center, arrows} from '../assets'
 
 
 const shema = yup.object().shape({
@@ -12,6 +12,12 @@ const shema = yup.object().shape({
 
 
 const Login = () => {
+
+    const inputRef = useRef(null);
+
+    useEffect(()=> {
+        inputRef.current.focus();
+    }, []);
 
     const {register, handleSubmit, formState :{errors}} = useForm({
         resolver : yupResolver(shema),
@@ -37,7 +43,8 @@ const Login = () => {
                  name='email' 
                  placeholder='m.berrached@esi-sba.dz' 
                  required
-                 className='border border-primary rounded-[10px] w-[442px] h-[50px] pl-[24px] text-gray3'/>
+                 className='border border-primary rounded-[10px] w-[442px] h-[50px] pl-[24px] text-gray3'
+                 ref={inputRef}/>
                  <p className='text-error ml-2'>{errors.email && 'votre adresse email est invalide'}</p>
 
                 <p className='font-bold mb-[14px] mt-[45px] text-gray2'>Mot de passe*</p>
@@ -71,8 +78,15 @@ const Login = () => {
             </form>
          </div>
          </div>
-         <div className='2xl:w-1/2'>
-            <img src={login} alt="login" className=' 2xl:block hidden w-full h-full' />
+         <div className='relative w-1/2 h-screen bg-primary-gradient'>
+            <img src={shape1} alt="shape1" className='absolute w-[250px]'/>
+            <img src={shape2} alt="shape2" className='absolute top-0 right-0 w-[250px]'/>
+            <img src={shape3} alt="shape3" className='absolute right-0 bottom-0 w-[600px]' />
+            <img src={center} alt="center" className='absolute mt-8 ml-8 w-[900px]  '/>
+            <p className='absolute top-[650px] left-[340px] text-[30px] w-[250px] text-white font-semibold text-center'>Turn your ideas into reality.</p>
+            <img src={arrows} alt="arrows" className='absolute top-[750px] left-[412px] w-[100px]'/>
+            
+
 
         </div>
 
