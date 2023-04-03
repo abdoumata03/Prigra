@@ -1,11 +1,11 @@
-import {ChooseRole} from "./pages/index.js";
+import {ChooseRole, Login} from "./pages/index.js";
 
 function App() {
 
 
   return (
     <div>
-      <ChooseRole/>
+      <Login/>
     </div>
   )
 }
