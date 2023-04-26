@@ -1,11 +1,11 @@
-import {ChooseRole, Login} from "./pages/index.js";
+import {ChooseRole, Login, LandingPage} from "./pages/index.js";
 
 function App() {
 
 
   return (
     <div>
-      <Login/>
+      <LandingPage/>
     </div>
   )
 }

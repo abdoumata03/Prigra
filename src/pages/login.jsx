@@ -13,11 +13,7 @@ const shema = yup.object().shape({
 
 const Login = () => {
 
-    const inputRef = useRef(null);
-
-    useEffect(()=> {
-        inputRef.current.focus();
-    }, []);
+    
 
     const {register, handleSubmit, formState :{errors}} = useForm({
         resolver : yupResolver(shema),
@@ -43,8 +39,7 @@ const Login = () => {
                  name='email' 
                  placeholder='m.berrached@esi-sba.dz' 
                  required
-                 className='border border-primary rounded-[10px] w-[442px] h-[50px] pl-[24px] text-gray3'
-                 ref={inputRef}/>
+                 className='border border-primary rounded-[10px] w-[442px] h-[50px] pl-[24px] text-gray3'/>
                  <p className='text-error ml-2'>{errors.email && 'votre adresse email est invalide'}</p>
 
                 <p className='font-bold mb-[14px] mt-[45px] text-gray2'>Mot de passe*</p>
