@@ -1,8 +1,9 @@
-import React, { useRef, useEffect, useContext } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import AuthContext from "../context/auth-context";
+import LoadingSpinner from "../components/spinner.jsx";
 
 import {
   login,
@@ -21,12 +22,7 @@ const shema = yup.object().shape({
 });
 
 const Login = () => {
-  const { loginUser } = useContext(AuthContext);
-  //   const inputRef = useRef(null);
-
-  //   useEffect(() => {
-  //     inputRef.current.focus();
-  //   }, []);
+  const { loginUser, isFetching } = useContext(AuthContext);
 
   const {
     register,
@@ -46,7 +42,7 @@ const Login = () => {
         <div className="flex flex-col items-start w-[420px]">
           <img src={logo} alt="logo" className="mb-[32px] w-[137px]" />
           <h1 className="text-2xl mb-[4px] font-bold text-gray1">
-             Se Connecter
+            Se Connecter
           </h1>
           <p className="text-xs text-gray3 mb-[45px]">
             Saisir vos informations pour continuer
@@ -87,20 +83,30 @@ const Login = () => {
               <p className="text-primary text-[15px]">Mot de passe oublié?</p>
             </div>
 
-            <br />
+            <br />  
             <div className="flex flex-col items-center">
-              <button className="w-full h-[50px] bg-primary mt-[50px] mb-[8px] rounded-[5px] text-white font-semibold">
-                Continue
+              <button
+                className={`w-full h-[50px] bg-primary mt-[50px] mb-[8px] rounded-[5px] text-white font-semibold ${
+                  isFetching ? "bg-opacity-75" : "bg-opacity-100"
+                }`}
+                disabled={isFetching}
+              >
+                {isFetching ? <LoadingSpinner /> : "Continuer"}
               </button>
             </div>
             <p className="text-[14px]">
-              Vous n'avez pas encore un compte? <span className="text-primary font-semibold">Isncrire</span>
+              Vous n'avez pas encore un compte?{" "}
+              <span className="text-primary font-semibold">Isncrire</span>
             </p>
           </form>
         </div>
       </div>
       <div className="hidden absolute lg:flex justify-center items-center top-0 bottom-0 right-0 w-1/2 h-screen bg-primary-gradient">
-        <img src={shape1} alt="shape1" className="absolute top-0 left-0 w-[140px]" />
+        <img
+          src={shape1}
+          alt="shape1"
+          className="absolute top-0 left-0 w-[140px]"
+        />
         <img
           src={shape1}
           alt="shape1"
