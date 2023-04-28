@@ -3,9 +3,9 @@ import { useContext } from "react";
 import AuthContext from "../context/auth-context";
 
 
-const PrivateRoute = () => {
+const PrivateLogin = () => {
   let { user } = useContext(AuthContext);
-  return (!user ?  <Navigate to="/login" /> : <Outlet/>);
+  return (user ?  <Navigate to="/roles" /> : <Outlet/>);
 };
 
-export default PrivateRoute;
+export default PrivateLogin;

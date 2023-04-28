@@ -1,7 +1,7 @@
-
 import { createContext, useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const AuthContext = createContext();
 
@@ -23,16 +23,19 @@ export const AuthProvider = ({ children }) => {
   const history = useNavigate();
 
   const loginUser = async (email, password) => {
-    const response = await fetch("https://9e0d-105-109-248-97.eu.ngrok.io/auth/jwt/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email,
-        password
-      })
-    });
+    const response = await fetch(
+      "https://prigra.onrender.com/auth/jwt/create",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      }
+    );
 
     const data = await response.json();
 
@@ -40,13 +43,37 @@ export const AuthProvider = ({ children }) => {
       setAuthTokens(data);
       setUser(jwt_decode(data.access));
       localStorage.setItem("authTokens", JSON.stringify(data));
-      console.log('HERE')
+
+      const response_me = await fetch(
+        "https://prigra.onrender.com/auth/users/me/",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `JWT ${data.access}`,
+          },
+        }
+      );
+
+      const me_data = await response_me.json();
+      const user_type = me_data.type;
+      const user_id = me_data.id;
+
+      const fetch_user_type = await fetch(
+        `https://prigra.onrender.com/base/${user_type}/${user_id}/`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `JWT ${data.access}`,
+          },
+        }
+      );
+
       history("/roles");
     } else {
       alert("Mot de pass erroné!");
     }
   };
-  
+
   const logoutUser = () => {
     setAuthTokens(null);
     setUser(null);
@@ -60,7 +87,7 @@ export const AuthProvider = ({ children }) => {
     authTokens,
     setAuthTokens,
     loginUser,
-    logoutUser
+    logoutUser,
   };
 
   useEffect(() => {

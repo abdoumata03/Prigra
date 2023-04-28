@@ -1,7 +1,10 @@
 import React, {useState} from 'react'
 import { logo } from '../assets'
+import {useNavigate} from "react-router-dom"
+
 
 const Navbar = () => {
+    const navigate = useNavigate();
   return (
     <nav className='w-full flex py-8 justify-between items-center'>
         <img src={logo} alt="logo" className=' w-[137px] h-[49px] '/>
@@ -17,7 +20,7 @@ const Navbar = () => {
             </li>
 
         </ul>
-        <button className=' lg:block hidden border border-primary text-primary font-bold px-3.5 py-2.5 rounded-[6px]' >Se Connecter</button>
+        <button onClick={() => navigate('/login')} className=' lg:block hidden border border-primary text-primary font-bold px-3.5 py-2.5 rounded-[6px]' >Se Connecter</button>
 
     </nav>
   )
