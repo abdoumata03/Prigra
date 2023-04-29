@@ -3,6 +3,7 @@ import {
   Login,
   LandingPage,
   ResetPassword,
+  SetPassword,
 } from "./pages/index.js";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import PrivateRoute from "./utils/private-route.jsx";
@@ -13,12 +14,11 @@ function App() {
   return (
     <AuthProvider>
       <Routes>
-        <Route element={<PrivateLogin />}>
-          <Route element={<ResetPassword />} path="/reset-password" />
-        </Route>
         <Route element={<LandingPage />} path="/home" />
         <Route element={<PrivateLogin />}>
           <Route element={<Login />} path="/login" />
+          <Route element={<ResetPassword />} path="/forgot-password" />
+          <Route element={<SetPassword />} path="/reset-password" />
         </Route>
         <Route element={<PrivateRoute />}>
           <Route element={<ChooseRole />} path="/roles" exact />

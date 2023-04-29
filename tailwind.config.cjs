@@ -20,6 +20,7 @@ module.exports = {
       gray4 : '#BDBDBD', 
       gray5 : '#E0E0E0', 
       white_bg: '#FAFAFC', 
+      bg: '#F2F0F0',
       ...colors
     },
     boxShadow: {
