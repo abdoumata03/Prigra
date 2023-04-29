@@ -7,5 +7,8 @@
    "enc_desc" : "Vous allez suivre l'avancement des projets",
    "membre_title" : "Membre de C.S.",
    "membre_desc" : "Vous allez approuver ou désapprouver les projets",
-   "choose_role_note" : "Vous pouvez changer votre role n'importe quel moment*"
+   "choose_role_note" : "Vous pouvez changer votre role n'importe quel moment*", 
+   "etu_title" : "Etudiant",
+   "ens_title" : "Enseignat"
+
 }
