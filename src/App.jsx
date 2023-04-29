@@ -10,6 +10,9 @@ import PrivateRoute from "./utils/private-route.jsx";
 import PrivateLogin from "./utils/private-login.jsx";
 import { AuthProvider } from "./context/auth-context.jsx";
 
+// Wrap pages not requiring authenticatino in <PrivateLogin/>
+// Wrap pages requiring authentication in <ProvateRoute/>
+
 function App() {
   return (
     <AuthProvider>
