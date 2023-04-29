@@ -30,6 +30,12 @@ export const AuthProvider = ({ children }) => {
 
   // Error Message
   const [errorMsg, setErrorMsg] = useState(null);
+  
+  // If Reset Email is Valid
+  const [isValidEmail, setIsValidEmail] = useState(false);
+
+  // If password Reset is Successful
+  const [isResetSuccess, setIsResetSuccess] = useState(false);
 
   // RRv6 Navigator
   const navigate = useNavigate();
@@ -110,6 +116,8 @@ export const AuthProvider = ({ children }) => {
       );
       if (reset_response.status === 204) {
          alert("Cet email n'existe pas!");
+      } else if(reset_response.status === 500) {
+        setIsValidEmail(true);
       }
     } catch (error) {
       console.log(error)
@@ -130,6 +138,8 @@ export const AuthProvider = ({ children }) => {
     setUser,
     errorMsg,
     authTokens,
+    isValidEmail,
+    isResetSuccess,
     isFetching,
     resetPassword,
     setAuthTokens,

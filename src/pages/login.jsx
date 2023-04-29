@@ -4,6 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import AuthContext from "../context/auth-context";
 import LoadingSpinner from "../components/spinner.jsx";
+import { Link,Navigate } from "react-router-dom";
 
 import {
   login,
@@ -37,7 +38,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-row h-full font-eudox">
+    <div className="flex flex-row h-screen font-eudox bg-gray-50">
       <div className="lg:w-1/2 w-full 2xl:mt-[0px] mt-[51px] flex flex-col items-center">
         <div className="flex flex-col items-start w-[420px]">
           <img src={logo} alt="logo" className="mb-[32px] w-[137px]" />
@@ -57,11 +58,11 @@ const Login = () => {
               name="email"
               placeholder="mail@esi-sba.dz"
               required
-              className="border border-primary rounded-[5px] w-[420px] h-[50px] pl-[24px] text-gray3"
+              className="shadow-custom rounded-[5px] w-[420px] h-[50px] pl-[24px] text-gray3"
               //   ref={inputRef}
             />
             <p className="text-error ml-2">
-              {errors.email && "votre adresse email est invalide"}
+              {errors.email && "Votre adresse email est invalide"}
             </p>
 
             <p className="font-bold text-[14px] mb-[6px] mt-[20px] text-gray2">
@@ -73,14 +74,16 @@ const Login = () => {
               name="password"
               placeholder="Min 8 caractères"
               required
-              className="border border-primary rounded-[5px] w-[420px] h-[50px] pl-[24px] text-gray3"
+              className="shadow-custom rounded-[5px] w-[420px] h-[50px] pl-[24px] text-gray3"
             />
             <p className="text-error ml-2">
-              {errors.password && "votre mot de passe est très court"}
+              {errors.password && "Votre mot de passe est très court"}
             </p>
 
             <div className="flex justify-end mt-[10px]">
-              <p className="text-primary text-[15px]">Mot de passe oublié?</p>
+              <p className="text-primary text-[15px]">
+                <Link to="/reset-password">Mot de passe oublié?</Link>
+                </p>
             </div>
 
             <br />  

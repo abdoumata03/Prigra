@@ -5,7 +5,7 @@ import { ReactComponent as Membre } from "/src/assets/illustrations/membre_cs.sv
 import { ReactComponent as Jury } from "/src/assets/illustrations/jury.svg";
 
 const ChooseRole = () => {
-  const strings = frContent;
+
   const {
     choose_roles_title,
     choose_roles_subtitle,
