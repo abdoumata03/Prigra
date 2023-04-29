@@ -17,7 +17,7 @@ function App() {
   return (
     <AuthProvider>
       <Routes>
-        <Route element={<LandingPage />} path="/home" />
+        <Route element={<LandingPage />} path="/" />
         <Route element={<PrivateLogin />}>
           <Route element={<Login />} path="/login" />
           <Route element={<ResetPassword />} path="/forgot-password" />
