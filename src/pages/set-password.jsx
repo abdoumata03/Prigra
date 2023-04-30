@@ -1,9 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useParams } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import ResetPasswordSucces from "../components/reset_password_success";
 import AuthContext from "../context/auth-context";
+import { useParams } from "react-router";
 
 const shema = yup.object().shape({
   password: yup
@@ -18,7 +19,8 @@ const shema = yup.object().shape({
 });
 
 const SetPassword = () => {
-  const { isResetSuccess } = useContext(AuthContext);
+  const { isResetSuccess, resetPassword } = useContext(AuthContext);
+  const {uid, token} = useParams();
 
   const {
     register,
@@ -28,8 +30,8 @@ const SetPassword = () => {
     resolver: yupResolver(shema),
   });
 
-  const submitForm = (data) => {
-    console.log("HI");
+  const submitForm = (uid, token, new_password) => {
+    resetPassword(uid, token, new_password);
   };
 
   return (
@@ -52,7 +54,7 @@ const SetPassword = () => {
             </li>
           </ul>
           <form
-            onSubmit={handleSubmit(submitForm)}
+            onSubmit={handleSubmit(submitForm(uid, token, '123'))}
             className="flex w-full flex-col"
           >
             <p className="font-bold text-[13px] mb-[6px] mt-[32px] text-gray2">
