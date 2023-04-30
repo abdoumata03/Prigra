@@ -138,6 +138,9 @@ export const AuthProvider = ({ children }) => {
             token,
             new_password,
           }),
+          headers: {
+            'content-type': 'application/json',
+          },
         }
       );
     } catch (error) {
