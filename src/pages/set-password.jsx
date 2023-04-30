@@ -30,8 +30,8 @@ const SetPassword = () => {
     resolver: yupResolver(shema),
   });
 
-  const submitForm = (uid, token, new_password) => {
-    resetPassword(uid, token, new_password);
+  const submitForm = (data) => {
+    resetPassword(uid, token, data.password);
   };
 
   return (
@@ -54,7 +54,7 @@ const SetPassword = () => {
             </li>
           </ul>
           <form
-            onSubmit={handleSubmit(submitForm(uid, token, '123'))}
+            onSubmit={handleSubmit(submitForm)}
             className="flex w-full flex-col"
           >
             <p className="font-bold text-[13px] mb-[6px] mt-[32px] text-gray2">
