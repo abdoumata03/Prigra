@@ -160,6 +160,7 @@ export const AuthProvider = ({ children }) => {
     errorMsg,
     authTokens,
     isValidEmail,
+    resetPassword,
     isResetSuccess,
     isFetching,
     forgotPassword,

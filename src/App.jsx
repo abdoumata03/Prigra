@@ -21,7 +21,7 @@ function App() {
         <Route element={<PrivateLogin />}>
           <Route element={<Login />} path="/login" />
           <Route element={<ResetPassword />} path="/forgot-password" />
-          <Route element={<SetPassword />} path="/reset-password/:uid/:token" />
+          <Route element={<SetPassword />} path="/reset-password" />
         </Route>
         <Route element={<PrivateRoute />}>
           <Route element={<ChooseRole />} path="/roles" exact />
