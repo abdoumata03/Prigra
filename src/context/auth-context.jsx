@@ -37,6 +37,8 @@ export const AuthProvider = ({ children }) => {
   // If password Reset is Successful
   const [isResetSuccess, setIsResetSuccess] = useState(false);
 
+
+
   // RRv6 Navigator
   const navigate = useNavigate();
 
@@ -143,6 +145,10 @@ export const AuthProvider = ({ children }) => {
           },
         }
       );
+
+      if(reset_pass_resp.status === 204) {
+        setIsResetSuccess(true);
+      } 
     } catch (error) {
       console.log(error);
       setisFetching(false);
