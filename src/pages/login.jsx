@@ -82,7 +82,7 @@ const Login = () => {
 
             <div className="flex justify-end mt-[10px]">
               <p className="text-primary text-[15px]">
-                <Link to="/reset-password">Mot de passe oublié?</Link>
+                <Link to="/forgot-password">Mot de passe oublié?</Link>
                 </p>
             </div>
 

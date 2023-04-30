@@ -12,7 +12,7 @@ const schema = yup.object().shape({
 });
 
 const ResetPassword = () => {
-  const { resetPassword, isFetching, isValidEmail } = useContext(AuthContext);
+  const { forgotPassword, isFetching, isValidEmail } = useContext(AuthContext);
 
   const {
     register,
@@ -23,7 +23,7 @@ const ResetPassword = () => {
   });
 
   const submitForm = (data) => {
-    resetPassword(data.email);
+    forgotPassword(data.email);
   };
 
   return (

@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
 
   // Error Message
   const [errorMsg, setErrorMsg] = useState(null);
-  
+
   // If Reset Email is Valid
   const [isValidEmail, setIsValidEmail] = useState(false);
 
@@ -77,7 +77,7 @@ export const AuthProvider = ({ children }) => {
 
         const me_data = await response_me.json();
         const user_type = me_data.type;
-        const user_id = me_data.type_id;
+        const user_id = me_data.id;
 
         const fetch_user_type = await fetch(
           `https://prigra.onrender.com/base/${user_type}/${user_id}/`,
@@ -89,7 +89,7 @@ export const AuthProvider = ({ children }) => {
           }
         );
 
-       // navigate("/roles");
+        // navigate("/roles");
       } else {
         alert("Mot de pass erroné!");
       }
@@ -99,7 +99,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const resetPassword = async (email) => {
+  const forgotPassword = async (email) => {
     setisFetching(true);
     try {
       const reset_response = await fetch(
@@ -110,17 +110,38 @@ export const AuthProvider = ({ children }) => {
             email,
           }),
           headers: {
-            'content-type': 'application/json'
-          }
+            "content-type": "application/json",
+          },
         }
       );
       if (reset_response.status === 204) {
-         alert("Cet email n'existe pas!");
-      } else if(reset_response.status === 500) {
         setIsValidEmail(true);
+      } else if (reset_response.status === 500) {
+        alert("Invalid Email");
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      setisFetching(false);
+    }
+    setisFetching(false);
+  };
+
+  const resetPassword = async (uid, token, new_password) => {
+    setisFetching(true);
+    try {
+      const reset_pass_resp = await fetch(
+        `https://prigra.onrender.com/auth/users/reset_password_confirm/`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            uid,
+            token,
+            new_password,
+          }),
+        }
+      );
+    } catch (error) {
+      console.log(error);
       setisFetching(false);
     }
     setisFetching(false);
@@ -141,7 +162,7 @@ export const AuthProvider = ({ children }) => {
     isValidEmail,
     isResetSuccess,
     isFetching,
-    resetPassword,
+    forgotPassword,
     setAuthTokens,
     loginUser,
     logoutUser,

@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import { ReactComponent as Mail } from "../assets/illustrations/mail_sent.svg";
 
 const ResetPasswordConfirmation = () => {
