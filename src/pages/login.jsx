@@ -39,8 +39,8 @@ const Login = () => {
 
   return (
     <div className="flex flex-row h-screen items-center justify-center lg:justify-normal font-eudox bg-gray-50">
-      <div className="lg:w-1/2 w-4/5 2xl:mt-[0px] mt-[51px] flex flex-col items-center justify-center">
-        <div className="flex flex-col items-start w-4/5">
+      <div className="lg:w-1/2 w-5/6 md:w-3/4 2xl:mt-[0px] flex flex-col items-center justify-center">
+        <div className="flex flex-col items-start w-5/6 md:w-3/4">
           <img src={logo} alt="logo" className="mb-[32px] w-[137px]" />
           <h1 className="text-lg md:text-2xl mb-[4px] font-bold text-gray1">
             Se Connecter
@@ -49,7 +49,7 @@ const Login = () => {
             Saisir vos informations pour continuer
           </p>
         </div>
-        <div className="w-4/5">
+        <div className="w-5/6 md:w-3/4 w-">
           <form onSubmit={handleSubmit(submitForm)} className="flex flex-col w-full">
             <p className="font-bold text-[14px] mb-[6px] text-gray2">Email*</p>
             <input
@@ -58,7 +58,7 @@ const Login = () => {
               name="email"
               placeholder="mail@esi-sba.dz"
               required
-              className="shadow-custom rounded-[5px] w-full text-[10px] md:text-sm pl-5 h-[40px] md:h-[50px] text-gray3"
+              className="shadow-custom rounded-[5px] w-full text-[12px] md:text-sm pl-5 h-[40px] md:h-[50px] text-gray3"
               //   ref={inputRef}
             />
             <p className="text-error ml-2">
@@ -74,14 +74,14 @@ const Login = () => {
               name="password"
               placeholder="Min 8 caractères"
               required
-              className="shadow-custom rounded-[5px] w-full text-[10px] md:text-sm pl-5 h-[40px] md:h-[50px] text-gray3"
+              className="shadow-custom rounded-[5px] w-full text-[12px] md:text-sm pl-5 h-[40px] md:h-[50px] text-gray3"
             />
             <p className="text-error ml-2">
               {errors.password && "Votre mot de passe est très court"}
             </p>
 
             <div className="flex justify-end mt-[10px]">
-              <p className="text-primary text-sm md:text-[15px]">
+              <p className="text-primary text-[13px] md:text-[15px]">
                 <Link to="/forgot-password">Mot de passe oublié?</Link>
                 </p>
             </div>
