@@ -78,7 +78,7 @@ export const AuthProvider = ({ children }) => {
 
         const me_data = await response_me.json();
         const user_type = me_data.type;
-        const user_id = me_data.id;
+        const user_id = me_data.type_id;
 
         const fetch_user_type = await fetch(
           `https://prigra.onrender.com/base/${user_type}/${user_id}/`,
