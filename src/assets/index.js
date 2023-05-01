@@ -22,6 +22,7 @@ import instagram from './instagram-logo.png'
 import point from './point.png'
 import startup from './startup.png'
 import statistic from './statistics.png'
+import userPic from './userPic.svg'
 
 export{
     login,
@@ -47,5 +48,6 @@ export{
     youtube,
     point,
     startup, 
-    statistic
+    statistic, 
+    userPic
 }
