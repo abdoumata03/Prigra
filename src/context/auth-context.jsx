@@ -1,7 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 const AuthContext = createContext();
 
@@ -35,7 +34,7 @@ export const AuthProvider = ({ children }) => {
   const [isValidEmail, setIsValidEmail] = useState(false);
 
   // If password Reset is Successful
-  const [isResetSuccess, setIsResetSuccess] = useState(false);
+  const [isResetSuccess, setIsResetSuccess] = useState(true);
 
 
 
@@ -94,6 +93,7 @@ export const AuthProvider = ({ children }) => {
         // navigate("/roles");
       } else {
         alert("Mot de pass erroné!");
+        setisFetching(false);
       }
     } catch (error) {
       console.log(error);

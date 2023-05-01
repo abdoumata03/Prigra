@@ -1,6 +1,5 @@
-import React, { useContext } from "react"
+import React from "react"
 import { ReactComponent as Mail } from "../assets/illustrations/mail_sent.svg";
-import AuthContext from "../context/auth-context";
 
 
 

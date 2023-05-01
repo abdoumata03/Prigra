@@ -15,8 +15,7 @@ const ResetPasswordSucces = () => {
         Votre mot de pass a été reinitialisé avec succès
       </h1>
       <p className="text-sm text-gray2 text-center">
-        Vous pouvez maintenant accéder a votre compte en utilisant votre nouveau
-        mot de pass
+        Vous pouvez maintenant accéder a votre compte en utilisant votre nouveau mot de pass
       </p>
       {user ? (
         <LoginButton path={"/roles"} title={"Mon Compte"} />
