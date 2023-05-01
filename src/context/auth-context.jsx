@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
   const [isValidEmail, setIsValidEmail] = useState(false);
 
   // If password Reset is Successful
-  const [isResetSuccess, setIsResetSuccess] = useState(true);
+  const [isResetSuccess, setIsResetSuccess] = useState(false);
 
 
 
@@ -118,8 +118,8 @@ export const AuthProvider = ({ children }) => {
       );
       if (reset_response.status === 204) {
         setIsValidEmail(true);
-      } else if (reset_response.status === 500) {
-        alert("Invalid Email");
+      } else if (reset_response.status === 400) {
+        alert("Cet email n'existe pas");
       }
     } catch (error) {
       console.log(error);

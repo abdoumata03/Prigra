@@ -27,22 +27,22 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="flex h-screen items-center justify-center font-eudox bg-gray-50">
+    <div className="flex h-screen w-full items-center justify-center font-eudox bg-gray-50">
       {isValidEmail ? (
         <ResetPasswordConfirmation />
       ) : (
-        <div className="w-2/5 flex flex-col items-center">
-          <div className="flex flex-col items-center w-[420px]">
+        <div className="w-4/5 md:w-1/2 lg:w-1/3 flex flex-col items-center">
+          <div className="flex flex-col items-center w-full">
             <img src={logo} alt="logo" className="mb-[60px] w-[120px]" />
             <h1 className="text-2xl mb-[5px] font-bold text-gray1">
               Oublié le mot de pass?
             </h1>
-            <p className="text-sm text-gray3 mb-[40px]">
+            <p className="text-sm text-gray3 mb-[40px] text-center">
               Saisir votre email afin de récupérer votre compte
             </p>
           </div>
-          <div>
-            <form onSubmit={handleSubmit(submitForm)} className="flex flex-col">
+          <div className="w-full">
+            <form onSubmit={handleSubmit(submitForm)} className="flex flex-col w-full">
               <p className="font-bold text-[14px] mb-[6px] text-gray2">
                 Email*
               </p>
@@ -52,13 +52,13 @@ const ResetPassword = () => {
                 name="email"
                 placeholder="mail@esi-sba.dz"
                 required
-                className="shadow-custom rounded-[5px] w-[420px] h-[50px] pl-[24px] text-gray3"
+                className="shadow-custom rounded-[5px] w-full h-[50px] pl-[24px] text-gray3"
               />
               <p className="text-error ml-2 mt-2 text-sm">
                 {errors.email && "Votre adresse email est invalide"}
               </p>
               <button
-                className={`w-full h-[50px] bg-primary mt-[50px] mb-[8px] rounded-[5px] text-white font-semibold ${
+                className={`w-full h-[50px] bg-primary mt-[50px] rounded-[5px] text-white font-semibold ${
                   isFetching ? "bg-opacity-75" : "bg-opacity-100  "
                 }`}
                 disabled={isFetching}
