@@ -12,9 +12,9 @@ const ResetPasswordConfirmation = () => {
         <div className="bg-accent p-4 w-[120px] h-[120px] rounded-md flex items-center justify-center mb-5">
         <Mail width="65x" height="58px"/>   
         </div>
-        <h1 className="text-2xl mb-8 font-bold text-gray1 text-center">Vérifier votre boite e-mail</h1>
+        <h1 className="text-2xl mb-8 font-bold text-gray1 text-center">Vérifiez votre boite e-mail</h1>
         <p className="text-sm text-gray2 text-center mb-4">
-          Veuillez suiver le lien que nous avons envoyé à l'adresse e-mail que
+          Veuillez suivre le lien que nous avons envoyé à l'adresse e-mail que
           vous avez saisie précédemment. Si vous n'avez pas encore reçu le code,
           veuillez vérifier votre dossier de spam ou attendre quelques minutes
           avant de réessayer.
