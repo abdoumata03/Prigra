@@ -94,7 +94,7 @@ export const AuthProvider = ({ children }) => {
 
         // navigate("/roles");
       } else {
-        alert("Mot de pass erroné!");
+        alert("Informations érronés!");
       }
     } catch (error) {
       console.log(error);

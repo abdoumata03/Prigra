@@ -12,8 +12,8 @@ const Profile = () => {
           Gérer les paramètres de votre profil
         </p>
       </div>
-      <div className="flex flex-row gap-10">
-        <div className="mb-8 w-[40%]">
+      <div className="flex flex-col w-[80%] lg:w-full lg:flex-row gap-10">
+        <div className="mb-8 w-auto lg:w-[40%]">
           <div className="flex flex-row mb-10">
             <img
               src="https://i.ibb.co/T1r9Mzc/1679220246331.jpg"

@@ -4,7 +4,7 @@ import { Outlet } from "react-router";
 
 const Dashboard = () => {
   return (
-    <div className="h-screen flex flex-row bg-gray-50 font-eudox">
+    <div className="flex flex-row bg-gray-50 font-eudox">
       <Sidebar />
       <div className="w-full flex items-center">
         <Outlet/>
