@@ -98,7 +98,47 @@ export const AuthProvider = ({ children }) => {
       setisFetching(false);
     }
   };
+  //SignUp Function
+  const signupUser = async (email, password,first_name,
+    last_name, type) => {
+      
+    setisFetching(true);
+  
+    try {
+      const auth_token_response = await fetch(
+        "https://prigra.onrender.com/auth/users/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            password,
+            first_name,
+            last_name,
+            type, 
+           
+          }),
+        }
+      );
 
+      const token_data = await auth_token_response.json();
+
+      if (auth_token_response.ok) {
+        navigate("/verify-email");
+      } else {
+        alert("could not sign up");
+      }
+      
+    } catch (error) {
+      console.log(error);
+      setisFetching(false);
+    }
+  };
+
+
+  //Reset pass
   const resetPassword = async (email) => {
     setisFetching(true);
     try {
@@ -145,6 +185,7 @@ export const AuthProvider = ({ children }) => {
     setAuthTokens,
     loginUser,
     logoutUser,
+    signupUser,
   };
 
   useEffect(() => {

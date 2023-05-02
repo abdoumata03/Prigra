@@ -31,8 +31,6 @@ function App() {
           <Route element={<VerifyEmail/>} path="/verify-email"></Route>
           <Route element={<FillInfo/>} path="/fill-infos"></Route>
 
-
-
         </Route>
         <Route element={<PrivateRoute />}>
           <Route element={<ChooseRole />} path="/roles" exact />

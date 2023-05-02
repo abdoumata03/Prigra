@@ -1,15 +1,21 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import frContent from "../locale/fr.json";
 import { RoleCard } from "../components/index.js";
 import { ReactComponent as Etu } from "/src/assets/illustrations/etudiant.svg";
 import { ReactComponent as Ens } from "/src/assets/illustrations/enseignant.svg";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import React from 'react';
+import AuthContext from "../context/auth-context";
 
 const ChooseUser = () => {
+
   const navigate = useNavigate();
+  const location = useLocation();
+  const { signupUser, isFetching } = useContext(AuthContext);
   const [etu, setEtu] = useState(false);
   const [ens, setEns] = useState(false);
+  const initialData = location.state;
+  console.log(initialData.email);
 
   const {
     choose_roles_title,
@@ -31,17 +37,25 @@ const ChooseUser = () => {
   }
 
   const handleClick = () => {
+    
+
     if (etu) {
+      const type= 'Student';
+      signupUser(initialData.email, initialData.password, initialData.firstName, initialData.lastName, type);
       navigate('/verify-email', 
       {state: { data: true }}
       );
-
+      
+      
+      
 
     } else if (ens) {
-     
+      const type= 'Teacher' ; 
+      signupUser(initialData.email, initialData.password, initialData.firstName, initialData.lastName, type);   
       navigate('/verify-email', 
       {state: { data: false }}
       );
+      
       
       
     }

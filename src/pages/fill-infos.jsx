@@ -6,16 +6,16 @@ import { userPic } from '../assets';
 import { useLocation } from 'react-router';
 
 const shema = yup.object().shape({
-  numInsc : yup.
-  string(),
-  //matches(/^\d{12}$/, 'numéro d\'inscription invalid' ), 
+  numInsc : yup
+  .string()
+  .matches(/^\d{12}$/, 'numéro d\'inscription invalid' ), 
   matricule:  yup
   .string()
   .matches(/^\d{12}$/, 'matricule invalid' ), 
   birthDate: yup
-  .date(),
-  //.min(new Date(1950, 0, 1), 'date de naissaance invalide')
-  //.max(new Date(2015, 0, 1), 'date de naissaance invalide'), 
+  .date()
+  .min(new Date(1950, 0, 1), 'date de naissaance invalide')
+  .max(new Date(2015, 0, 1), 'date de naissaance invalide'), 
   phone: yup
   .string()
   .matches(/^(05|06|07)\d{8}$/, 'numéro de téléphone invalid'),
@@ -180,9 +180,13 @@ const FillInfos = () => {
           </div>  
             {/* user pic  */}
 
+
+
           <div className='flex items-start justify-start mt-8'>
           <img className='w-[50px] h-[50px] mr-6' src={userPic} alt="userPic" />
             
+
+
            {/* change user pc button  */}
 
           <button
@@ -192,10 +196,7 @@ const FillInfos = () => {
           </div>
           
           
-          
-
           <button
-            onClick={()=> console.log(student)}
             className={`w-full h-[50px] bg-primary mt-[50px] mb-[25px] rounded-[5px] text-white font-semibold `}
           >
             Continuer

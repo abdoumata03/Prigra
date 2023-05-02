@@ -36,6 +36,7 @@ const shema = yup.object().shape({
 });
 
 const SignUp = () => {
+  
     const navigate = useNavigate();
 
   const {
@@ -47,9 +48,11 @@ const SignUp = () => {
   });
 
   const submitForm = (data) => {
-    console.log(data);
-    navigate('/users');
+    const inicialData = {email : data.email, firstName:data.firstName, lastName: data.lastName, password:data.password}
+    navigate("/users", {state: inicialData});
+    console.log(inicialData);
   };
+
 
   return (
     <div className="flex flex-row h-full font-eudox">
