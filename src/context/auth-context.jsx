@@ -1,7 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 const AuthContext = createContext();
 
@@ -13,7 +12,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.getItem("authTokens")
       ? JSON.parse(localStorage.getItem("authTokens"))
       : null
-  );
+  );  
 
   // User State
   const [user, setUser] = useState(() =>
@@ -30,12 +29,14 @@ export const AuthProvider = ({ children }) => {
 
   // Error Message
   const [errorMsg, setErrorMsg] = useState(null);
-  
+
   // If Reset Email is Valid
   const [isValidEmail, setIsValidEmail] = useState(false);
 
   // If password Reset is Successful
   const [isResetSuccess, setIsResetSuccess] = useState(false);
+
+
 
   // RRv6 Navigator
   const navigate = useNavigate();
@@ -58,6 +59,8 @@ export const AuthProvider = ({ children }) => {
         }
       );
 
+      setisFetching(false);
+
       const token_data = await auth_token_response.json();
 
       if (auth_token_response.status === 200) {
@@ -77,7 +80,7 @@ export const AuthProvider = ({ children }) => {
 
         const me_data = await response_me.json();
         const user_type = me_data.type;
-        const user_id = me_data.id;
+        const user_id = me_data.type_id;
 
         const fetch_user_type = await fetch(
           `https://prigra.onrender.com/base/${user_type}/${user_id}/`,
@@ -89,9 +92,9 @@ export const AuthProvider = ({ children }) => {
           }
         );
 
-        navigate("/roles");
+        // navigate("/roles");
       } else {
-        alert("Mot de pass erroné!");
+        alert("Informations érronés!");
       }
     } catch (error) {
       console.log(error);
@@ -139,7 +142,9 @@ export const AuthProvider = ({ children }) => {
 
 
   //Reset pass
-  const resetPassword = async (email) => {
+
+
+  const forgotPassword = async (email) => {
     setisFetching(true);
     try {
       const reset_response = await fetch(
@@ -150,17 +155,45 @@ export const AuthProvider = ({ children }) => {
             email,
           }),
           headers: {
-            'content-type': 'application/json'
-          }
+            "content-type": "application/json",
+          },
         }
       );
       if (reset_response.status === 204) {
-         alert("Cet email n'existe pas!");
-      } else if(reset_response.status === 500) {
         setIsValidEmail(true);
+      } else if (reset_response.status === 400) {
+        alert("Cet email n'existe pas");
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      setisFetching(false);
+    }
+    setisFetching(false);
+  };
+
+  const resetPassword = async (uid, token, new_password) => {
+    setisFetching(true);
+    try {
+      const reset_pass_resp = await fetch(
+        `https://prigra.onrender.com/auth/users/reset_password_confirm/`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            uid,
+            token,
+            new_password,
+          }),
+          headers: {
+            'content-type': 'application/json',
+          },
+        }
+      );
+
+      if(reset_pass_resp.status === 204) {
+        setIsResetSuccess(true);
+      } 
+    } catch (error) {
+      console.log(error);
       setisFetching(false);
     }
     setisFetching(false);
@@ -179,9 +212,10 @@ export const AuthProvider = ({ children }) => {
     errorMsg,
     authTokens,
     isValidEmail,
+    resetPassword,
     isResetSuccess,
     isFetching,
-    resetPassword,
+    forgotPassword,
     setAuthTokens,
     loginUser,
     logoutUser,

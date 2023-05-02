@@ -6,6 +6,8 @@ import Expalantion from "./expalantion";
 import Footer from "./Footer";
 import Features from "./features";
 import ResetPasswordConfirmation from "./reset-password-confirm";
+import LoginButton from "./login-button";
+import ProfileInputField from "./profile-input-field";
 
 
 
@@ -18,5 +20,7 @@ export {
     Footer, 
     Features,
     ResetPasswordConfirmation,
+    LoginButton,
+    ProfileInputField
 
 }
