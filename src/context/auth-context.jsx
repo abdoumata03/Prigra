@@ -59,6 +59,8 @@ export const AuthProvider = ({ children }) => {
         }
       );
 
+      setisFetching(false);
+
       const token_data = await auth_token_response.json();
 
       if (auth_token_response.status === 200) {
@@ -93,7 +95,6 @@ export const AuthProvider = ({ children }) => {
         // navigate("/roles");
       } else {
         alert("Mot de pass erroné!");
-        setisFetching(false);
       }
     } catch (error) {
       console.log(error);

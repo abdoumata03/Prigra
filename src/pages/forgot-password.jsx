@@ -58,7 +58,7 @@ const ResetPassword = () => {
                 {errors.email && "Votre adresse email est invalide"}
               </p>
               <button
-                className={`w-full h-[50px] bg-primary mt-[50px] rounded-[5px] text-white font-semibold ${
+                className={`w-full h-[50px] bg-primary mt-[50px]  rounded-[5px] text-white font-semibold ${
                   isFetching ? "bg-opacity-75" : "bg-opacity-100  "
                 }`}
                 disabled={isFetching}
