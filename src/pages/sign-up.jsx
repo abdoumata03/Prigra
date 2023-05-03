@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import LoadingSpinner from "../components/spinner.jsx";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import {
   login,
@@ -38,6 +38,7 @@ const shema = yup.object().shape({
 const SignUp = () => {
   
     const navigate = useNavigate();
+    
 
   const {
     register,
@@ -50,7 +51,6 @@ const SignUp = () => {
   const submitForm = (data) => {
     const inicialData = {email : data.email, firstName:data.firstName, lastName: data.lastName, password:data.password}
     navigate("/users", {state: inicialData});
-    console.log(inicialData);
   };
 
 

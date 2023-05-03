@@ -36,7 +36,7 @@ function App() {
           <Route element={<SignUp/>} path="/sign-up"></Route>
           <Route element={<ChooseUser/>} path="/users"></Route>
           <Route element={<VerifyEmail/>} path="/verify-email"></Route>
-          <Route element={<FillInfo/>} path="/fill-infos"></Route>
+          <Route element={<FillInfo/>} path="/activate/:uid/:token/:type/:id"></Route>
         </Route>
         <Route element={<PrivateRoute />}>
           <Route element={<ChooseRole />} path="/roles" exact />

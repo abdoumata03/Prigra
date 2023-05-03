@@ -1,35 +1,40 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { userPic } from '../assets';
-import { useLocation } from 'react-router';
+import { useLocation, useParams } from 'react-router';
+import AuthContext from '../context/auth-context';
+import { format } from 'date-fns';
+
 
 const shema = yup.object().shape({
-  numInsc : yup
+  num_inscription : yup
   .string()
   .matches(/^\d{12}$/, 'numéro d\'inscription invalid' ), 
   matricule:  yup
   .string()
   .matches(/^\d{12}$/, 'matricule invalid' ), 
-  birthDate: yup
+  birth_date: yup
   .date()
-  .min(new Date(1950, 0, 1), 'date de naissaance invalide')
-  .max(new Date(2015, 0, 1), 'date de naissaance invalide'), 
-  phone: yup
+  .min(format(new Date(1950, 0, 1), 'yyyy-MM-dd'), 'date de naissaance invalide')
+  .max(format(new Date(2015, 0, 1), 'yyyy-MM-dd'), 'date de naissaance invalide'), 
+  phone_number: yup
   .string()
-  .matches(/^(05|06|07)\d{8}$/, 'numéro de téléphone invalid'),
-  etab : yup.string(), 
-  filiere : yup.string(), 
+  .matches(/^(05|06|07)\d{8}$/, 'numéro de téléphone_number invalid'),
+  etablissement : yup.string(), 
+  filière : yup.string(), 
   spacialite : yup.string(), 
   grade : yup.string(), 
 });
 
 const FillInfos = () => {
   const location = useLocation(); 
+  const { completeStudentRegistration, completeTeacherRegistration } = useContext(AuthContext);
 
 
-  const student = location.state.data.dat;
+
+  const  {type, id} = useParams();
 
   const {
     register,
@@ -39,10 +44,21 @@ const FillInfos = () => {
     resolver: yupResolver(shema),
   });
 
+  //id, num_inscription, birth_date, phone_number_number, etablissementlissement, filière, spécialité, profile_picture
+
   const submitForm = (data) => {
+    
+    
     console.log(data);
-    reset();
+
+    if(type === "Student") {
+      completeStudentRegistration(id, data.num_inscription, format(data.birth_date, 'yyyy-MM-dd'), data.phone_number, data.etablissement, data.filière, data.spécialité,  );
+    } else if(type === "Teacher") {
+      completeTeacherRegistration(id, data.matricule, format(data.birth_date, 'yyyy-MM-dd'), data.phone_number, data.etablissement, data.grade, data.spécialité, );
+    }
+    
   };
+  
 
   const handleChange =() => {
 
@@ -70,18 +86,18 @@ const FillInfos = () => {
           {/*  insc num or matricule  */}
 
           <p className="font-bold text-[13px] mb-[6px] mt-[32px] text-gray2">
-            {student ? 'Numéro d\'inscription':'Matricule'}
+            {(type === "Student") ? 'Numéro d\'inscription':'Matricule'}
           </p>
           <input
-            {...register(student ? 'numInsc':'matricule')}
+            {...register((type === "Student") ? 'num_inscription':'matricule')}
             type="text"
-            name={student ? 'numInsc':'matricule'}
-            placeholder={student ? 'numéro d\'inscription doit contenir 12 chiffres ':'matricule doit contenir 12 chiffres'}
+            name={(type === "Student") ? 'num_inscription':'matricule'}
+            placeholder={(type === "Student") ? 'numéro d\'inscription doit contenir 12 chiffres ':'matricule doit contenir 12 chiffres'}
             className='rounded-[5px] w-auto h-[50px] pl-[24px] bg-gray-50 text-gray3'
 
           />
           <p className="text-error text-sm ml-1">
-            {errors.numInsc?.message}
+            {errors.num_inscription?.message}
           </p>
           
 
@@ -93,9 +109,9 @@ const FillInfos = () => {
           Date de naissance
           </p>
           <input
-            {...register("birthDate")}
+            {...register("birth_date")}
             type="date"
-            name="birthDate"
+            name="birth_date"
             placeholder="JJ/MM/AAAA"
             className="text-[16px] rounded-[5px] bg-gray-50 w-auto h-[50px] pl-[24px] text-gray3"
           />
@@ -104,34 +120,34 @@ const FillInfos = () => {
           </p>
 
 
-          {/* phone num  */}
+          {/* phone_number num  */}
 
 
 
           <p className="font-bold text-[13px] mb-[6px] mt-[20px] text-gray2">
-          Numéro de téléphone
+          Numéro de téléphone_number
           </p>
           <input
-            {...register("phone")}
+            {...register("phone_number")}
             type="text"
-            name="phone"
-            placeholder="numéro de téléphone doit contenir 10 chiffres"
+            name="phone_number"
+            placeholder="numéro de téléphone_number doit contenir 10 chiffres"
             className="text-[16px] rounded-[5px] bg-gray-50 w-auto h-[50px] pl-[24px] text-gray3"
           />
           <p className="text-error text-sm ml-2">
-            {errors.phone?.message}
+            {errors.phone_number?.message}
           </p>  
 
-          {/* etab  */}
+          {/* etablissement  */}
 
 
           <p className="font-bold text-[13px] mb-[6px] mt-[20px] text-gray2">
            établissement
           </p>
           <input
-            {...register("etab")}
+            {...register("etablissement")}
             type="text"
-            name="etab"
+            name="etablissement"
             placeholder="école Supérieure en Informatique"
             className="text-[16px] rounded-[5px] bg-gray-50 w-auto h-[50px] pl-[24px] text-gray3"
           />
@@ -141,25 +157,25 @@ const FillInfos = () => {
 
 
 
-          {/* filiere ou grade */}
+          {/* filière ou grade */}
 
 
           <div className='w-[350px]'>
             <p className="font-bold text-[13px] mb-[6px] mt-[20px] text-gray2">
-            {student ? 'Filière':'Grade'}
+            {(type === "Student") ? 'Filière':'Grade'}
            </p>
            <input
-            {...register( student ? 'filiere':'grade')}
+            {...register( (type === "Student") ? 'filière':'grade')}
             type="text"
-            name={student ? 'filiere*':'grade*'}
-            placeholder={student ? 'saisir votre filiere':'saisir votre grade'}
+            name={(type === "Student") ? 'filière':'grade'}
+            placeholder={(type === "Student") ? 'saisir votre filière':'saisir votre grade'}
             className="text-[16px] rounded-[5px] bg-gray-50 w-full h-[50px] pl-[24px] text-gray3"
            />
 
           </div>
 
 
-                {/* specialite */}
+                {/* spécialité */}
 
 
                 <div className='w-[350px]'>
@@ -167,9 +183,9 @@ const FillInfos = () => {
             
            </p>
            <input
-            {...register('specialite')}
+            {...register('spécialité')}
             type="text"
-            name="specialite"
+            name="spécialité"
             placeholder='saisir votre spécialité '
             className="text-[16px] rounded-[5px] bg-gray-50 w-full h-[50px] pl-[24px] text-gray3"
            />
@@ -202,7 +218,7 @@ const FillInfos = () => {
             Continuer
           </button>
         </form>
-        <h1 className='text-xs text-gray3'> • Vous pouvez changer votre informations dans votre proflie.</h1>
+        <h1 className='text-xs text-gray3'> • Vous pouvez changer votre informations dans votre profile.</h1>
       </div>
   
   </div>

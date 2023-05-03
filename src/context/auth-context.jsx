@@ -141,6 +141,65 @@ export const AuthProvider = ({ children }) => {
   };
 
 
+
+  const completeStudentRegistration = async (id, num_inscription, birth_date, phone_number, etablissement, filière, spécialité, profile_picture ) => {
+
+   setisFetching(true);
+
+    try {
+    const registratino_response = await fetch(
+        `https://prigra.onrender.com/base/Student/${id}/`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            num_inscription,
+            birth_date,
+            phone_number,
+            etablissement,
+            filière,
+            spécialité,
+            profile_picture
+          }),
+        }
+      );
+    } catch(error) {
+        console.log(error)  }
+
+  }
+
+
+  const completeTeacherRegistration = async (id, matricule, birth_date, phone_number, etablissement, grade, spécialité, profile_picture ) => {
+
+    setisFetching(true);
+ 
+     try {
+     const registratino_response = await fetch(
+         `https://prigra.onrender.com/base/Teacher/${id}/`,
+         {
+           method: "PUT",
+           headers: {
+             "Content-Type": "application/json",
+           },
+           body: JSON.stringify({
+             matricule,
+             birth_date,
+             phone_number,
+             etablissement,
+             grade,
+             spécialité,
+             profile_picture
+           }),
+         }
+       );
+     } catch(error) {
+         console.log(error)  }
+ 
+   }
+
+
   //Reset pass
 
 
@@ -215,6 +274,8 @@ export const AuthProvider = ({ children }) => {
     resetPassword,
     isResetSuccess,
     isFetching,
+    completeStudentRegistration, 
+    completeTeacherRegistration, 
     forgotPassword,
     setAuthTokens,
     loginUser,
