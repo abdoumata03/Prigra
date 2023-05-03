@@ -113,7 +113,7 @@ const FillInfos = () => {
             type="date"
             name="birth_date"
             placeholder="JJ/MM/AAAA"
-            className="text-[16px] rounded-[5px] bg-gray-50 w-auto h-[50px] pl-[24px] text-gray3"
+            className="text-[16px] rounded-[5px] bg-gray-50 w-auto h-[50px] pl-[24px] pr-4git  text-gray3"
           />
           <p className="text-error text-sm ml-2">
             {errors.date?.message}
