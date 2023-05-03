@@ -1,37 +1,29 @@
+import { useLocation, useNavigate } from "react-router-dom";
+import { ReactComponent as Mail } from "../assets/illustrations/mail_sent.svg";
 
-import { useLocation, useNavigate } from 'react-router-dom';
 const VerifyEmail = () => {
-  
-
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const location = useLocation();
   const etu = location.state;
 
-
   const handleClick = () => {
-
-    navigate('/fill-infos' , 
-    {state :{data : etu}});
+    navigate("/fill-infos", { state: { data: etu } });
     console.log(etu);
-    
   };
 
   return (
-    <div className="flex h-screen items-center justify-center font-eudox bg-gray-50">
-      <div className="lg:w-2/5 w-3/5 h-auto flex flex-col items-center justify-center bg-white shadow-custom rounded-[5px] px-10 py-[48px]">
-        <h1 className='text-5 text-center text-gray1'>
-          Vous allez recevoir une notification dans votre boîte email pour valider votre inscription et compléter le reste de vos informations.
-        </h1>
-        <h6 className='text-[12px] text-gray3 mt-24 text-center'>
-          N'avez-vous pas reçu de confirmation par e-mail ?
-        </h6>
-        <button
-          onClick={handleClick}
-          className="w-1/2 h-[50px] bg-primary mt-[10px] mb-[8px] rounded-[5px] text-white font-semibold"
-          
-        >
-          Continuer
-        </button>
+      <div className="flex w-full items-center justify-center font-eudox bg-gray-50">
+        <div className="w-4/5 md:w-2/5 h-auto flex flex-col items-center justify-center bg-white shadow-custom rounded-[5px] px-10 py-[48px]">
+          <div className="bg-accent p-4 w-[120px] h-[120px] rounded-md flex items-center justify-center mb-5">
+            <Mail width="65x" height="58px" />
+          </div>
+          <h1 className="text-2xl mb-8 font-bold text-gray1 text-center">
+            Vérifiez votre boite e-mail
+          </h1>
+          <p className="text-sm text-gray2 text-center mb-4">
+            Vous allez recevoir une notification dans votre boîte email pour
+            valider votre inscription et compléter le reste de vos informations.
+          </p>
       </div>
     </div>
   );

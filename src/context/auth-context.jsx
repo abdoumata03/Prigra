@@ -36,6 +36,9 @@ export const AuthProvider = ({ children }) => {
   // If password Reset is Successful
   const [isResetSuccess, setIsResetSuccess] = useState(false);
 
+  // If Email is Verified
+  const [isEmailActivated, setIsEmailActivated] = useState(false);
+
 
 
   // RRv6 Navigator
@@ -281,6 +284,7 @@ export const AuthProvider = ({ children }) => {
     loginUser,
     logoutUser,
     signupUser,
+    isEmailActivated,
   };
 
   useEffect(() => {
