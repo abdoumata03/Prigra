@@ -21,7 +21,7 @@ const shema = yup.object().shape({
   .max(format(new Date(2015, 0, 1), 'yyyy-MM-dd'), 'date de naissaance invalide'), 
   phone_number: yup
   .string()
-  .matches(/^(05|06|07)\d{8}$/, 'numéro de téléphone_number invalid'),
+  .matches(/^(05|06|07)\d{8}$/, 'Numéro de téléphone invalid'),
   etablissement : yup.string(), 
   filière : yup.string(), 
   spacialite : yup.string(), 
@@ -113,7 +113,7 @@ const FillInfos = () => {
             type="date"
             name="birth_date"
             placeholder="JJ/MM/AAAA"
-            className="text-[16px] rounded-[5px] bg-gray-50 w-auto h-[50px] pl-[24px] text-gray3"
+            className="text-[16px] rounded-[5px] bg-gray-50 w-auto h-[50px] pl-[24px] pr-4 text-gray3"
           />
           <p className="text-error text-sm ml-2">
             {errors.date?.message}
@@ -125,30 +125,31 @@ const FillInfos = () => {
 
 
           <p className="font-bold text-[13px] mb-[6px] mt-[20px] text-gray2">
-          Numéro de téléphone_number
+          Numéro de téléphone
           </p>
           <input
             {...register("phone_number")}
             type="text"
             name="phone_number"
-            placeholder="numéro de téléphone_number doit contenir 10 chiffres"
+            placeholder="0-xxx-xx-xx-xx"
             className="text-[16px] rounded-[5px] bg-gray-50 w-auto h-[50px] pl-[24px] text-gray3"
           />
           <p className="text-error text-sm ml-2">
             {errors.phone_number?.message}
+
           </p>  
 
           {/* etablissement  */}
 
 
           <p className="font-bold text-[13px] mb-[6px] mt-[20px] text-gray2">
-           établissement
+           Etablissement
           </p>
           <input
             {...register("etablissement")}
             type="text"
             name="etablissement"
-            placeholder="école Supérieure en Informatique"
+            placeholder="Ecole Supérieure en Informatique"
             className="text-[16px] rounded-[5px] bg-gray-50 w-auto h-[50px] pl-[24px] text-gray3"
           />
 
@@ -168,7 +169,7 @@ const FillInfos = () => {
             {...register( (type === "Student") ? 'filière':'grade')}
             type="text"
             name={(type === "Student") ? 'filière':'grade'}
-            placeholder={(type === "Student") ? 'saisir votre filière':'saisir votre grade'}
+            placeholder={(type === "Student") ? 'Saisir votre filière':'Saisir votre grade'}
             className="text-[16px] rounded-[5px] bg-gray-50 w-full h-[50px] pl-[24px] text-gray3"
            />
 
@@ -186,7 +187,7 @@ const FillInfos = () => {
             {...register('spécialité')}
             type="text"
             name="spécialité"
-            placeholder='saisir votre spécialité '
+            placeholder='Saisir votre spécialité '
             className="text-[16px] rounded-[5px] bg-gray-50 w-full h-[50px] pl-[24px] text-gray3"
            />
 
