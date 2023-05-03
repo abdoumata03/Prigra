@@ -67,15 +67,17 @@ const FillInfos = () => {
 
 
   return (
-    <div className="flex h-screen items-center justify-center font-eudox bg-gray-50 overflow-auto">  
-      <div className=" lg:w-[700px] sm:w-[500px] w-[470px] h-auto flex flex-col items-center justify-center bg-white shadow-custom rounded-[5px] px-10 py-[48px]">
-
-        <h1 className="text-xl mb-8 font-bold text-gray1 text-center">
+    <div className="flex items-center justify-center font-eudox bg-gray-50 overflow-auto">  
+      <div className=" lg:w-[55%] sm:w-3/5 w-[90%] my-14 flex flex-col items-center justify-center bg-white shadow-custom rounded-[5px] px-10 py-[48px]">
+        <div className='w-full flex justify-center items-center text-success font-medium border border-success text-center h-12 rounded-[5px] mb-5'>
+          Votre compte a été activé avec succés
+        </div>
+        <h1 className="text-xl font-bold text-gray1 text-center">
         Completer le reste de votre informations 
         </h1>
 
-        <h4 className=" sm:text-md text-center font-normal text-gray-500 mb-10 md:mb-14 mt-4">
-        Nous avons besion des informations initialles pour demarer, saisire les informations  svuivantes pour continuer 
+        <h4 className=" sm:text-md text-center font-normal text-gray-500 mb-10 md:mb-3 mt-2">
+        Nous avons besion des informations suivantes pour compléter l'inscription
       </h4>
 
         <form
@@ -85,7 +87,7 @@ const FillInfos = () => {
 
           {/*  insc num or matricule  */}
 
-          <p className="font-bold text-[13px] mb-[6px] mt-[32px] text-gray2">
+          <p className="font-bold text-[13px] mb-[6px] mt-[30px] text-gray2">
             {(type === "Student") ? 'Numéro d\'inscription':'Matricule'}
           </p>
           <input
