@@ -1,22 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { userPic } from "../assets";
-import { useLocation, useParams } from "react-router";
+import { useParams } from "react-router";
 import AuthContext from "../context/auth-context";
 import { format } from "date-fns";
 import ConfirmEmail from "../components/confirm_email";
-
-
-
-// const MAX_FILE_SIZE = 102400; //100KB
-
-// const validFileExtensions = { image: ['jpg', 'gif', 'png', 'jpeg', 'svg', 'webp'] };
-
-// function isValidFileType(fileName, fileType) {
-//   return fileName && validFileExtensions[fileType].indexOf(fileName.split('.').pop()) > -1;
-// }
 
 const shema = yup.object().shape({
   num_inscription: yup
@@ -27,6 +17,7 @@ const shema = yup.object().shape({
   //.matches(/^\d{12}$/, "matricule invalid"),
   birth_date: yup
     .date()
+    .nullable()
     .min(
       format(new Date(1950, 0, 1), "yyyy-MM-dd"),
       "date de naissaance invalide"
@@ -36,33 +27,27 @@ const shema = yup.object().shape({
       "date de naissaance invalide"
     ),
   phone_number: yup
-    .string()
-    .matches(/^(05|06|07)\d{8}$/, "Numéro de téléphone invalid"),
+    .string(), 
+    //.matches(/^(05|06|07)\d{8}$/, "Numéro de téléphone invalid"),
   etablissement: yup.string(),
   filière: yup.string(),
   spacialite: yup.string(),
   grade: yup.string(),
-  // profile_picture: yup
-  // .mixed()
-  //     .required("Required")
-  //     .test("is-valid-type", "Not a valid image type",
-  //       value => isValidFileType(value && value.name.toLowerCase(), "image"))
-  //     .test("is-valid-size", "Max allowed size is 100KB",
-  //       value => value && value.size <= MAX_FILE_SIZE)
+  profile_picture: yup
+  .mixed(), 
 });
 
-
 const FillInfos = () => {
-  const location = useLocation();
   const isEmailActivated = true; 
+  const [selectedImage, setSelectedImage] = useState(null);
+  const { type, id } = useParams();
+  const hiddenFileInput = React.useRef(null);
 
   const {
     completeStudentRegistration,
     completeTeacherRegistration,
     //isEmailActivated,
   } = useContext(AuthContext);
-
-  const { type, id } = useParams();
 
   const {
     register,
@@ -71,8 +56,6 @@ const FillInfos = () => {
   } = useForm({
     resolver: yupResolver(shema),
   });
-
-  //id, num_inscription, birth_date, phone_number_number, etablissementlissement, filière, spécialité, profile_picture
 
   const submitForm = (data) => {
     console.log(data);
@@ -85,7 +68,8 @@ const FillInfos = () => {
         data.phone_number,
         data.etablissement,
         data.filière,
-        data.spécialité
+        data.spécialité, 
+        selectedImage, 
       );
     } else if (type === "Teacher") {
       completeTeacherRegistration(
@@ -95,20 +79,30 @@ const FillInfos = () => {
         data.phone_number,
         data.etablissement,
         data.grade,
-        data.spécialité
+        data.spécialité, 
+        selectedImage, 
       );
     }
   };
 
-  const handleChange = () => {};
+  const handleClick = () => {
+    hiddenFileInput.current.click();
+  };
+
+  const handleChange = event => {
+    const fileUploaded = event.target.files[0];
+    setSelectedImage(URL.createObjectURL(fileUploaded));
+  };
 
   return (
     <div className={`flex items-center ${!isEmailActivated? `h-screen` : `h-auto`} justify-center font-eudox bg-gray-50 overflow-auto`}>
       {isEmailActivated ? (
         <div className=" lg:w-[55%] sm:w-3/5 w-[90%] my-14 flex flex-col items-center justify-center bg-white shadow-custom rounded-[5px] px-10 py-[48px]">
+
           <div className="w-full flex justify-center items-center text-success font-medium border border-success text-center h-12 rounded-[5px] mb-5">
             Votre compte a été activé avec succés
           </div>
+
           <h1 className="text-xl font-bold text-gray1 text-center">
             Completer le reste de votre informations
           </h1>
@@ -123,7 +117,6 @@ const FillInfos = () => {
             className="flex w-full flex-col"
           >
             {/*  insc num or matricule  */}
-
             <p className="font-bold text-[13px] mb-[6px] mt-[30px] text-gray2">
               {type === "Student" ? "Numéro d'inscription" : "Matricule"}
             </p>
@@ -145,7 +138,6 @@ const FillInfos = () => {
             </p>
 
             {/* birth date   */}
-
             <p className="font-bold text-[13px] mb-[6px] mt-[20px] text-gray2">
               Date de naissance
             </p>
@@ -156,10 +148,11 @@ const FillInfos = () => {
               placeholder="JJ/MM/AAAA"
               className="text-[16px] rounded-[5px] bg-gray-50 w-auto h-[50px] pl-[24px] pr-4 text-gray3"
             />
-            <p className="text-error text-sm ml-2">{errors.date?.message}</p>
+            <p className="text-error text-sm ml-2">
+              {errors.date?.message}
+            </p>
 
             {/* phone_number num  */}
-
             <p className="font-bold text-[13px] mb-[6px] mt-[20px] text-gray2">
               Numéro de téléphone
             </p>
@@ -175,7 +168,6 @@ const FillInfos = () => {
             </p>
 
             {/* etablissement  */}
-
             <p className="font-bold text-[13px] mb-[6px] mt-[20px] text-gray2">
               Etablissement
             </p>
@@ -188,7 +180,6 @@ const FillInfos = () => {
             />
 
             {/* filière ou grade */}
-
             <div className="flex flex-col md:flex-row justify-between gap-4">
               <div className="w-full">
                 <p className="font-bold text-[13px] mb-[6px] mt-[20px] text-gray2">
@@ -204,7 +195,6 @@ const FillInfos = () => {
               </div>
 
               {/* spécialité */}
-
               <div className="w-full">
                 <p className="font-bold text-[13px] mb-[6px] mt-[20px] text-gray2">
                   Spécialité
@@ -218,31 +208,49 @@ const FillInfos = () => {
                 />
               </div>
             </div>
-            {/* user pic  */}
 
-            <div className="flex items-center md:items-start flex-col md:flex-row justify-center md:justify-start mt-8">
-              <img
-                className="w-[85px] md:w-[50px] h-[100px] md:h-[85px] mr-6 mb-5 md:mb-0"
-                src={userPic}
-                alt="userPic"
-              />
-
-              {/* change user pc button  */}
-
-              <button
-                onClick={handleChange}
+            <div className="flex items-center flex-row justify-start mt-8 ">
+              
+              {/* change user pic */}
+              <div 
+              onClick={handleClick} 
+              className="w-[50px] h-[50px] mr-6 ">
+              {selectedImage ? (
+              <img 
+              src={selectedImage} 
+              alt="user pic" 
+              className="w-[50px] h-[50px] mr-6 rounded-[360px]"/>
+              ) : (
+              <img 
+              src={userPic} 
+              alt="user pic" 
+              className="w-[50px] h-[50px] mr-6 rounded-[360px]"/>
+              )}
+            </div>
+             <button
+                onClick={handleClick}
                 className="border border-gray4 text-gray3 rounded-[5px] px-[44px] py-3 h-[50px]"
               >
                 Changer photo
               </button>
+            <input
+                  {...register("profile_picture")}
+                  type="file"
+                  name="profile_picture"
+                  accept=".jpg, .jpeg, .png"
+                  style={{display: 'none'}}
+                  ref={hiddenFileInput}
+                  onChange={handleChange}
+                  className="border border-gray4 text-gray3 rounded-[5px] px-[44px] py-3 h-[50px]"
+                />             
             </div>
 
-            <button
-              className={`w-full h-[50px] bg-primary mt-[50px] mb-[25px] rounded-[5px] text-white font-semibold `}
-            >
+            {/* submit button */}
+            <button className={`w-full h-[50px] bg-primary mt-[50px] mb-[25px] rounded-[5px] text-white font-semibold `}>
               Continuer
             </button>
           </form>
+
           <h1 className="text-xs text-gray3">
             {" "}
             • Vous pouvez changer votre informations dans votre profile.

@@ -146,7 +146,6 @@ export const AuthProvider = ({ children }) => {
 
 
   const completeStudentRegistration = async (id, num_inscription, birth_date, phone_number, etablissement, filière, spécialité, profile_picture ) => {
-
    setisFetching(true);
 
     try {
@@ -166,8 +165,15 @@ export const AuthProvider = ({ children }) => {
             spécialité,
             profile_picture
           }),
+          
         }
       );
+      const token_data = await auth_token_response.json();
+
+      if (auth_token_response.ok) {
+        navigate("/login");
+      
+      }
     } catch(error) {
         console.log(error)  }
 
@@ -197,13 +203,16 @@ export const AuthProvider = ({ children }) => {
            }),
          }
        );
+       const token_data = await auth_token_response.json();
+      if (auth_token_response.ok) {
+        navigate("/login");     
+      }
      } catch(error) {
          console.log(error)  }
  
    }
 
   //activate email 
-
   const activateEmail = async (uid, token, type, id) => {
 
     setisFetching(true);
@@ -223,8 +232,6 @@ export const AuthProvider = ({ children }) => {
          }
        );
        const token_data = await auth_token_response.json();
-
-
       if (auth_token_response.ok) {
         setIsEmailActivated(true);
         console.log('good request ');
@@ -237,12 +244,7 @@ export const AuthProvider = ({ children }) => {
          console.log(error)  }
  
    }
-
-
-
-  //Reset pass
-
-
+  //forgot pass
   const forgotPassword = async (email) => {
     setisFetching(true);
     try {
@@ -269,7 +271,7 @@ export const AuthProvider = ({ children }) => {
     }
     setisFetching(false);
   };
-
+  //reset pass
   const resetPassword = async (uid, token, new_password) => {
     setisFetching(true);
     try {
