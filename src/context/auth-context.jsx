@@ -202,6 +202,43 @@ export const AuthProvider = ({ children }) => {
  
    }
 
+  //activate email 
+
+  const activateEmail = async (uid, token, type, id) => {
+
+    setisFetching(true);
+ 
+     try {
+     const registratino_response = await fetch(
+         "https://prigra.onrender.com/auth/users/activation/",
+         {
+           method: "POST",
+           headers: {
+             "Content-Type": "application/json",
+           },
+           body: JSON.stringify({
+             uid, 
+             token
+           }),
+         }
+       );
+       const token_data = await auth_token_response.json();
+
+
+      if (auth_token_response.ok) {
+        setIsEmailActivated(true);
+        console.log('good request ');
+        //navigate(`https://prigra.onrender.com/base/${type}/${id}/`);
+        
+      } else {
+        alert("could not activate email");
+      }
+     } catch(error) {
+         console.log(error)  }
+ 
+   }
+
+
 
   //Reset pass
 
@@ -285,6 +322,7 @@ export const AuthProvider = ({ children }) => {
     logoutUser,
     signupUser,
     isEmailActivated,
+    activateEmail, 
   };
 
   useEffect(() => {

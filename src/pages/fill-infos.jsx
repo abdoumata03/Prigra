@@ -8,11 +8,23 @@ import AuthContext from "../context/auth-context";
 import { format } from "date-fns";
 import ConfirmEmail from "../components/confirm_email";
 
+
+
+// const MAX_FILE_SIZE = 102400; //100KB
+
+// const validFileExtensions = { image: ['jpg', 'gif', 'png', 'jpeg', 'svg', 'webp'] };
+
+// function isValidFileType(fileName, fileType) {
+//   return fileName && validFileExtensions[fileType].indexOf(fileName.split('.').pop()) > -1;
+// }
+
 const shema = yup.object().shape({
   num_inscription: yup
-    .string()
-    .matches(/^\d{12}$/, "numéro d'inscription invalid"),
-  matricule: yup.string().matches(/^\d{12}$/, "matricule invalid"),
+    .string(), 
+    //.matches(/^\d{12}$/, "numéro d'inscription invalid"),
+  matricule: yup
+  .string(), 
+  //.matches(/^\d{12}$/, "matricule invalid"),
   birth_date: yup
     .date()
     .min(
@@ -30,14 +42,24 @@ const shema = yup.object().shape({
   filière: yup.string(),
   spacialite: yup.string(),
   grade: yup.string(),
+  // profile_picture: yup
+  // .mixed()
+  //     .required("Required")
+  //     .test("is-valid-type", "Not a valid image type",
+  //       value => isValidFileType(value && value.name.toLowerCase(), "image"))
+  //     .test("is-valid-size", "Max allowed size is 100KB",
+  //       value => value && value.size <= MAX_FILE_SIZE)
 });
+
 
 const FillInfos = () => {
   const location = useLocation();
+  const isEmailActivated = true; 
+
   const {
     completeStudentRegistration,
     completeTeacherRegistration,
-    isEmailActivated,
+    //isEmailActivated,
   } = useContext(AuthContext);
 
   const { type, id } = useParams();
@@ -113,8 +135,8 @@ const FillInfos = () => {
               name={type === "Student" ? "num_inscription" : "matricule"}
               placeholder={
                 type === "Student"
-                  ? "numéro d'inscription doit contenir 12 chiffres "
-                  : "matricule doit contenir 12 chiffres"
+                  ? "Saisir votre numéro d'inscription "
+                  : "Saisir votre matricule"
               }
               className="rounded-[5px] w-auto h-[50px] pl-[24px] bg-gray-50 text-gray3"
             />
