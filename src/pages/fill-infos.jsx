@@ -1,5 +1,5 @@
-import React, { useContext, useState, useRef } from "react";
-import { useForm } from "react-hook-form";
+import React, { useContext, useState, useEffect } from "react";
+import { useForm, useController } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { userPic } from "../assets";
@@ -7,8 +7,9 @@ import { useParams } from "react-router";
 import AuthContext from "../context/auth-context";
 import { format } from "date-fns";
 import ConfirmEmail from "../components/confirm_email";
-import {storage} from "../services/firebase.jsx";
+import { storage } from "../services/firebase.jsx";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import Select from "react-select";
 
 const shema = yup.object().shape({
   num_inscription: yup.string(),
@@ -56,15 +57,73 @@ const FillInfos = () => {
     resolver: yupResolver(shema),
   });
 
-  const storageRef = ref(storage, `/images/${selectedImage?.name}`); 
+  const storageRef = ref(storage, `/images/${selectedImage?.name}`);
   const uploadTask = uploadBytesResumable(storageRef, selectedImage);
 
-  const submitForm = (data) => {
+  const { field } = useController({ name: "language", control });
+  const { value: langValue, onChange: langOnChange, ...restLangField } = field;
 
+  useEffect(() => {
+    const fetch_filieres = async () => {
+      try {
+        const filieres_response = await fetch(
+          "https://prigra.onrender.com/base/filières/",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const filieres = filieres_response.json();
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const fetch_etabs = async () => {
+      try {
+        const etablissements = await fetch(
+          "https://prigra.onrender.com/base/Etablissment/",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const etabs = etablissements.json();
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const fetch_grades = async () => {
+      try {
+        const grades_resp = await fetch(
+          "https://prigra.onrender.com/base/grades/",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const grades = grades_resp.json();
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetch_filieres();
+    fetch_etabs();
+    fetch_grades();
+  }, []);
+
+  const submitForm = (data) => {
     uploadTask.on(
       "state_changed",
-      (snapshot) => {
-      },
+      (snapshot) => {},
       (err) => console.log(err),
       () => {
         // download url
@@ -84,7 +143,7 @@ const FillInfos = () => {
         data.etablissement,
         data.filière,
         data.spécialité,
-        imageUrl,
+        imageUrl
       );
     } else if (type === "Teacher") {
       completeTeacherRegistration(
@@ -95,7 +154,7 @@ const FillInfos = () => {
         data.etablissement,
         data.grade,
         data.spécialité,
-        imageUrl,
+        imageUrl
       );
     }
   };
