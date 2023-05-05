@@ -7,13 +7,13 @@ import { useParams } from "react-router";
 import AuthContext from "../context/auth-context";
 import { format } from "date-fns";
 import ConfirmEmail from "../components/confirm_email";
+import {storage} from "../services/firebase.jsx";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const shema = yup.object().shape({
-  num_inscription: yup
-    .string(), 
-    //.matches(/^\d{12}$/, "numéro d'inscription invalid"),
-  matricule: yup
-  .string(), 
+  num_inscription: yup.string(),
+  //.matches(/^\d{12}$/, "numéro d'inscription invalid"),
+  matricule: yup.string(),
   //.matches(/^\d{12}$/, "matricule invalid"),
   birth_date: yup
     .date()
@@ -26,19 +26,19 @@ const shema = yup.object().shape({
       format(new Date(2015, 0, 1), "yyyy-MM-dd"),
       "date de naissaance invalide"
     ),
-  phone_number: yup
-    .string(), 
-    //.matches(/^(05|06|07)\d{8}$/, "Numéro de téléphone invalid"),
+  phone_number: yup.string(),
+  //.matches(/^(05|06|07)\d{8}$/, "Numéro de téléphone invalid"),
   etablissement: yup.string(),
   filière: yup.string(),
   spacialite: yup.string(),
   grade: yup.string(),
-  profile_picture: yup
-  .mixed(), 
+  profile_picture: yup.mixed(),
 });
 
 const FillInfos = () => {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [imageUrl, setImageUrl] = useState("");
   const { type, id } = useParams();
   const hiddenFileInput = React.useRef(null);
 
@@ -56,8 +56,24 @@ const FillInfos = () => {
     resolver: yupResolver(shema),
   });
 
+  const storageRef = ref(storage, `/images/${selectedImage?.name}`); 
+  const uploadTask = uploadBytesResumable(storageRef, selectedImage);
+
   const submitForm = (data) => {
-    console.log(data);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+      },
+      (err) => console.log(err),
+      () => {
+        // download url
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          console.log(url);
+          setImageUrl(url);
+        });
+      }
+    );
 
     if (type === "Student") {
       completeStudentRegistration(
@@ -67,8 +83,8 @@ const FillInfos = () => {
         data.phone_number,
         data.etablissement,
         data.filière,
-        data.spécialité, 
-        selectedImage, 
+        data.spécialité,
+        imageUrl,
       );
     } else if (type === "Teacher") {
       completeTeacherRegistration(
@@ -78,8 +94,8 @@ const FillInfos = () => {
         data.phone_number,
         data.etablissement,
         data.grade,
-        data.spécialité, 
-        selectedImage, 
+        data.spécialité,
+        imageUrl,
       );
     }
   };
@@ -88,16 +104,20 @@ const FillInfos = () => {
     hiddenFileInput.current.click();
   };
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     const fileUploaded = event.target.files[0];
-    setSelectedImage(URL.createObjectURL(fileUploaded));
+    setSelectedImage(fileUploaded);
+    setImagePreview(URL.createObjectURL(fileUploaded));
   };
 
   return (
-    <div className={`flex items-center ${!isEmailActivated? `h-screen` : `h-auto`} justify-center font-eudox bg-gray-50 overflow-auto`}>
+    <div
+      className={`flex items-center ${
+        !isEmailActivated ? `h-screen` : `h-auto`
+      } justify-center font-eudox bg-gray-50 overflow-auto`}
+    >
       {isEmailActivated ? (
         <div className=" lg:w-[55%] sm:w-3/5 w-[90%] my-14 flex flex-col items-center justify-center bg-white shadow-custom rounded-[5px] px-10 py-[48px]">
-
           <div className="w-full flex justify-center items-center text-success font-medium border border-success text-center h-12 rounded-[5px] mb-5">
             Votre compte a été activé avec succés
           </div>
@@ -147,9 +167,7 @@ const FillInfos = () => {
               placeholder="JJ/MM/AAAA"
               className="text-[16px] rounded-[5px] bg-gray-50 w-auto h-[50px] pl-[24px] pr-4 text-gray3"
             />
-            <p className="text-error text-sm ml-2">
-              {errors.date?.message}
-            </p>
+            <p className="text-error text-sm ml-2">{errors.date?.message}</p>
 
             {/* phone_number num  */}
             <p className="font-bold text-[13px] mb-[6px] mt-[20px] text-gray2">
@@ -209,43 +227,44 @@ const FillInfos = () => {
             </div>
 
             <div className="flex items-center flex-row justify-start mt-8 ">
-              
               {/* change user pic */}
-              <div 
-              onClick={handleClick} 
-              className="w-[50px] h-[50px] mr-6 ">
-              {selectedImage ? (
-              <img 
-              src={selectedImage} 
-              alt="user pic" 
-              className="w-[50px] h-[50px] mr-6 rounded-[360px]"/>
-              ) : (
-              <img 
-              src={userPic} 
-              alt="user pic" 
-              className="w-[50px] h-[50px] mr-6 rounded-[360px]"/>
-              )}
-            </div>
-             <button
+              <div onClick={handleClick} className="w-[50px] h-[50px] mr-6 ">
+                {imagePreview ? (
+                  <img
+                    src={imagePreview}
+                    alt="user pic"
+                    className="w-[50px] h-[50px] mr-6 rounded-[360px] object-contain"
+                  />
+                ) : (
+                  <img
+                    src={userPic}
+                    alt="user pic"
+                    className="w-[50px] h-[50px] mr-6 rounded-[360px]"
+                  />
+                )}
+              </div>
+              <button
                 onClick={handleClick}
                 className="border border-gray4 text-gray3 rounded-[5px] px-[44px] py-3 h-[50px]"
               >
                 Changer photo
               </button>
-            <input
-                  {...register("profile_picture")}
-                  type="file"
-                  name="profile_picture"
-                  accept=".jpg, .jpeg, .png"
-                  style={{display: 'none'}}
-                  ref={hiddenFileInput}
-                  onChange={handleChange}
-                  className="border border-gray4 text-gray3 rounded-[5px] px-[44px] py-3 h-[50px]"
-                />             
+              <input
+                {...register("profile_picture")}
+                type="file"
+                name="profile_picture"
+                accept=".jpg, .jpeg, .png"
+                style={{ display: "none" }}
+                ref={hiddenFileInput}
+                onChange={handleChange}
+                className="border border-gray4 text-gray3 rounded-[5px] px-[44px] py-3 h-[50px]"
+              />
             </div>
 
             {/* submit button */}
-            <button className={`w-full h-[50px] bg-primary mt-[50px] mb-[25px] rounded-[5px] text-white font-semibold `}>
+            <button
+              className={`w-full h-[50px] bg-primary mt-[50px] mb-[25px] rounded-[5px] text-white font-semibold `}
+            >
               Continuer
             </button>
           </form>

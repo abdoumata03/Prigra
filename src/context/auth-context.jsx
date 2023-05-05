@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
   const [isResetSuccess, setIsResetSuccess] = useState(false);
 
   // If Email is Verified
-  const [isEmailActivated, setIsEmailActivated] = useState(false);
+  const [isEmailActivated, setIsEmailActivated] = useState(true);
 
   // RRv6 Navigator
   const navigate = useNavigate();
@@ -240,9 +240,8 @@ export const AuthProvider = ({ children }) => {
   
       if (registration_response.status === 204) {
         setIsEmailActivated(true);
-        console.log("good request ");
-      } else {
-        alert("Un erreur est servenu lors de l'activation d'email");
+      } else if (registration_response.status === 403) {
+        alert("Lien expiré!");
       }
     } catch (error) {
       console.log(error);
