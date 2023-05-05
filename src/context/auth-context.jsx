@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.getItem("authTokens")
       ? JSON.parse(localStorage.getItem("authTokens"))
       : null
-  );  
+  );
 
   // User State
   const [user, setUser] = useState(() =>
@@ -38,8 +38,6 @@ export const AuthProvider = ({ children }) => {
 
   // If Email is Verified
   const [isEmailActivated, setIsEmailActivated] = useState(false);
-
-
 
   // RRv6 Navigator
   const navigate = useNavigate();
@@ -105,11 +103,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
   //SignUp Function
-  const signupUser = async (email, password,first_name,
-    last_name, type) => {
-      
+  const signupUser = async (email, password, first_name, last_name, type) => {
     setisFetching(true);
-  
+
     try {
       const auth_token_response = await fetch(
         "https://prigra.onrender.com/auth/users/",
@@ -123,8 +119,7 @@ export const AuthProvider = ({ children }) => {
             password,
             first_name,
             last_name,
-            type, 
-           
+            type,
           }),
         }
       );
@@ -136,20 +131,26 @@ export const AuthProvider = ({ children }) => {
       } else {
         alert("could not sign up");
       }
-      
     } catch (error) {
       console.log(error);
       setisFetching(false);
     }
   };
 
-
-
-  const completeStudentRegistration = async (id, num_inscription, birth_date, phone_number, etablissement, filière, spécialité, profile_picture ) => {
-   setisFetching(true);
+  const completeStudentRegistration = async (
+    id,
+    num_inscription,
+    birth_date,
+    phone_number,
+    etablissement,
+    filière,
+    spécialité,
+    profile_picture
+  ) => {
+    setisFetching(true);
 
     try {
-    const registratino_response = await fetch(
+      const registratino_response = await fetch(
         `https://prigra.onrender.com/base/Student/${id}/`,
         {
           method: "PUT",
@@ -163,87 +164,93 @@ export const AuthProvider = ({ children }) => {
             etablissement,
             filière,
             spécialité,
-            profile_picture
+            profile_picture,
           }),
-          
         }
       );
       const token_data = await auth_token_response.json();
 
       if (auth_token_response.ok) {
         navigate("/login");
-      
       }
-    } catch(error) {
-        console.log(error)  }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  }
-
-
-  const completeTeacherRegistration = async (id, matricule, birth_date, phone_number, etablissement, grade, spécialité, profile_picture ) => {
-
+  const completeTeacherRegistration = async (
+    id,
+    matricule,
+    birth_date,
+    phone_number,
+    etablissement,
+    grade,
+    spécialité,
+    profile_picture
+  ) => {
     setisFetching(true);
- 
-     try {
-     const registratino_response = await fetch(
-         `https://prigra.onrender.com/base/Teacher/${id}/`,
-         {
-           method: "PUT",
-           headers: {
-             "Content-Type": "application/json",
-           },
-           body: JSON.stringify({
-             matricule,
-             birth_date,
-             phone_number,
-             etablissement,
-             grade,
-             spécialité,
-             profile_picture
-           }),
-         }
-       );
-       const token_data = await auth_token_response.json();
+
+    try {
+      const registratino_response = await fetch(
+        `https://prigra.onrender.com/base/Teacher/${id}/`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            matricule,
+            birth_date,
+            phone_number,
+            etablissement,
+            grade,
+            spécialité,
+            profile_picture,
+          }),
+        }
+      );
+      const token_data = await auth_token_response.json();
       if (auth_token_response.ok) {
-        navigate("/login");     
+        navigate("/login");
       }
-     } catch(error) {
-         console.log(error)  }
- 
-   }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  //activate email 
-  const activateEmail = async (uid, token, type, id) => {
-
+  //activate email
+  const activateEmail = async (uid, token) => {
     setisFetching(true);
- 
-     try {
-     const registratino_response = await fetch(
-         "https://prigra.onrender.com/auth/users/activation/",
-         {
-           method: "POST",
-           headers: {
-             "Content-Type": "application/json",
-           },
-           body: JSON.stringify({
-             uid, 
-             token
-           }),
-         }
-       );
-       const token_data = await auth_token_response.json();
-      if (auth_token_response.ok) {
+
+    try {
+      const registratino_response = await fetch(
+        "https://prigra.onrender.com/auth/users/activation/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            uid,
+            token,
+          }),
+        }
+      );
+
+      const token_data = await auth_token_response.json();
+
+      if (auth_token_response === 204) {
         setIsEmailActivated(true);
-        console.log('good request ');
-        //navigate(`https://prigra.onrender.com/base/${type}/${id}/`);
-        
+        console.log("good request ");
       } else {
-        alert("could not activate email");
+        alert("Un erreur est servenu lors de l'activation d'email");
       }
-     } catch(error) {
-         console.log(error)  }
- 
-   }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
   //forgot pass
   const forgotPassword = async (email) => {
     setisFetching(true);
@@ -285,14 +292,14 @@ export const AuthProvider = ({ children }) => {
             new_password,
           }),
           headers: {
-            'content-type': 'application/json',
+            "content-type": "application/json",
           },
         }
       );
 
-      if(reset_pass_resp.status === 204) {
+      if (reset_pass_resp.status === 204) {
         setIsResetSuccess(true);
-      } 
+      }
     } catch (error) {
       console.log(error);
       setisFetching(false);
@@ -316,15 +323,15 @@ export const AuthProvider = ({ children }) => {
     resetPassword,
     isResetSuccess,
     isFetching,
-    completeStudentRegistration, 
-    completeTeacherRegistration, 
+    completeStudentRegistration,
+    completeTeacherRegistration,
     forgotPassword,
     setAuthTokens,
     loginUser,
     logoutUser,
     signupUser,
     isEmailActivated,
-    activateEmail, 
+    activateEmail,
   };
 
   useEffect(() => {

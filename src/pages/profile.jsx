@@ -12,8 +12,8 @@ const Profile = () => {
           Gérer les paramètres de votre profil
         </p>
       </div>
-      <div className="flex flex-col w-[80%] lg:w-full lg:flex-row gap-10">
-        <div className="mb-8 w-auto lg:w-[40%]">
+      <div className="flex flex-col w-[90%] lg:w-full lg:flex-row gap-12">
+        <div className="mb-8 w-auto lg:w-[50%]">
           <div className="flex flex-row mb-10">
             <img
               src="https://i.ibb.co/T1r9Mzc/1679220246331.jpg"
@@ -68,7 +68,7 @@ const Profile = () => {
               />
             </div>
           </div>
-          <button className="w-auto flex justify-center items-center gap-3 self-end h-[50px] bg-primary text-white font-semibold rounded-[5px] px-5 "><Save/>Sauvegarder</button>
+          <button className="flex justify-center items-center gap-3 self-end h-[50px] bg-primary text-white font-semibold rounded-[5px] px-5 mt-10 w-full md:w-auto"><Save/>Sauvegarder</button>
         </div>
       </div>
     </div>

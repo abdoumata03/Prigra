@@ -6,13 +6,12 @@ import AuthContext from "../context/auth-context";
 
 const ConfirmEmail = () => {
 
-   const { activateEmail } = useContext(AuthContext);
-   const {uid, token, type, id} = useParams();
+   const {activateEmail} = useContext(AuthContext);
+   const {uid, token} = useParams();
 
 
   const handleClick =()=> {
-    activateEmail(uid,token, type, id);
-    console.log('hey');
+    activateEmail(uid,token);
   }
 
   return (

@@ -38,7 +38,6 @@ const shema = yup.object().shape({
 });
 
 const FillInfos = () => {
-  const isEmailActivated = true; 
   const [selectedImage, setSelectedImage] = useState(null);
   const { type, id } = useParams();
   const hiddenFileInput = React.useRef(null);
@@ -46,7 +45,7 @@ const FillInfos = () => {
   const {
     completeStudentRegistration,
     completeTeacherRegistration,
-    //isEmailActivated,
+    isEmailActivated,
   } = useContext(AuthContext);
 
   const {
