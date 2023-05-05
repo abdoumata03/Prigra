@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
   const [isResetSuccess, setIsResetSuccess] = useState(false);
 
   // If Email is Verified
-  const [isEmailActivated, setIsEmailActivated] = useState(true);
+  const [isEmailActivated, setIsEmailActivated] = useState(false);
 
   // RRv6 Navigator
   const navigate = useNavigate();
