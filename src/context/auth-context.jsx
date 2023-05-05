@@ -223,7 +223,7 @@ export const AuthProvider = ({ children }) => {
     setisFetching(true);
 
     try {
-      const registratino_response = await fetch(
+      const registration_response = await fetch(
         "https://prigra.onrender.com/auth/users/activation/",
         {
           method: "POST",
@@ -237,9 +237,8 @@ export const AuthProvider = ({ children }) => {
         }
       );
 
-      const token_data = await auth_token_response.json();
-
-      if (auth_token_response === 204) {
+  
+      if (registration_response.status === 204) {
         setIsEmailActivated(true);
         console.log("good request ");
       } else {
