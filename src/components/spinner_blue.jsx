@@ -1,12 +1,12 @@
 import React from "react";
 import "../index.css";
 
-export default function LoadingSpinner() {
+export default function BlueLoadingSpinner() {
   return (
     <div role="status" className="flex justify-center">
       <svg
         aria-hidden="true"
-        className="w-8 h-8 mr-2 text-white text-opacity-25 animate-spin dark:text-gray-600 fill-gray-100"
+        className="w-8 h-8 mr-2 text-primary text-opacity-25 animate-spin dark:text-accent fill-primary"
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -20,7 +20,7 @@ export default function LoadingSpinner() {
           fill="currentFill"
         />
       </svg>
-      <span className="sr-only">Loading...</span>
+      <span class="sr-only">Loading...</span>
     </div>
   );
 }

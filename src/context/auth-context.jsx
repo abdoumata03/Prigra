@@ -39,6 +39,9 @@ export const AuthProvider = ({ children }) => {
   // If Email is Verified
   const [isEmailActivated, setIsEmailActivated] = useState(false);
 
+  // User Profile Data 
+  const [userData, setUserData] = useState(null);
+
   // RRv6 Navigator
   const navigate = useNavigate();
 
@@ -65,9 +68,8 @@ export const AuthProvider = ({ children }) => {
       const token_data = await auth_token_response.json();
 
       if (auth_token_response.status === 200) {
-        setAuthTokens(token_data);
-        setUser(jwt_decode(token_data.access));
-        localStorage.setItem("authTokens", JSON.stringify(token_data));
+        
+        
 
         const response_me = await fetch(
           "https://prigra.onrender.com/auth/users/me/",
@@ -92,6 +94,16 @@ export const AuthProvider = ({ children }) => {
             },
           }
         );
+
+        const user_type_data = await fetch_user_type.json();
+        
+        setUserData(user_type_data);
+
+        console.log(user_type_data);
+
+        setAuthTokens(token_data);
+        setUser(jwt_decode(token_data.access));
+        localStorage.setItem("authTokens", JSON.stringify(token_data));
 
         // navigate("/roles");
       } else {
@@ -150,7 +162,7 @@ export const AuthProvider = ({ children }) => {
     setisFetching(true);
 
     try {
-      const registratino_response = await fetch(
+      const registration_response = await fetch(
         `https://prigra.onrender.com/base/Student/${id}/`,
         {
           method: "PUT",
@@ -170,7 +182,7 @@ export const AuthProvider = ({ children }) => {
       );
       const token_data = await auth_token_response.json();
 
-      if (auth_token_response.ok) {
+      if (registration_response.ok) {
         navigate("/login");
       }
     } catch (error) {
@@ -191,7 +203,7 @@ export const AuthProvider = ({ children }) => {
     setisFetching(true);
 
     try {
-      const registratino_response = await fetch(
+      const registration_response = await fetch(
         `https://prigra.onrender.com/base/Teacher/${id}/`,
         {
           method: "PUT",
@@ -210,7 +222,7 @@ export const AuthProvider = ({ children }) => {
         }
       );
       const token_data = await auth_token_response.json();
-      if (auth_token_response.ok) {
+      if (registration_response.ok) {
         navigate("/login");
       }
     } catch (error) {
@@ -321,6 +333,7 @@ export const AuthProvider = ({ children }) => {
     resetPassword,
     isResetSuccess,
     isFetching,
+    userData,
     completeStudentRegistration,
     completeTeacherRegistration,
     forgotPassword,
