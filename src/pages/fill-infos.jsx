@@ -12,9 +12,9 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import Select from "react-select";
 
 const schema = yup.object().shape({
-  num_inscription: yup.string().required(),
+  num_inscription: yup.string().required("Ce champ est obligatoire"),
   //.matches(/^\d{12}$/, "numéro d'inscription invalid"),
-  matricule: yup.string().required(),
+  // matricule: yup.string().required("Ce champ est obligatoire"),
   //.matches(/^\d{12}$/, "matricule invalid"),
   birth_date: yup
     .date()
@@ -27,11 +27,12 @@ const schema = yup.object().shape({
       format(new Date(2015, 0, 1), "yyyy-MM-dd"),
       "date de naissaance invalide"
     ),
-  phone_number: yup.string().required(),
+  phone_number: yup.string().required("Ce champ est obligatoire"),
   //.matches(/^(05|06|07)\d{8}$/, "Numéro de téléphone invalid"),
-  etablissement: yup.string().required(),
+  etablissement: yup.string().required("Ce champ est obligatoire"),
   profile_picture: yup.mixed(),
-  filière: yup.required(),
+  // filière: yup.string().required('Ce champ est obligatoire'),
+  // spécialité: yup.string().required('Ce champ est obligatoire'),
 });
 
 const FillInfos = () => {
@@ -76,12 +77,10 @@ const FillInfos = () => {
             label: specialty.spécialité,
           }))
     );
-    
   }, [selectedFiliere]);
 
   useEffect(() => {
-    // setSpecialtyValue({value: "", label: ""});
-    selectSpecialtyRef.current.select?.clearValue();
+    setSpecialtyValue({ value: "", label: "" });
   }, [selectedFiliere]);
 
   useEffect(() => {
@@ -154,7 +153,13 @@ const FillInfos = () => {
     fetchGrades();
   }, []);
 
+
+  const onInvalid = (errors) => console.error(errors)
+
   const submitForm = (data) => {
+
+
+    console.log(data);
     // IMAGE UPLOAD
 
     uploadTask.on(
@@ -229,7 +234,7 @@ const FillInfos = () => {
           </h4>
 
           <form
-            onSubmit={handleSubmit(submitForm)}
+            onSubmit={handleSubmit(submitForm, onInvalid)}
             className="flex w-full flex-col"
           >
             {/*  insc num or matricule  */}
@@ -292,6 +297,9 @@ const FillInfos = () => {
               placeholder="Ecole Supérieure en Informatique"
               className="text-[16px] rounded-[5px] bg-gray-50 w-auto h-[50px] pl-[24px] text-gray3"
             />
+            <p className="text-error text-sm ml-1">
+              {errors.etablissement?.message}
+            </p>
 
             {/* filière ou grade */}
             <div className="flex flex-col md:flex-row justify-between gap-4">
@@ -302,22 +310,23 @@ const FillInfos = () => {
 
                 <Controller
                   name="filière"
-                  rules={{
-                    required: true,
-                   }}
-                  render={({ field: { onChange, ref } }) => (
+                  render={({ field: { onChange} }) => (
                     <Select
                       options={filiereOptions}
                       onChange={(val) => {
                         onChange(val.value);
                         setSelectedFiliere(val);
                       }}
+                  
                     />
                   )}
                   control={control}
                   defaultValue=""
                 />
               </div>
+              {/* <p className="text-error text-sm ml-1">
+                {errors.filière?.message}
+              </p> */}
 
               {/* spécialité */}
               <div className="w-full">
@@ -326,13 +335,12 @@ const FillInfos = () => {
                 </p>
                 <Controller
                   name="spécialité"
-                  rules={{
-                    required: true,
-                   }}
                   render={({ field: { onChange } }) => (
                     <Select
-                    ref={selectSpecialtyRef}
+                      ref={selectSpecialtyRef}
                       options={specialtyOptions}
+                      isDisabled={selectedFiliere === null ? true : false}
+                      className="h-[50px]"
                       onChange={(val) => {
                         onChange(val.value);
                         setSpecialtyValue(val.value);
@@ -344,6 +352,9 @@ const FillInfos = () => {
                   defaultValue=""
                 />
               </div>
+              {/* <p className="text-error text-sm ml-1">
+                {errors.spécialité?.message}
+              </p> */}
             </div>
 
             <div className="flex items-center flex-row justify-start mt-8 ">
