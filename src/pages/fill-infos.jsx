@@ -29,7 +29,7 @@ const schema = yup.object().shape({
     ),
   phone_number: yup.string().required("Ce champ est obligatoire"),
   //.matches(/^(05|06|07)\d{8}$/, "Numéro de téléphone invalid"),
-  etablissement: yup.string().required("Ce champ est obligatoire"),
+  etablissment: yup.string().required("Ce champ est obligatoire"),
   profile_picture: yup.mixed(),
   // filière: yup.string().required('Ce champ est obligatoire'),
   // spécialité: yup.string().required('Ce champ est obligatoire'),
@@ -158,8 +158,6 @@ const FillInfos = () => {
 
   const submitForm = (data) => {
 
-
-    console.log(data);
     // IMAGE UPLOAD
 
     uploadTask.on(
@@ -181,7 +179,7 @@ const FillInfos = () => {
         data.num_inscription,
         format(data.birth_date, "yyyy-MM-dd"),
         data.phone_number,
-        data.etablissement,
+        data.etablissment,
         data.filière,
         data.spécialité,
         imageUrl
@@ -192,7 +190,7 @@ const FillInfos = () => {
         data.matricule,
         format(data.birth_date, "yyyy-MM-dd"),
         data.phone_number,
-        data.etablissement,
+        data.etablissment,
         data.grade,
         data.spécialité,
         imageUrl
@@ -288,12 +286,12 @@ const FillInfos = () => {
 
             {/* etablissement  */}
             <p className="font-bold text-[13px] mb-[6px] mt-[20px] text-gray2">
-              Etablissement
+              Etablissementtt
             </p>
             <input
-              {...register("etablissement")}
+              {...register("etablissment")}
               type="text"
-              name="etablissement"
+              name="etablissment"
               placeholder="Ecole Supérieure en Informatique"
               className="text-[16px] rounded-[5px] bg-gray-50 w-auto h-[50px] pl-[24px] text-gray3"
             />

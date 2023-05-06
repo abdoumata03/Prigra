@@ -154,7 +154,7 @@ export const AuthProvider = ({ children }) => {
     num_inscription,
     birth_date,
     phone_number,
-    etablissement,
+    etablissment,
     filière,
     spécialité,
     profile_picture
@@ -173,14 +173,13 @@ export const AuthProvider = ({ children }) => {
             num_inscription,
             birth_date,
             phone_number,
-            etablissement,
+            etablissment,
             filière,
             spécialité,
             profile_picture,
           }),
         }
       );
-      const token_data = await auth_token_response.json();
 
       if (registration_response.ok) {
         navigate("/login");
@@ -195,7 +194,7 @@ export const AuthProvider = ({ children }) => {
     matricule,
     birth_date,
     phone_number,
-    etablissement,
+    etablissment,
     grade,
     spécialité,
     profile_picture
@@ -214,7 +213,7 @@ export const AuthProvider = ({ children }) => {
             matricule,
             birth_date,
             phone_number,
-            etablissement,
+            etablissment,
             grade,
             spécialité,
             profile_picture,
