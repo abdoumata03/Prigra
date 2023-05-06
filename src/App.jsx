@@ -18,9 +18,12 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import PrivateRoute from "./utils/private-route.jsx";
 import PublicRoute from "./utils/public-route.jsx";
 import { AuthProvider } from "./context/auth-context.jsx";
+import { registerLicense } from "@syncfusion/ej2-base";
+import RegistrationSuccess from "./pages/registration_success.jsx";
 
 // Wrap pages not requiring authenticatino in <PrivateLogin/>
 // Wrap pages requiring authentication in <PrivateRoute/>
+
 
 function App() {
   return (
@@ -35,6 +38,11 @@ function App() {
           <Route element={<SignUp />} path="/sign-up"></Route>
           <Route element={<ChooseUser />} path="/users"></Route>
           <Route element={<VerifyEmail />} path="/verify-email"></Route>
+          <Route
+            element={<RegistrationSuccess />}
+            path="/registration-success"
+          ></Route>
+
           <Route
             element={<FillInfo />}
             path="/activate/:uid/:token/:type/:id"
