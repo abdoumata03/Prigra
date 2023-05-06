@@ -10,6 +10,7 @@ import ConfirmEmail from "../components/confirm_email";
 import { storage } from "../services/firebase.jsx";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import Select from "react-select";
+import LoadingSpinner from "../components/spinner.jsx";
 
 const schema = yup.object().shape({
   num_inscription: yup.string().required("Ce champ est obligatoire"),
@@ -44,6 +45,7 @@ const FillInfos = () => {
   const [specialtyOptions, setSpecialtyOptions] = useState(null);
   const [selectedFiliere, setSelectedFiliere] = useState(null);
   const [specialtyValue, setSpecialtyValue] = useState([]);
+  const [etabOptions, setEtabOptions] = useState(null);
   const [filieres, setFilieres] = useState([]);
   const [imageUrl, setImageUrl] = useState("");
   const { type, id } = useParams();
@@ -53,6 +55,7 @@ const FillInfos = () => {
     completeStudentRegistration,
     completeTeacherRegistration,
     isEmailActivated,
+    isFetching,
   } = useContext(AuthContext);
 
   const storageRef = ref(storage, `/images/${selectedImage?.name}`);
@@ -124,6 +127,13 @@ const FillInfos = () => {
           }
         );
         const etabs = await etablissements.json();
+
+        setEtabOptions(
+          etabs?.map((etab) => ({
+            value: etab.nom_etablissment,
+            label: etab.nom_etablissment,
+          }))
+        );
       } catch (error) {
         console.log(error);
       }
@@ -153,11 +163,9 @@ const FillInfos = () => {
     fetchGrades();
   }, []);
 
-
-  const onInvalid = (errors) => console.error(errors)
+  const onInvalid = (errors) => console.error(errors);
 
   const submitForm = (data) => {
-
     // IMAGE UPLOAD
 
     uploadTask.on(
@@ -286,17 +294,25 @@ const FillInfos = () => {
 
             {/* etablissement  */}
             <p className="font-bold text-[13px] mb-[6px] mt-[20px] text-gray2">
-              Etablissementtt
+              Etablissement
             </p>
-            <input
-              {...register("etablissment")}
-              type="text"
+
+            <Controller
               name="etablissment"
-              placeholder="Ecole Supérieure en Informatique"
-              className="text-[16px] rounded-[5px] bg-gray-50 w-auto h-[50px] pl-[24px] text-gray3"
+              render={({ field: { onChange } }) => (
+                <Select
+                  options={etabOptions}
+                  onChange={(val) => {
+                    onChange(val.value);
+                  }}
+                />
+              )}
+              control={control}
+              defaultValue=""
             />
+
             <p className="text-error text-sm ml-1">
-              {errors.etablissement?.message}
+              {errors.etablissment?.message}
             </p>
 
             {/* filière ou grade */}
@@ -308,14 +324,13 @@ const FillInfos = () => {
 
                 <Controller
                   name="filière"
-                  render={({ field: { onChange} }) => (
+                  render={({ field: { onChange } }) => (
                     <Select
                       options={filiereOptions}
                       onChange={(val) => {
                         onChange(val.value);
                         setSelectedFiliere(val);
                       }}
-                  
                     />
                   )}
                   control={control}
@@ -374,6 +389,7 @@ const FillInfos = () => {
               </div>
               <button
                 onClick={handleClick}
+                type="button"
                 className="border border-gray4 text-gray3 rounded-[5px] px-[44px] py-3 h-[50px]"
               >
                 Changer photo
@@ -392,9 +408,13 @@ const FillInfos = () => {
 
             {/* submit button */}
             <button
-              className={`w-full h-[50px] bg-primary mt-[50px] mb-[25px] rounded-[5px] text-white font-semibold `}
+              type="submit"
+              className={`w-full text-sm md:text-base h-[40px] md:h-[50px] bg-primary mt-[50px] mb-[8px] rounded-[5px] text-white font-semibold ${
+                isFetching ? "bg-opacity-75" : "bg-opacity-100"
+              }`}
+              disabled={isFetching}
             >
-              Continuer
+              {isFetching ? <LoadingSpinner /> : "Continuer"}
             </button>
           </form>
 

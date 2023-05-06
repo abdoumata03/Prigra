@@ -39,7 +39,11 @@ export const AuthProvider = ({ children }) => {
   // If Email is Verified
   const [isEmailActivated, setIsEmailActivated] = useState(true);
 
-  // User Profile Data 
+  const [isRegistrationSuccessful, setIsRegistrationSuccessful] = useState(
+    false
+  );
+
+  // User Profile Data
   const [userData, setUserData] = useState(null);
 
   // RRv6 Navigator
@@ -68,9 +72,6 @@ export const AuthProvider = ({ children }) => {
       const token_data = await auth_token_response.json();
 
       if (auth_token_response.status === 200) {
-        
-        
-
         const response_me = await fetch(
           "https://prigra.onrender.com/auth/users/me/",
           {
@@ -96,7 +97,7 @@ export const AuthProvider = ({ children }) => {
         );
 
         const user_type_data = await fetch_user_type.json();
-        
+
         setUserData(user_type_data);
 
         console.log(user_type_data);
@@ -182,11 +183,14 @@ export const AuthProvider = ({ children }) => {
       );
 
       if (registration_response.ok) {
-        navigate("/login");
+        navigate("/registration-success");
       }
     } catch (error) {
       console.log(error);
+      setisFetching(false);
     }
+
+    setisFetching(false);
   };
 
   const completeTeacherRegistration = async (
@@ -220,13 +224,15 @@ export const AuthProvider = ({ children }) => {
           }),
         }
       );
-      const token_data = await auth_token_response.json();
+
       if (registration_response.ok) {
-        navigate("/login");
+        navigate("/registration-success");
       }
     } catch (error) {
       console.log(error);
+      setisFetching(false);
     }
+    setisFetching(false);
   };
 
   //activate email
@@ -248,7 +254,6 @@ export const AuthProvider = ({ children }) => {
         }
       );
 
-  
       if (registration_response.status === 204) {
         setIsEmailActivated(true);
       } else if (registration_response.status === 403) {
@@ -258,7 +263,6 @@ export const AuthProvider = ({ children }) => {
       console.log(error);
     }
   };
-
 
   //forgot pass
   const forgotPassword = async (email) => {
@@ -341,6 +345,7 @@ export const AuthProvider = ({ children }) => {
     logoutUser,
     signupUser,
     isEmailActivated,
+    isRegistrationSuccessful,
     activateEmail,
   };
 
