@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect } from "react";
-import { useForm, useController } from "react-hook-form";
+import React, { useContext, useState, useEffect, useRef } from "react";
+import { useForm, useController, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { userPic } from "../assets";
@@ -11,10 +11,10 @@ import { storage } from "../services/firebase.jsx";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import Select from "react-select";
 
-const shema = yup.object().shape({
-  num_inscription: yup.string(),
+const schema = yup.object().shape({
+  num_inscription: yup.string().required(),
   //.matches(/^\d{12}$/, "numéro d'inscription invalid"),
-  matricule: yup.string(),
+  matricule: yup.string().required(),
   //.matches(/^\d{12}$/, "matricule invalid"),
   birth_date: yup
     .date()
@@ -27,44 +27,65 @@ const shema = yup.object().shape({
       format(new Date(2015, 0, 1), "yyyy-MM-dd"),
       "date de naissaance invalide"
     ),
-  phone_number: yup.string(),
+  phone_number: yup.string().required(),
   //.matches(/^(05|06|07)\d{8}$/, "Numéro de téléphone invalid"),
-  etablissement: yup.string(),
-  filière: yup.string(),
-  spacialite: yup.string(),
-  grade: yup.string(),
+  etablissement: yup.string().required(),
   profile_picture: yup.mixed(),
+  filière: yup.required(),
 });
 
 const FillInfos = () => {
+  // VAR DECLARATION
+
   const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [filiereOptions, setFiliereOptions] = useState(null);
+  const [specialtyOptions, setSpecialtyOptions] = useState(null);
+  const [selectedFiliere, setSelectedFiliere] = useState(null);
+  const [specialtyValue, setSpecialtyValue] = useState([]);
+  const [filieres, setFilieres] = useState([]);
   const [imageUrl, setImageUrl] = useState("");
   const { type, id } = useParams();
+  const selectSpecialtyRef = useRef();
   const hiddenFileInput = React.useRef(null);
-
   const {
     completeStudentRegistration,
     completeTeacherRegistration,
     isEmailActivated,
   } = useContext(AuthContext);
 
+  const storageRef = ref(storage, `/images/${selectedImage?.name}`);
+  const uploadTask = uploadBytesResumable(storageRef, selectedImage);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useForm({
-    resolver: yupResolver(shema),
+    resolver: yupResolver(schema),
   });
 
-  const storageRef = ref(storage, `/images/${selectedImage?.name}`);
-  const uploadTask = uploadBytesResumable(storageRef, selectedImage);
-
-  const { field } = useController({ name: "language", control });
-  const { value: langValue, onChange: langOnChange, ...restLangField } = field;
+  useEffect(() => {
+    setSpecialtyOptions(
+      selectedFiliere &&
+        filieres
+          .find((filiere) => filiere.filière === selectedFiliere.value)
+          ?.spécialité.map((specialty) => ({
+            value: specialty.spécialité,
+            label: specialty.spécialité,
+          }))
+    );
+    
+  }, [selectedFiliere]);
 
   useEffect(() => {
-    const fetch_filieres = async () => {
+    // setSpecialtyValue({value: "", label: ""});
+    selectSpecialtyRef.current.select?.clearValue();
+  }, [selectedFiliere]);
+
+  useEffect(() => {
+    const fetchFilieres = async () => {
       try {
         const filieres_response = await fetch(
           "https://prigra.onrender.com/base/filières/",
@@ -75,13 +96,24 @@ const FillInfos = () => {
             },
           }
         );
-        const filieres = filieres_response.json();
+        const filieres = await filieres_response.json();
+        setFilieres(filieres);
+        setFiliereOptions(
+          filieres?.map((filiere) => ({
+            value: filiere.filière,
+            label: filiere.filière,
+          }))
+        );
       } catch (error) {
         console.log(error);
       }
     };
 
-    const fetch_etabs = async () => {
+    fetchFilieres();
+  }, []);
+
+  useEffect(() => {
+    const fetchEtabs = async () => {
       try {
         const etablissements = await fetch(
           "https://prigra.onrender.com/base/Etablissment/",
@@ -92,13 +124,17 @@ const FillInfos = () => {
             },
           }
         );
-        const etabs = etablissements.json();
+        const etabs = await etablissements.json();
       } catch (error) {
         console.log(error);
       }
     };
 
-    const fetch_grades = async () => {
+    fetchEtabs();
+  }, []);
+
+  useEffect(() => {
+    const fetchGrades = async () => {
       try {
         const grades_resp = await fetch(
           "https://prigra.onrender.com/base/grades/",
@@ -109,18 +145,18 @@ const FillInfos = () => {
             },
           }
         );
-        const grades = grades_resp.json();
+        const grades = await grades_resp.json();
       } catch (error) {
         console.log(error);
       }
     };
 
-    fetch_filieres();
-    fetch_etabs();
-    fetch_grades();
+    fetchGrades();
   }, []);
 
   const submitForm = (data) => {
+    // IMAGE UPLOAD
+
     uploadTask.on(
       "state_changed",
       (snapshot) => {},
@@ -158,6 +194,8 @@ const FillInfos = () => {
       );
     }
   };
+
+  // HANDLE IMAGE UPLOAD
 
   const handleClick = () => {
     hiddenFileInput.current.click();
@@ -261,12 +299,23 @@ const FillInfos = () => {
                 <p className="font-bold text-[13px] mb-[6px] mt-[20px] text-gray2">
                   {type === "Student" ? "Filière" : "Grade"}
                 </p>
-                <input
-                  {...register(type === "Student" ? "filière" : "grade")}
-                  type="text"
-                  name={type === "Student" ? "filière" : "grade"}
-                  placeholder={type === "Student" ? "MI" : "Maitre Assistant"}
-                  className="text-[16px] rounded-[5px] bg-gray-50 w-full h-[50px] pl-[24px] text-gray3"
+
+                <Controller
+                  name="filière"
+                  rules={{
+                    required: true,
+                   }}
+                  render={({ field: { onChange, ref } }) => (
+                    <Select
+                      options={filiereOptions}
+                      onChange={(val) => {
+                        onChange(val.value);
+                        setSelectedFiliere(val);
+                      }}
+                    />
+                  )}
+                  control={control}
+                  defaultValue=""
                 />
               </div>
 
@@ -275,12 +324,24 @@ const FillInfos = () => {
                 <p className="font-bold text-[13px] mb-[6px] mt-[20px] text-gray2">
                   Spécialité
                 </p>
-                <input
-                  {...register("spécialité")}
-                  type="text"
+                <Controller
                   name="spécialité"
-                  placeholder="Informatique"
-                  className="text-[16px] rounded-[5px] bg-gray-50 w-full h-[50px] pl-[24px] text-gray3"
+                  rules={{
+                    required: true,
+                   }}
+                  render={({ field: { onChange } }) => (
+                    <Select
+                    ref={selectSpecialtyRef}
+                      options={specialtyOptions}
+                      onChange={(val) => {
+                        onChange(val.value);
+                        setSpecialtyValue(val.value);
+                      }}
+                      value={specialtyValue.value}
+                    />
+                  )}
+                  control={control}
+                  defaultValue=""
                 />
               </div>
             </div>
