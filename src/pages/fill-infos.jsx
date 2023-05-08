@@ -12,30 +12,6 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import Select from "react-select";
 import LoadingSpinner from "../components/spinner.jsx";
 
-const schema = yup.object().shape({
-  num_inscription: yup.string().required("Ce champ est obligatoire"),
-  //.matches(/^\d{12}$/, "numéro d'inscription invalid"),
-  // matricule: yup.string().required("Ce champ est obligatoire"),
-  //.matches(/^\d{12}$/, "matricule invalid"),
-  birth_date: yup
-    .date()
-    .nullable()
-    .min(
-      format(new Date(1950, 0, 1), "yyyy-MM-dd"),
-      "date de naissaance invalide"
-    )
-    .max(
-      format(new Date(2015, 0, 1), "yyyy-MM-dd"),
-      "date de naissaance invalide"
-    ),
-  phone_number: yup.string().required("Ce champ est obligatoire"),
-  //.matches(/^(05|06|07)\d{8}$/, "Numéro de téléphone invalid"),
-  etablissment: yup.string().required("Ce champ est obligatoire"),
-  profile_picture: yup.mixed(),
-  // filière: yup.string().required('Ce champ est obligatoire'),
-  // spécialité: yup.string().required('Ce champ est obligatoire'),
-});
-
 const FillInfos = () => {
   // VAR DECLARATION
 
@@ -46,6 +22,7 @@ const FillInfos = () => {
   const [selectedFiliere, setSelectedFiliere] = useState(null);
   const [specialtyValue, setSpecialtyValue] = useState([]);
   const [etabOptions, setEtabOptions] = useState(null);
+  const [gradeOptions, setGradeOptions] = useState(null);
   const [filieres, setFilieres] = useState([]);
   const [imageUrl, setImageUrl] = useState("");
   const { type, id } = useParams();
@@ -58,6 +35,30 @@ const FillInfos = () => {
     isFetching,
   } = useContext(AuthContext);
 
+  const schema = yup.object().shape({
+    num_inscription: yup.string(),
+    //.matches(/^\d{12}$/, "numéro d'inscription invalid"),
+    matricule: yup.string(),
+    // .matches(/^\d{12}$/, "matricule invalid"),
+    birth_date: yup
+      .date()
+      .nullable()
+      .min(
+        format(new Date(1950, 0, 1), "yyyy-MM-dd"),
+        "date de naissaance invalide"
+      )
+      .max(
+        format(new Date(2015, 0, 1), "yyyy-MM-dd"),
+        "date de naissaance invalide"
+      ),
+    phone_number: yup.string().required("Ce champ est obligatoire"),
+    //.matches(/^(05|06|07)\d{8}$/, "Numéro de téléphone invalid"),
+    etablissment: yup.string().required("Ce champ est obligatoire"),
+    profile_picture: yup.mixed(),
+    // filière: yup.string().required('Ce champ est obligatoire'),
+    // spécialité: yup.string().required('Ce champ est obligatoire'),
+  });
+
   const storageRef = ref(storage, `/images/${selectedImage?.name}`);
   const uploadTask = uploadBytesResumable(storageRef, selectedImage);
 
@@ -69,6 +70,16 @@ const FillInfos = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
+
+  if (type === "Student") {
+    schema.fields.num_inscription = schema.fields.num_inscription.required(
+      "Ce champ est obligatoire"
+    );
+  } else if (type === "Teacher") {
+    schema.fields.matricule = schema.fields.matricule.required(
+      "Ce champ est obligatoire"
+    );
+  }
 
   useEffect(() => {
     setSpecialtyOptions(
@@ -155,6 +166,12 @@ const FillInfos = () => {
           }
         );
         const grades = await grades_resp.json();
+        setGradeOptions(
+          grades?.map((grade) => ({
+            value: grade.grade,
+            label: grade.grade,
+          }))
+        );
       } catch (error) {
         console.log(error);
       }
@@ -167,19 +184,6 @@ const FillInfos = () => {
 
   const submitForm = (data) => {
     // IMAGE UPLOAD
-
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {},
-      (err) => console.log(err),
-      () => {
-        // download url
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          console.log(url);
-          setImageUrl(url);
-        });
-      }
-    );
 
     if (type === "Student") {
       completeStudentRegistration(
@@ -216,6 +220,18 @@ const FillInfos = () => {
     const fileUploaded = event.target.files[0];
     setSelectedImage(fileUploaded);
     setImagePreview(URL.createObjectURL(fileUploaded));
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {},
+      (err) => console.log(err),
+      () => {
+        // download url
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          setImageUrl(url);
+          console.log(url);
+        });
+      }
+    );
   };
 
   return (
@@ -261,7 +277,8 @@ const FillInfos = () => {
               className="rounded-[5px] w-auto h-[50px] pl-[24px] bg-gray-50 text-gray3"
             />
             <p className="text-error text-sm ml-1">
-              {errors.num_inscription?.message}
+              {errors.num_inscription && errors.num_inscription.message}
+              {errors.matricule && errors.matricule.message}
             </p>
 
             {/* birth date   */}
@@ -323,13 +340,17 @@ const FillInfos = () => {
                 </p>
 
                 <Controller
-                  name="filière"
+                  name={type === "Student" ? "filière" : "grade"}
                   render={({ field: { onChange } }) => (
                     <Select
-                      options={filiereOptions}
+                      options={
+                        type === "Student" ? filiereOptions : gradeOptions
+                      }
                       onChange={(val) => {
                         onChange(val.value);
+                        // if (type === "Student") {
                         setSelectedFiliere(val);
+                        // }
                       }}
                     />
                   )}

@@ -70,7 +70,7 @@ const Profile = () => {
         </div>
         <div className="flex flex-col w-[90%] lg:w-full lg:flex-row gap-12">
           <div className="mb-0 lg:mb-8 w-auto lg:w-[40%]">
-            <div className="flex flex-row mb-10">
+            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-0 mb-10">
               <img
                 src="https://i.ibb.co/T1r9Mzc/1679220246331.jpg"
                 alt="Avatar Picture"
@@ -114,7 +114,7 @@ const Profile = () => {
               />
               <ProfileInputField
                 field_name={"Etablissement"}
-                value={userData?.etablissement}
+                value={userData?.etablissment}
               />
               <div className="flex gap-6">
                 <ProfileInputField

@@ -28,6 +28,7 @@
     "react-router": "^6.11.0",
     "react-router-dom": "^6.11.0",
     "react-select": "^5.7.3",
+    "sib-api-v3-sdk": "^8.5.0",
     "vite-plugin-svgr": "^2.4.0",
     "yup": "^1.0.2"
   },

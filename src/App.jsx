@@ -21,9 +21,9 @@ import { AuthProvider } from "./context/auth-context.jsx";
 import { registerLicense } from "@syncfusion/ej2-base";
 import RegistrationSuccess from "./pages/registration_success.jsx";
 
+
 // Wrap pages not requiring authenticatino in <PrivateLogin/>
 // Wrap pages requiring authentication in <PrivateRoute/>
-
 
 function App() {
   return (

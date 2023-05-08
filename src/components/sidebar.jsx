@@ -46,17 +46,17 @@ const Sidebar = () => {
   } else {
     return (
       <div className="flex flex-col justify-start items-center py-10 w-1/5 bg-white">
-        <img src={logo} alt="logo" className="mb-14 w-[100px]" />
+        <img src={logo} alt="logo" className="mb-14 w-4/5" />
         <div className="flex flex-col items-center justify-center mb-5">
           <img
             src="https://i.ibb.co/T1r9Mzc/1679220246331.jpg"
             alt="Avatar Picture"
             className="w-[80px] h-[80px] rounded-full mb-4"
           />
-          <h1 className="font-semibold text-gray1 text-center">
+          <h1 className="font-semibold text-gray1 text-center hidden md:block">
             {userData?.first_name + " " + userData?.last_name}
           </h1>
-          <p className="text-sm text-gray3 mb-8 text-center">
+          <p className="text-sm text-gray3 mb-8 text-center hidden md:block">
             {userData?.email}
           </p>
         </div>
