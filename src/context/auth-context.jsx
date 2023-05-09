@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
   const [isResetSuccess, setIsResetSuccess] = useState(false);
 
   // If Email is Verified
-  const [isEmailActivated, setIsEmailActivated] = useState(true);
+  const [isEmailActivated, setIsEmailActivated] = useState(false);
 
   const [isRegistrationSuccessful, setIsRegistrationSuccessful] = useState(
     false
@@ -136,6 +136,7 @@ export const AuthProvider = ({ children }) => {
           }),
         }
       );
+
 
       const token_data = await auth_token_response.json();
 
