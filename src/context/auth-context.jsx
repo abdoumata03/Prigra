@@ -114,6 +114,8 @@ export const AuthProvider = ({ children }) => {
       console.log(error);
       setisFetching(false);
     }
+
+    setisFetching(false);
   };
   //SignUp Function
   const signupUser = async (email, password, first_name, last_name, type) => {
@@ -136,7 +138,6 @@ export const AuthProvider = ({ children }) => {
           }),
         }
       );
-
 
       const token_data = await auth_token_response.json();
 
@@ -257,12 +258,18 @@ export const AuthProvider = ({ children }) => {
 
       if (registration_response.status === 204) {
         setIsEmailActivated(true);
+        setisFetching(false);
       } else if (registration_response.status === 403) {
         alert("Lien expiré!");
+        setisFetching(false);
+
       }
     } catch (error) {
       console.log(error);
+      setisFetching(false);
     }
+    setisFetching(false);
+
   };
 
   //forgot pass
