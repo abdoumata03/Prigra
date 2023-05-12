@@ -54,7 +54,7 @@ const FillInfos = () => {
     phone_number: yup.string().required("Ce champ est obligatoire"),
     //.matches(/^(05|06|07)\d{8}$/, "Numéro de téléphone invalid"),
     etablissment: yup.string().required("Ce champ est obligatoire"),
-    profile_picture: yup.mixed(),
+    profil_picture: yup.mixed(),
     // filière: yup.string().required('Ce champ est obligatoire'),
     // spécialité: yup.string().required('Ce champ est obligatoire'),
   });
@@ -416,9 +416,9 @@ const FillInfos = () => {
                 Changer photo
               </button>
               <input
-                {...register("profile_picture")}
+                {...register("profil_picture")}
                 type="file"
-                name="profile_picture"
+                name="profil_picture"
                 accept=".jpg, .jpeg, .png"
                 style={{ display: "none" }}
                 ref={hiddenFileInput}

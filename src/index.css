@@ -3,7 +3,18 @@
 @tailwind utilities;
 
 .bg-primary-gradient {
-    background: linear-gradient(223.49deg, rgba(67, 69, 253, 0.76) 1.04%, rgba(67, 69, 253, 0.87) 16.4%, #2628D8 74.85%);
-    border: 1px solid rgba(0, 0, 0, 0.3);
-  }
+  background: linear-gradient(
+    223.49deg,
+    rgba(67, 69, 253, 0.76) 1.04%,
+    rgba(67, 69, 253, 0.87) 16.4%,
+    #2628d8 74.85%
+  );
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
 
+input[type="file"]::-webkit-file-upload-button,
+input[type="file"]::file-selector-button {
+  @apply text-white bg-gray-700 hover:bg-gray-600 font-medium text-sm cursor-pointer border-0 py-2.5 pl-8 pr-4;
+  margin-inline-start: -1rem;
+  margin-inline-end: 1rem;
+}

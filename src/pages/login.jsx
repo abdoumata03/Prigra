@@ -4,7 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import AuthContext from "../context/auth-context";
 import LoadingSpinner from "../components/spinner.jsx";
-import { Link,Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 import {
   login,
@@ -18,8 +18,15 @@ import {
 } from "../assets";
 
 const shema = yup.object().shape({
-  email: yup.string().email().required(),
-  password: yup.string().min(8).max(100).required(),
+  email: yup
+    .string()
+    .email()
+    .required(),
+  password: yup
+    .string()
+    .min(8)
+    .max(100)
+    .required(),
 });
 
 const Login = () => {
@@ -50,7 +57,10 @@ const Login = () => {
           </p>
         </div>
         <div className="w-5/6 md:w-3/4 w-">
-          <form onSubmit={handleSubmit(submitForm)} className="flex flex-col w-full">
+          <form
+            onSubmit={handleSubmit(submitForm)}
+            className="flex flex-col w-full"
+          >
             <p className="font-bold text-[14px] mb-[6px] text-gray2">Email*</p>
             <input
               {...register("email")}
@@ -83,10 +93,10 @@ const Login = () => {
             <div className="flex justify-end mt-[10px]">
               <p className="text-primary text-[13px] md:text-[15px]">
                 <Link to="/forgot-password">Mot de passe oublié?</Link>
-                </p>
+              </p>
             </div>
 
-            <br />  
+            <br />
             <div className="flex flex-col items-center">
               <button
                 className={`w-full text-sm md:text-base h-[40px] md:h-[50px] bg-primary mt-[50px] mb-[8px] rounded-[5px] text-white font-semibold ${
@@ -99,7 +109,9 @@ const Login = () => {
             </div>
             <p className="text-xs md:text-[14px]">
               Vous n'avez pas encore un compte?{" "}
-              <Link className="text-primary font-semibold" to='/sign-up'>Isncrire</Link>
+              <Link className="text-primary font-semibold" to="/sign-up">
+                Isncrire
+              </Link>
             </p>
           </form>
         </div>

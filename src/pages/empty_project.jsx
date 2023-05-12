@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ReactComponent as AddProject } from "../assets/illustrations/add_project.svg";
+import ProjectContext from "../context/project-context";
 
-const Project = () => {
+const EmptyProject = () => {
+  const { createProject } = useContext(ProjectContext);
+
   return (
     <div className="flex flex-col items-center justify-center">
       <AddProject />
@@ -12,11 +15,11 @@ const Project = () => {
         Il semble que vous n'ayez pas encore ajouté de projets. <br /> Cliquez
         sur le bouton ci-dessous pour commencer à ajouter votre premier projet
       </p>
-      <button className="rounded-[5px] text-white font-semibold bg-primary h-12 px-8">
+      <button onClick={createProject} className="rounded-[5px] text-white font-semibold bg-primary h-12 px-8">
         Ajouter un projet
       </button>
     </div>
   );
 };
 
-export default Project;
+export default EmptyProject;

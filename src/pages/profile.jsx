@@ -4,51 +4,14 @@ import { ReactComponent as Save } from "../assets/icons/save.svg";
 import { ProfileInputField } from "../components/index.js";
 import AuthContext from "../context/auth-context";
 import BlueLoadingSpinner from "../components/spinner_blue";
+import ProfileContext from '../context/profile-context';
+
+
 
 const Profile = () => {
-  const [userData, setUserData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetch_user = async () => {
-      setIsLoading(true);
-      const response_me = await fetch(
-        "https://prigra.onrender.com/auth/users/me/",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `JWT ${
-              JSON.parse(localStorage.getItem("authTokens")).access
-            }`,
-          },
-        }
-      );
+  const {userData, isLoading} = useContext(ProfileContext);
 
-      const me_data = await response_me.json();
-      const user_type = me_data.type;
-      const user_id = me_data.type_id;
-
-      const fetch_user_type = await fetch(
-        `https://prigra.onrender.com/base/${user_type}/${user_id}/`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `JWT ${
-              JSON.parse(localStorage.getItem("authTokens")).access
-            }`,
-          },
-        }
-      );
-
-      const user_type_data = await fetch_user_type.json();
-
-      console.log(user_type_data);
-      setUserData(user_type_data);
-      setIsLoading(false);
-    };
-
-    fetch_user();
-  }, []);
 
   if (isLoading) {
     return (

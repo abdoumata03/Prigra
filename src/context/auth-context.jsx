@@ -160,7 +160,7 @@ export const AuthProvider = ({ children }) => {
     etablissment,
     filière,
     spécialité,
-    profile_picture
+    profil_picture
   ) => {
     setisFetching(true);
 
@@ -179,7 +179,7 @@ export const AuthProvider = ({ children }) => {
             etablissment,
             filière,
             spécialité,
-            profile_picture,
+            profil_picture,
           }),
         }
       );
@@ -203,7 +203,7 @@ export const AuthProvider = ({ children }) => {
     etablissment,
     grade,
     spécialité,
-    profile_picture
+    profil_picture
   ) => {
     setisFetching(true);
 
@@ -222,7 +222,7 @@ export const AuthProvider = ({ children }) => {
             etablissment,
             grade,
             spécialité,
-            profile_picture,
+            profil_picture,
           }),
         }
       );

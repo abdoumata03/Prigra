@@ -1,15 +1,14 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client' 
-import App from './App'
-import './index.css'
-import {BrowserRouter} from "react-router-dom"
-import { ChooseRole, Login } from './pages'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./index.css";
+import { BrowserRouter } from "react-router-dom";
+import { ChooseRole, Login } from "./pages";
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
-    <App />
+      <App />
     </BrowserRouter>
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);

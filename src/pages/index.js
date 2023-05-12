@@ -9,7 +9,7 @@ import VerifyEmail from "./verify-email";
 import FillInfo from "./fill-infos";
 import Dashboard from "./dashboard";
 import Profile from "./profile";
-import Project from "./project";
+import Project from "./empty_project";
 import Announcement from "./announcements";
 import Graduation from "./graduation";
 

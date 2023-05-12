@@ -6,34 +6,13 @@ import { LogoutData } from "../constants/sidebar-data";
 import { NavLink } from "react-router-dom";
 import AuthContext from "../context/auth-context";
 import BlueLoadingSpinner from "./spinner_blue";
+import ProfileContext from '../context/profile-context';
 
 const Sidebar = () => {
+
   const { logoutUser } = useContext(AuthContext);
-  const [userData, setUserData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      setIsLoading(true);
-      const response_me = await fetch(
-        "https://prigra.onrender.com/auth/users/me/",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `JWT ${
-              JSON.parse(localStorage.getItem("authTokens")).access
-            }`,
-          },
-        }
-      );
-
-      const me_data = await response_me.json();
-      setUserData(me_data);
-      setIsLoading(false);
-    };
-
-    fetchUser();
-  }, []);
+  const {userData, isLoading} = useContext(ProfileContext);
 
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
 
@@ -46,7 +25,7 @@ const Sidebar = () => {
   } else {
     return (
       <div className="flex flex-col justify-start items-center py-10 w-1/5 bg-white">
-        <img src={logo} alt="logo" className="mb-14 w-4/5" />
+        <img src={logo} alt="logo" className="mb-14 w-1/3" />
         <div className="flex flex-col items-center justify-center mb-5">
           <img
             src="https://i.ibb.co/T1r9Mzc/1679220246331.jpg"

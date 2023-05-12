@@ -63,7 +63,7 @@ const ChooseUser = () => {
   }
 
   return (
-    <div className="App font-eudox w-full md:h-screen flex flex-col justify-center items-center">
+    <div className="App font-eudox w-full md:h-screen flex flex-col justify-center items-center bg-gray-50">
       <h1 className="text-xl sm:text-3xl text-center font-bold mt-12 w-3/4 md:mt-12">
         {choose_roles_title}
       </h1>
