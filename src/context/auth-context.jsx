@@ -104,6 +104,8 @@ export const AuthProvider = ({ children }) => {
       setisFetching(false);
     }
   };
+
+  
   //SignUp Function
   const signupUser = async (email, password,first_name,
     last_name, type) => {
@@ -234,7 +236,7 @@ export const AuthProvider = ({ children }) => {
        const token_data = await auth_token_response.json();
       if (auth_token_response.ok) {
         setIsEmailActivated(true);
-        console.log('good request ');
+        console.log('good request');
         //navigate(`https://prigra.onrender.com/base/${type}/${id}/`);
         
       } else {
