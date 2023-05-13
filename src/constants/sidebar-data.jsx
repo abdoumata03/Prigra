@@ -33,14 +33,19 @@ export const TeacherSidebarData = [
     {
         title: "Mon Profile",
         icon: <Profile/>,
+        link: "/profile"
+
     }, 
     {
         title: "Mes Projet",
         icon: <Project/>,
+        link : '/comite-projects'
     },
     {
         title: "Annonces",
         icon: <Annonces/>,
+        link: "/annonces"
+
     }
 ];
 

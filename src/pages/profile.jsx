@@ -24,7 +24,7 @@ const Profile = () => {
     );
   } else {
     return (
-      <div className="ml-11 w-full flex flex-col">
+      <div className="ml-11 w-full flex flex-col justify-center">
         <div className="mt-10 lg:mt-0">
           <h1 className="text-xl font-bold text-gray1">Mon Profile</h1>
           <p className="text-sm font-normal text-gray3 mb-6">

@@ -6,6 +6,7 @@ const ProfileContext = createContext();
 export default ProfileContext;
 
 export const ProfileProvider = ({ children }) => {
+  const [userInitialData, setUserInitialData] = useState(null); 
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isProjectLoading, setIsProjectLoading] = useState(false);
@@ -28,7 +29,9 @@ export const ProfileProvider = ({ children }) => {
       }
     );
 
+
     const me_data = await response_me.json();
+    setUserInitialData(me_data); 
     const user_type = me_data.type;
     const user_id = me_data.type_id;
 
@@ -102,6 +105,7 @@ export const ProfileProvider = ({ children }) => {
     projectData,
     isProjectLoading,
     fetch_project,
+    userInitialData, 
   };
 
   return (

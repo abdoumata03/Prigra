@@ -8,7 +8,8 @@ export default ProjectContext;
 
 export const ProjectProvider = ({ children }) => {
   const { projectId, projectData } = useContext(ProfileContext);
-
+  const [projects, setProjects] = useState(null);
+  const [isProjectsLoading, setIsProjectsLoading] = useState(false);
   const [type, setType] = useState(projectData?.type);
 
   const createProject = async () => {
@@ -89,6 +90,27 @@ export const ProjectProvider = ({ children }) => {
     }
   };
 
+
+  const fetch_Projects = async () => {
+    setIsProjectsLoading(true);
+    const projectsResponse = await fetch(
+      "https://prigra.onrender.com/diplome/projects/", 
+      {
+        method: "GET", 
+        headers : {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem("authTokens")).access
+            }`,
+            
+        }
+      }
+    ); 
+
+    const projects_response_data = await projectsResponse.json();
+    setProjects(projects_response_data); 
+    setIsProjectsLoading(false);
+  }
+
   const contextData = {
     type,
     setType,
@@ -96,6 +118,9 @@ export const ProjectProvider = ({ children }) => {
     putProjectType,
     putProjectInfo,
     inviteProjectMember,
+    projects, 
+    fetch_Projects, 
+    isProjectsLoading, 
   };
 
   return (

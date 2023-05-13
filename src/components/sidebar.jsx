@@ -12,9 +12,13 @@ const Sidebar = () => {
 
   const { logoutUser } = useContext(AuthContext);
 
-  const {userData, isLoading} = useContext(ProfileContext);
+  const {userData, isLoading, userInitialData} = useContext(ProfileContext);
 
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
+
+  const isStudent = (userInitialData?.type == 'Student'); 
+
+  const SidebarData = isStudent ? StudentSidebarData: TeacherSidebarData; 
 
   if (isLoading) {
     return (
@@ -43,7 +47,7 @@ const Sidebar = () => {
         École Supérieure en Informatique 08-Mai-1945 Sidi Bel Abbès
       </p> */}
         <ul className="self-center flex-1 w-4/5">
-          {StudentSidebarData.map((val, index) => (
+          {SidebarData.map((val, index) => (
             <NavLink to={val.link} activeclassname="active">
               <button
                 key={index}

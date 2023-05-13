@@ -12,7 +12,8 @@ import Profile from "./profile";
 import Project from "./empty_project";
 import Announcement from "./announcements";
 import Graduation from "./graduation";
-
+import ComiteProjects from './comite-projects'
+import ProjectInfo from "./project-info";
 
 export {
     ChooseRole,
@@ -28,5 +29,7 @@ export {
     Profile,
     Project,
     Announcement,
-    Graduation
+    Graduation, 
+    ComiteProjects, 
+    ProjectInfo
 }

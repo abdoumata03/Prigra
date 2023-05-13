@@ -13,6 +13,8 @@ import {
   Project,
   Graduation,
   Announcement,
+  ComiteProjects, 
+  ProjectInfo
 } from "./pages/index.js";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import PrivateRoute from "./utils/private-route.jsx";
@@ -38,10 +40,7 @@ function App() {
             <Route element={<PublicRoute />}>
               <Route element={<Login />} path="/login" />
               <Route element={<ResetPassword />} path="/forgot-password" />
-              <Route
-                element={<SetPassword />}
-                path="/reset-password/:uid/:token"
-              />
+              <Route element={<SetPassword />} path="/reset-password/:uid/:token"/>
               <Route element={<SignUp />} path="/sign-up"></Route>
               <Route element={<ChooseUser />} path="/users"></Route>
               <Route element={<VerifyEmail />} path="/verify-email"></Route>
@@ -62,6 +61,10 @@ function App() {
                 <Route element={<Profile />} path="/profile" exact />
                 <Route element={<Graduation />} path="/soutenance" exact />
                 <Route element={<Announcement />} path="/annonces" exact />
+                <Route element={<ComiteProjects/>} path="/comite-projects"/>
+                <Route element={<ProjectInfo/>} path="/project-info"></Route>
+
+
               </Route>
             </Route>
           </Routes>
