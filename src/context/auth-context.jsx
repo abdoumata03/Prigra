@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.getItem("authTokens")
       ? JSON.parse(localStorage.getItem("authTokens"))
       : null
-  );  
+  );
 
   // User State
   const [user, setUser] = useState(() =>
@@ -39,7 +39,12 @@ export const AuthProvider = ({ children }) => {
   // If Email is Verified
   const [isEmailActivated, setIsEmailActivated] = useState(false);
 
+  const [isRegistrationSuccessful, setIsRegistrationSuccessful] = useState(
+    false
+  );
 
+  // User Profile Data
+  const [userData, setUserData] = useState(null);
 
   // RRv6 Navigator
   const navigate = useNavigate();
@@ -67,10 +72,6 @@ export const AuthProvider = ({ children }) => {
       const token_data = await auth_token_response.json();
 
       if (auth_token_response.status === 200) {
-        setAuthTokens(token_data);
-        setUser(jwt_decode(token_data.access));
-        localStorage.setItem("authTokens", JSON.stringify(token_data));
-
         const response_me = await fetch(
           "https://prigra.onrender.com/auth/users/me/",
           {
@@ -95,6 +96,16 @@ export const AuthProvider = ({ children }) => {
           }
         );
 
+        const user_type_data = await fetch_user_type.json();
+
+        setUserData(user_type_data);
+
+        console.log(user_type_data);
+
+        setAuthTokens(token_data);
+        setUser(jwt_decode(token_data.access));
+        localStorage.setItem("authTokens", JSON.stringify(token_data));
+
         // navigate("/roles");
       } else {
         alert("Informations érronés!");
@@ -103,15 +114,15 @@ export const AuthProvider = ({ children }) => {
       console.log(error);
       setisFetching(false);
     }
+
+    setisFetching(false);
   };
 
   
   //SignUp Function
-  const signupUser = async (email, password,first_name,
-    last_name, type) => {
-      
+  const signupUser = async (email, password, first_name, last_name, type) => {
     setisFetching(true);
-  
+
     try {
       const auth_token_response = await fetch(
         "https://prigra.onrender.com/auth/users/",
@@ -125,8 +136,7 @@ export const AuthProvider = ({ children }) => {
             password,
             first_name,
             last_name,
-            type, 
-           
+            type,
           }),
         }
       );
@@ -138,20 +148,26 @@ export const AuthProvider = ({ children }) => {
       } else {
         alert("could not sign up");
       }
-      
     } catch (error) {
       console.log(error);
       setisFetching(false);
     }
   };
 
-
-
-  const completeStudentRegistration = async (id, num_inscription, birth_date, phone_number, etablissement, filière, spécialité, profile_picture ) => {
-   setisFetching(true);
+  const completeStudentRegistration = async (
+    id,
+    num_inscription,
+    birth_date,
+    phone_number,
+    etablissment,
+    filière,
+    spécialité,
+    profil_picture
+  ) => {
+    setisFetching(true);
 
     try {
-    const registratino_response = await fetch(
+      const registration_response = await fetch(
         `https://prigra.onrender.com/base/Student/${id}/`,
         {
           method: "PUT",
@@ -162,90 +178,102 @@ export const AuthProvider = ({ children }) => {
             num_inscription,
             birth_date,
             phone_number,
-            etablissement,
+            etablissment,
             filière,
             spécialité,
-            profile_picture
+            profil_picture,
           }),
-          
         }
       );
-      const token_data = await auth_token_response.json();
 
-      if (auth_token_response.ok) {
-        navigate("/login");
-      
+      if (registration_response.ok) {
+        navigate("/registration-success");
       }
-    } catch(error) {
-        console.log(error)  }
+    } catch (error) {
+      console.log(error);
+      setisFetching(false);
+    }
 
-  }
+    setisFetching(false);
+  };
 
-
-  const completeTeacherRegistration = async (id, matricule, birth_date, phone_number, etablissement, grade, spécialité, profile_picture ) => {
-
+  const completeTeacherRegistration = async (
+    id,
+    matricule,
+    birth_date,
+    phone_number,
+    etablissment,
+    grade,
+    spécialité,
+    profil_picture
+  ) => {
     setisFetching(true);
- 
-     try {
-     const registratino_response = await fetch(
-         `https://prigra.onrender.com/base/Teacher/${id}/`,
-         {
-           method: "PUT",
-           headers: {
-             "Content-Type": "application/json",
-           },
-           body: JSON.stringify({
-             matricule,
-             birth_date,
-             phone_number,
-             etablissement,
-             grade,
-             spécialité,
-             profile_picture
-           }),
-         }
-       );
-       const token_data = await auth_token_response.json();
-      if (auth_token_response.ok) {
-        navigate("/login");     
+
+    try {
+      const registration_response = await fetch(
+        `https://prigra.onrender.com/base/Teacher/${id}/`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            matricule,
+            birth_date,
+            phone_number,
+            etablissment,
+            grade,
+            spécialité,
+            profil_picture,
+          }),
+        }
+      );
+
+      if (registration_response.ok) {
+        navigate("/registration-success");
       }
-     } catch(error) {
-         console.log(error)  }
- 
-   }
+    } catch (error) {
+      console.log(error);
+      setisFetching(false);
+    }
+    setisFetching(false);
+  };
 
-  //activate email 
-  const activateEmail = async (uid, token, type, id) => {
-
+  //activate email
+  const activateEmail = async (uid, token) => {
     setisFetching(true);
- 
-     try {
-     const registratino_response = await fetch(
-         "https://prigra.onrender.com/auth/users/activation/",
-         {
-           method: "POST",
-           headers: {
-             "Content-Type": "application/json",
-           },
-           body: JSON.stringify({
-             uid, 
-             token
-           }),
-         }
-       );
-       const token_data = await auth_token_response.json();
-      if (auth_token_response.ok) {
+
+    try {
+      const registration_response = await fetch(
+        "https://prigra.onrender.com/auth/users/activation/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            uid,
+            token,
+          }),
+        }
+      );
+
+      if (registration_response.status === 204) {
         setIsEmailActivated(true);
-        console.log('good request');
-        //navigate(`https://prigra.onrender.com/base/${type}/${id}/`);
-        
-      } else {
-        alert("could not activate email");
+        setisFetching(false);
+      } else if (registration_response.status === 403) {
+        alert("Lien expiré!");
+        setisFetching(false);
+
       }
-     } catch(error) {
-         console.log(error)  }
- 
-   }
+    } catch (error) {
+      console.log(error);
+      setisFetching(false);
+    }
+    setisFetching(false);
+
+  };
+
   //forgot pass
   const forgotPassword = async (email) => {
     setisFetching(true);
@@ -287,14 +315,14 @@ export const AuthProvider = ({ children }) => {
             new_password,
           }),
           headers: {
-            'content-type': 'application/json',
+            "content-type": "application/json",
           },
         }
       );
 
-      if(reset_pass_resp.status === 204) {
+      if (reset_pass_resp.status === 204) {
         setIsResetSuccess(true);
-      } 
+      }
     } catch (error) {
       console.log(error);
       setisFetching(false);
@@ -318,15 +346,17 @@ export const AuthProvider = ({ children }) => {
     resetPassword,
     isResetSuccess,
     isFetching,
-    completeStudentRegistration, 
-    completeTeacherRegistration, 
+    userData,
+    completeStudentRegistration,
+    completeTeacherRegistration,
     forgotPassword,
     setAuthTokens,
     loginUser,
     logoutUser,
     signupUser,
     isEmailActivated,
-    activateEmail, 
+    isRegistrationSuccessful,
+    activateEmail,
   };
 
   useEffect(() => {

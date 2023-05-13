@@ -6,4 +6,8 @@ import svgr from "vite-plugin-svgr";
 export default defineConfig({
   base: "/",
   plugins: [svgr(), react()],
+  optimizeDeps: {
+    include: ['react-hook-form'],
+  },
+  
 });
