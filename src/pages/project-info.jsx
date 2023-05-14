@@ -33,7 +33,7 @@ const ProjectInfo = () => {
                 <ProjectInfoField title='Status de projet' content={projectData.status_reponse}/>        
                 </div>                  
             </div>
-            <div className=' lg:w-2/5 w-full flex flex-col h-[700px] mb-10' >
+            <div className=' lg:w-2/5 w-full flex flex-col mb-10' >
                 <div className='flex xl:flex-row flex-col gap-3 '>
                     <div className='xl:w-1/2 w-full flex flex-row px-5 py-3 bg-white mb-3 rounded-[5px] border'>
                         <img src={Calendar} alt="calendar" />
@@ -50,7 +50,7 @@ const ProjectInfo = () => {
                         </div>
                     </div>
                 </div> 
-                <div className='lg:overflow-auto lg:h-100 h-auto'>
+                <div className='lg:overflow-auto lg:h-100 h-auto '>
                     <div className="bg-white rounded-[5px] shadow-custom flex flex-col justify-center py-3 px-5 border mb-3 ">
                         <p className="text-[13px] font-medium text-gray3 mb-2 ">
                             Porteur de projet
@@ -93,7 +93,7 @@ const ProjectInfo = () => {
                 
             </div>
         </div>
-        {/* actions */}
+          {/* actions */}
         <div className='flex flex-row justify-between'>
             <div 
             className='flex flex-row px-5 py-3 bg-info text-white rounded-[5px] cursor-pointer'
@@ -107,7 +107,7 @@ const ProjectInfo = () => {
                 <img src={Delete} alt="delete" />
                 <h1 className='ml-2 text-error'>Retirer</h1>
             </div>
-    </div>        
+        </div>        
     </div>  
   )
 }
