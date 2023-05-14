@@ -28,6 +28,7 @@ import { ProjectProvider } from "./context/project-context.jsx";
 
 // Wrap pages not requiring authenticatino in <PrivateLogin/>
 // Wrap pages requiring authentication in <PrivateRoute/>
+//hey
 
 function App() {
   return (
