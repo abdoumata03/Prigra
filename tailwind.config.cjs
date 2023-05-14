@@ -11,6 +11,7 @@ module.exports = {
       primary : "#4345FD",
       primary_focused: "#2224D9",
       accent : "#F3F4FD",
+      info : "#2F80ED", 
       success: "#27AE60",
       waring: "#E2B93B",
       error: "#EB5757",

@@ -8,6 +8,10 @@ import Features from "./features";
 import ResetPasswordConfirmation from "./reset-password-confirm";
 import LoginButton from "./login-button";
 import ProfileInputField from "./profile-input-field";
+import ProjectInfoField from "./project-info-field";
+import PersonField from "./person-filed";
+
+
 
 
 
@@ -21,6 +25,8 @@ export {
     Features,
     ResetPasswordConfirmation,
     LoginButton,
-    ProfileInputField
+    ProfileInputField,
+    ProjectInfoField, 
+    PersonField
 
 }

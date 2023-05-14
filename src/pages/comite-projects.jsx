@@ -42,17 +42,17 @@ const ComiteProjects = () => {
   return (
     <div className='w-5/6 flex flex-col mt-20'>
         <div className='flex flex-row justify-between mb-10'>
-            <div className='w-1/2 py-3 sm:px-5 px-[1px] rounded-md border border-gray6 bg-white '> 
+            <div className='w-1/2 py-3 sm:px-5 px-[1px] rounded-md border border-gray6  bg-white '> 
                 <input 
                 type="text" 
                 placeholder="Rechercher un projet" 
-                className="sm:text-[16px]" 
+                className="text-[15px] outline-none" 
                 onChange={event => setSearchProject(event.target.value)} />   
 
             </div>
             <div> 
                 <select 
-                className="px-5 py-3 rounded-md text-gray1 font-medium border border-gray6" 
+                className="px-5 py-3 rounded-md text-gray2 font-medium border border-gray6 outline-none text-[15px]" 
                 value={selectedStatus} 
                 onChange={(e) => setSelectedStatus(e.target.value)}>
                     <option value="all">Statuts</option>
@@ -62,7 +62,7 @@ const ComiteProjects = () => {
                 </select>
             </div>
         </div>
-        <div className="overflow-x-auto overflow-y-auto">
+        <div className="overflow-x-auto">
         <table className="w-full text-sm text-left text-gray1">
             <thead className=" bg-accent font-bold">
             <tr>
