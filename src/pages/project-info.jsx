@@ -62,7 +62,11 @@ const ProjectInfo = () => {
                         <p className="text-[13px] font-medium text-gray3 mb-2 ">
                             Encadrant
                         </p>
-                        <PersonField name='Belbachir Chaimaa' email='c.belbachir@esi-sba.dz'/>
+                        <div >
+                        {projectData.encadrant?.map((Enc, index) => (
+                            <PersonField name=' Belbachir Chaimaa' email={Enc}/>
+                        ))}
+                        </div>
                         
                     </div>
                     <div className="bg-white rounded-[5px] shadow-custom flex flex-col justify-center py-3 px-5 border mb-3">
