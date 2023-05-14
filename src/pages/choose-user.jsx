@@ -15,7 +15,7 @@ const ChooseUser = () => {
   const [etu, setEtu] = useState(false);
   const [ens, setEns] = useState(false);
   const initialData = location.state;
-  console.log(initialData.email);
+
 
   const {
     choose_roles_title,
@@ -27,13 +27,12 @@ const ChooseUser = () => {
   const handleEtuClick = () => {
     setEtu(prevEtu => !prevEtu);
     if (setEns) setEns(false);
-    console.log(etu);
   }
 
   const handleEnsClick = () => {
     setEns(preEns => !preEns);
     if (setEtu) setEtu(false);
-    console.log(ens);
+
   }
 
   const handleClick = () => {

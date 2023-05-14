@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import ProjectInputField from "./input_field";
 import FileInput from "./file_input";
 import { useForm, FormProvider } from "react-hook-form";
@@ -8,8 +8,10 @@ import ProjectContext from "../context/project-context";
 import ProfileContext from "../context/profile-context";
 
 const ProjectInfo = ({ innerRef }) => {
-  const { putProjectInfo } = useContext(ProjectContext);
-  const { projectData } = useContext(ProfileContext);
+  const { putProjectInfo, setIsPuttingInfo, setActiveStep } = useContext(
+    ProjectContext
+  );
+  const { projectData, fetch_project } = useContext(ProfileContext);
 
   const methods = useForm();
 
@@ -17,16 +19,32 @@ const ProjectInfo = ({ innerRef }) => {
     register,
     reset,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = methods;
 
-  const onSubmit = (data) => {
-    console.log(data);
-    putProjectInfo(
-      data.nom_scientifique,
-      data.nom_commercial,
-      data.description
-    );
+  let initialFormValues;
+
+  useEffect(() => {
+    initialFormValues = JSON.stringify(getValues());
+  }, []);
+
+  const onSubmit = async (data) => {
+    const formValues = JSON.stringify(getValues());
+
+    if (formValues !== initialFormValues) {
+      setIsPuttingInfo(true);
+      await putProjectInfo(
+        data.nom_scientifique,
+        data.nom_commercial,
+        data.description
+      );
+      await fetch_project();
+      setIsPuttingInfo(false);
+      setActiveStep((prev) => prev + 1);
+    } else {
+      setActiveStep((prev) => prev + 1);
+    }
   };
 
   return (

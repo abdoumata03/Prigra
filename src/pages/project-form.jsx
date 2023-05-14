@@ -19,39 +19,55 @@ const ProjectForm = () => {
     "Validation",
   ];
 
-  const [activeStep, setActiveStep] = useState(0);
+  // const [activeStep, setActiveStep] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
 
-  const { putProjectType, type } = useContext(ProjectContext);
+  const {
+    putProjectType,
+    isPuttingInfo,
+    activeStep,
+    setActiveStep,
+  } = useContext(ProjectContext);
   const {
     isLoading,
     hasProject,
     projectData,
     fetch_project,
     isProjectLoading,
+    type,
   } = useContext(ProfileContext);
 
   const infoFormRef = useRef();
+  const encFormRef = useRef();
 
   const handleNext = async () => {
-    if (activeStep === 1) {
-      infoFormRef.current?.click();
-    }
-
-    console.log(type);
-    console.log(projectData?.type);
-
     if (activeStep === 0 && type !== projectData?.type) {
       putProjectType();
       await fetch_project();
     }
 
-    if (activeStep === steps.length - 1) {
-      setIsComplete(true);
-    } else {
+    if (activeStep === 0 || activeStep === 2) {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
+
+    if (activeStep === 1) {
+      infoFormRef.current?.click();
+    }
+
+    if (activeStep === 2) {
+      encFormRef.current?.click();
+    }
+
+    if (activeStep === steps.length - 1) {
+      setIsComplete(true);
+    }
   };
+
+  useEffect(() => {
+    activeStep === steps.length - 1
+      ? setIsComplete(true)
+      : setIsComplete(false);
+  }, [activeStep]);
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -68,7 +84,7 @@ const ProjectForm = () => {
       case 1:
         return <ProjectInfo innerRef={infoFormRef} />;
       case 2:
-        return <ProjectThirdStep />;
+        return <ProjectThirdStep innerRef={encFormRef} />;
       case 3:
         return <ProjectLastStep />;
     }
@@ -88,7 +104,7 @@ const ProjectForm = () => {
       <EmptyProject />
     ) : (
       <div className="w-[90%] h-full pt-16 pb-14 flex flex-col">
-        <div className="flex justify-between mb-10">
+        <div className="flex gap-7 mb-10">
           {steps.map((label, index) => {
             return (
               <div key={label} className="flex items-center">
@@ -96,8 +112,8 @@ const ProjectForm = () => {
                   className={`
                 ${activeStep === index ? `bg-primary` : `bg-gray-300`} 
                 ${index < activeStep ? `bg-success leading-1` : `bg-gray `}
-                rounded-full w-8 h-8 text-center  text-white mr-3
-                flex justify-center items-center `}
+                rounded-full w-6 h-6 text-center  text-white mr-3
+                flex justify-center items-center text-xs font-medium `}
                 >
                   {index < activeStep ? <Check /> : index + 1}
                 </div>
@@ -133,10 +149,18 @@ const ProjectForm = () => {
           <button
             onClick={handleNext}
             className={`text-sm md:text-base h-[40px] px-8 md:h-[50px] ${
-              isProjectLoading ? "bg-opacity-75" : "bg-opacity-100"
+              isProjectLoading || isPuttingInfo
+                ? "bg-opacity-75"
+                : "bg-opacity-100"
             } bg-primary rounded-[5px] text-white font-semibold`}
           >
-            {isProjectLoading ? <LoadingSpinner /> : "Continuer"}
+            {isProjectLoading || isPuttingInfo ? (
+              <LoadingSpinner />
+            ) : isComplete ? (
+              "Confirmer"
+            ) : (
+              "Continuer"
+            )}
           </button>
         </div>
       </div>

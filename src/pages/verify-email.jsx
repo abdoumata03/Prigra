@@ -8,7 +8,6 @@ const VerifyEmail = () => {
 
   const handleClick = () => {
     navigate("/fill-infos", { state: { data: etu } });
-    console.log(etu);
   };
 
   return (

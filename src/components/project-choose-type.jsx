@@ -1,14 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
-import RoleCard from "./role-card";
+import React, { useContext, useState } from "react";
 import { ReactComponent as Startup } from "../assets/illustrations/startup.svg";
 import { ReactComponent as Brevet } from "../assets/illustrations/brevet.svg";
 import TypeCard from "./project-type-card";
-import ProjectContext from "../context/project-context";
 import ProfileContext from "../context/profile-context";
 
 const ChooseType = () => {
-  const { setType } = useContext(ProjectContext);
-  const { projectData } = useContext(ProfileContext);
+
+  const { projectData, setType } = useContext(ProfileContext);
   const [startup, setStartup] = useState(projectData?.type === "Startup");
   const [brevet, setBrevet] = useState(projectData?.type === "Brevet");
 

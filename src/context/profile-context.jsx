@@ -1,5 +1,4 @@
-import { StackedHeaderDirective } from "@syncfusion/ej2-react-kanban";
-import { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useState } from "react";
 
 const ProfileContext = createContext();
 
@@ -10,8 +9,10 @@ export const ProfileProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isProjectLoading, setIsProjectLoading] = useState(false);
+  const [isInvitationLoading, setIsInvitationLoading] = useState(false);
   const [hasProject, setHasProject] = useState(false);
   const [projectId, setProjectId] = useState(null);
+  const [type, setType] = useState(null);
   const [projectData, setProjectData] = useState(null);
 
   const fetch_user = async () => {
@@ -68,15 +69,22 @@ export const ProfileProvider = ({ children }) => {
       );
 
       const project_response_data = await project_response.json();
+
+
+
+      console.log(project_response_data.co_encadrant);
+
       setProjectData(project_response_data);
+
+      setType((_) => project_response_data.type);
+
     }
 
     setIsLoading(false);
   };
 
-  const fetch_project = async () => {
-
-    setIsProjectLoading(true);
+  const fetch_project = async ({ isInvitation = false } = {}) => {
+    isInvitation ? setIsInvitationLoading(true) : setIsProjectLoading(true);
 
     const project_response = await fetch(
       `https://prigra.onrender.com/diplome/projects/${projectId}/`,
@@ -93,7 +101,7 @@ export const ProfileProvider = ({ children }) => {
     const project_response_data = await project_response.json();
     setProjectData(project_response_data);
 
-    setIsProjectLoading(false);
+    isInvitation ? setIsInvitationLoading(false) : setIsProjectLoading(false);
   };
 
   const contextData = {
@@ -102,10 +110,16 @@ export const ProfileProvider = ({ children }) => {
     userData,
     projectId,
     isLoading,
+    isInvitationLoading,
     projectData,
     isProjectLoading,
     fetch_project,
+<<<<<<< HEAD
     userInitialData, 
+=======
+    type,
+    setType
+>>>>>>> d898dc0 (Soumission de projet (80%))
   };
 
   return (

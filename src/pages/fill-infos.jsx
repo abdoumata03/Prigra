@@ -228,7 +228,7 @@ const FillInfos = () => {
         // download url
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           setImageUrl(url);
-          console.log(url);
+
         });
       }
     );

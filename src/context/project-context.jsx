@@ -1,16 +1,23 @@
-import { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useState, useContext } from "react";
 import ProfileContext from "./profile-context";
-import { toast } from "react-toastify";
 
 const ProjectContext = createContext();
 
 export default ProjectContext;
 
 export const ProjectProvider = ({ children }) => {
-  const { projectId, projectData } = useContext(ProfileContext);
   const [projects, setProjects] = useState(null);
   const [isProjectsLoading, setIsProjectsLoading] = useState(false);
   const [type, setType] = useState(projectData?.type);
+  const { projectId, projectData} = useContext(ProfileContext);
+
+  const [invitationsList, setInvitationsList] = useState([]);
+
+  const [isPuttingInfo, setIsPuttingInfo] = useState(false);
+
+  const [activeStep, setActiveStep] = useState(0);
+
+  const [isInvitationLoading, setIsInvitationLoading] = useState(false);
 
   const createProject = async () => {
     const project_response = await fetch(
@@ -64,6 +71,8 @@ export const ProjectProvider = ({ children }) => {
   };
 
   const inviteProjectMember = async (email) => {
+    setIsInvitationLoading(true);
+
     const invitationResponse = await fetch(
       `https://prigra.onrender.com/diplome/invitation/`,
       {
@@ -83,10 +92,16 @@ export const ProjectProvider = ({ children }) => {
 
     const response = await invitationResponse.json();
 
-    if (response["error"].includes("not a student")) {
+    setIsInvitationLoading(false);
+
+    if (JSON.stringify(response).includes("not a student")) {
       throw new Error("NOT A STUDENT");
-    } else if (response["error"].includes("already member")) {
+    } else if (JSON.stringify(response).includes("already member")) {
       throw new Error("ALREADY");
+    } else if (JSON.stringify(response).includes("objet invitation")) {
+      throw new Error("INVITED");
+    } else if (JSON.stringify(response).includes("project_id")) {
+      throw new Error("SUCCESS");
     }
   };
 
@@ -110,17 +125,97 @@ export const ProjectProvider = ({ children }) => {
     setProjects(projects_response_data); 
     setIsProjectsLoading(false);
   }
+  const getInvitationList = async () => {
+    const invitationResponse = await fetch(
+      `https://prigra.onrender.com/diplome/invitation/`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem("authTokens")).access
+          }`,
+          "content-type": "application/json",
+        },
+      }
+    );
+
+    const inv_list = await invitationResponse.json();
+    setInvitationsList(inv_list);
+  };
+
+  const putEnc = async (encadrant) => {
+    setIsInvitationLoading(true);
+
+    const put_enc_resposne = await fetch(
+      `https://prigra.onrender.com/diplome/projects/${projectId}/`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem("authTokens")).access
+          }`,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          encadrant,
+        }),
+      }
+    );
+
+    setIsInvitationLoading(false);
+
+    if (!put_enc_resposne.ok) {
+      throw new Error("Erreur lors l'envoi d'invitation");
+    }
+
+    return put_enc_resposne.status;
+  };
+
+  const putCoEnc = async (co_encadrant) => {
+    setIsInvitationLoading(true);
+
+    const put_enc_resposne = await fetch(
+      `https://prigra.onrender.com/diplome/projects/${projectId}/`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem("authTokens")).access
+          }`,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          co_encadrant,
+        }),
+      }
+    );
+
+    setIsInvitationLoading(true);
+
+    if (!put_enc_resposne.ok) {
+      throw new Error("Erreur lors l'envoi d'invitation");
+    }
+
+    return put_enc_resposne.status;
+  };
 
   const contextData = {
-    type,
-    setType,
     createProject,
+    isInvitationLoading,
     putProjectType,
+    setIsPuttingInfo,
     putProjectInfo,
     inviteProjectMember,
     projects, 
     fetch_Projects, 
     isProjectsLoading, 
+    invitationsList,
+    getInvitationList,
+    activeStep,
+    setActiveStep,
+    putEnc,
+    putCoEnc,
+    isPuttingInfo,
   };
 
   return (

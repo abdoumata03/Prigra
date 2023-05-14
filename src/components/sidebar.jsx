@@ -1,20 +1,23 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { logo } from "../assets";
 import { StudentSidebarData } from "../constants/sidebar-data";
 import { TeacherSidebarData } from "../constants/sidebar-data";
 import { LogoutData } from "../constants/sidebar-data";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import AuthContext from "../context/auth-context";
 import BlueLoadingSpinner from "./spinner_blue";
-import ProfileContext from '../context/profile-context';
+import ProfileContext from "../context/profile-context";
 
 const Sidebar = () => {
-
   const { logoutUser } = useContext(AuthContext);
 
   const {userData, isLoading, userInitialData} = useContext(ProfileContext);
+  
+  const location = useLocation();
 
-  const [selectedItemIndex, setSelectedItemIndex] = useState(0);
+  const [selectedItemIndex, setSelectedItemIndex] = useState(
+    StudentSidebarData.findIndex((item) => item.link == location.pathname)
+  );
 
   const isStudent = (userInitialData?.type == 'Student'); 
 
@@ -48,7 +51,7 @@ const Sidebar = () => {
       </p> */}
         <ul className="self-center flex-1 w-4/5">
           {SidebarData.map((val, index) => (
-            <NavLink to={val.link} activeclassname="active">
+            <NavLink to={val.link} key={index} activeclassname="active">
               <button
                 key={index}
                 className={`${

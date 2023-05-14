@@ -4,9 +4,12 @@ import { customStyles } from "./select-style";
 import { FiAtSign, FiMail, FiXCircle } from "react-icons/fi";
 import { IconContext } from "react-icons";
 import { ReactComponent as Delete } from "../assets/icons/delete.svg";
+import { useFormContext, Controller } from "react-hook-form";
 
 const InviteEncadrant = ({
   field_name,
+  mail_name,
+  type_name,
   value,
   hint,
   optional = true,
@@ -16,6 +19,8 @@ const InviteEncadrant = ({
     { label: "Encadrant", value: "Encadrant" },
     { label: "Co-encadrant", value: "Co-encadrant" },
   ];
+
+  const { register, control } = useFormContext();
 
   return (
     <div className="flex gap-3 mb-2 items-center">
@@ -28,7 +33,9 @@ const InviteEncadrant = ({
           </IconContext.Provider>
         </div>
         <input
+          {...register(mail_name)}
           value={value}
+          name={mail_name}
           placeholder={hint}
           className={`shadow-custom border-[1px] rounded-[5px] w-full text-[12px] md:text-sm pl-10 h-[30px]  ${
             field_name === "Description"
@@ -37,11 +44,21 @@ const InviteEncadrant = ({
           } font-medium disabled:bg-white disabled:text-gray1 text-gray3`}
         />
       </div>
-      <Select
-        styles={customStyles}
-        options={selectOptions}
-        placeholder={"Type"}
-        className="text-sm w-32 bg-accent"
+
+      <Controller
+        name={type_name}
+        control={control}
+        render={({ field: {onChange} }) => (
+          <Select
+            styles={customStyles}
+            options={selectOptions}
+            placeholder={"Type"}
+            onChange={(val) => {
+              onChange(val.value);
+            }}
+            className="text-sm w-32 bg-accent"
+          />
+        )}
       />
 
       {optional ? (
