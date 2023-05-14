@@ -16,7 +16,7 @@ const ProjectForm = () => {
     "Type de projet",
     "Information de projet",
     "Membres de l'équipe",
-    "Validation",
+    "Confirmation",
   ];
 
   // const [activeStep, setActiveStep] = useState(0);
@@ -30,7 +30,6 @@ const ProjectForm = () => {
   } = useContext(ProjectContext);
   const {
     isLoading,
-    hasProject,
     projectData,
     fetch_project,
     isProjectLoading,
@@ -90,20 +89,9 @@ const ProjectForm = () => {
     }
   };
 
-  if (isLoading) {
+  
     return (
-      <div className="flex flex-row gap-3 justify-center items-center">
-        <BlueLoadingSpinner />
-        <p className="text-md text-gray3">
-          Nous préparons vos données, merci de patienter...
-        </p>
-      </div>
-    );
-  } else {
-    return !hasProject ? (
-      <EmptyProject />
-    ) : (
-      <div className="w-[90%] h-full pt-16 pb-14 flex flex-col">
+      <div className="w-[90%] h-full pb-14 flex flex-col">
         <div className="flex gap-7 mb-10">
           {steps.map((label, index) => {
             return (
@@ -165,7 +153,6 @@ const ProjectForm = () => {
         </div>
       </div>
     );
-  }
 };
 
 export default ProjectForm;

@@ -16,7 +16,7 @@ const Sidebar = () => {
   const location = useLocation();
 
   const [selectedItemIndex, setSelectedItemIndex] = useState(
-    StudentSidebarData.findIndex((item) => item.link == location.pathname)
+    StudentSidebarData.findIndex((item) => location.pathname.includes(item.link))
   );
 
   const isStudent = (userInitialData?.type == 'Student'); 
@@ -31,7 +31,7 @@ const Sidebar = () => {
     );
   } else {
     return (
-      <div className="flex flex-col justify-start items-center py-10 w-1/5 bg-white">
+      <div className="flex flex-col justify-start items-center py-10 w-1/5 bg-white shadow-custom">
         <img src={logo} alt="logo" className="mb-14 w-1/3" />
         <div className="flex flex-col items-center justify-center mb-5">
           <img

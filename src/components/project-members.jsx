@@ -26,6 +26,10 @@ const ProjectThirdStep = ({ innerRef }) => {
   const enc_list = projectData?.encadrant;
   const co_enc_list = projectData?.co_encadrant;
 
+
+  console.log(enc_list);
+  console.log(co_enc_list);
+
   const [encList, setEncList] = useState(enc_list);
   const [coEncList, setCoEncList] = useState(co_enc_list);
 

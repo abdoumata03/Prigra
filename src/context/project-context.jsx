@@ -8,8 +8,8 @@ export default ProjectContext;
 export const ProjectProvider = ({ children }) => {
   const [projects, setProjects] = useState(null);
   const [isProjectsLoading, setIsProjectsLoading] = useState(false);
-  const { projectId, projectData } = useContext(ProfileContext);
-  const [type, setType] = useState(projectData?.type);
+  const { projectId, setHasProject, type } = useContext(ProfileContext);
+  // const [type, setType] = useState(projectData?.type);
 
   const [invitationsList, setInvitationsList] = useState([]);
 
@@ -32,6 +32,8 @@ export const ProjectProvider = ({ children }) => {
         },
       }
     );
+
+    setHasProject(true);
   };
 
   const putProjectType = async () => {

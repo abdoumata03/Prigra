@@ -116,7 +116,8 @@ export const ProfileProvider = ({ children }) => {
     fetch_project,
     userInitialData, 
     type,
-    setType
+    setType,
+    setHasProject,
   };
 
   return (

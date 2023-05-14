@@ -7,6 +7,7 @@ import ProfileContext from "../context/profile-context";
 const ChooseType = () => {
 
   const { projectData, setType } = useContext(ProfileContext);
+  
   const [startup, setStartup] = useState(projectData?.type === "Startup");
   const [brevet, setBrevet] = useState(projectData?.type === "Brevet");
 
