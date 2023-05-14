@@ -8,8 +8,8 @@ export default ProjectContext;
 export const ProjectProvider = ({ children }) => {
   const [projects, setProjects] = useState(null);
   const [isProjectsLoading, setIsProjectsLoading] = useState(false);
+  const { projectId, projectData } = useContext(ProfileContext);
   const [type, setType] = useState(projectData?.type);
-  const { projectId, projectData} = useContext(ProfileContext);
 
   const [invitationsList, setInvitationsList] = useState([]);
 
@@ -105,26 +105,24 @@ export const ProjectProvider = ({ children }) => {
     }
   };
 
-
   const fetch_Projects = async () => {
     setIsProjectsLoading(true);
     const projectsResponse = await fetch(
-      "https://prigra.onrender.com/diplome/projects/", 
+      "https://prigra.onrender.com/diplome/projects/",
       {
-        method: "GET", 
-        headers : {
+        method: "GET",
+        headers: {
           Authorization: `JWT ${
             JSON.parse(localStorage.getItem("authTokens")).access
-            }`,
-            
-        }
+          }`,
+        },
       }
-    ); 
+    );
 
     const projects_response_data = await projectsResponse.json();
-    setProjects(projects_response_data); 
+    setProjects(projects_response_data);
     setIsProjectsLoading(false);
-  }
+  };
   const getInvitationList = async () => {
     const invitationResponse = await fetch(
       `https://prigra.onrender.com/diplome/invitation/`,
@@ -206,9 +204,9 @@ export const ProjectProvider = ({ children }) => {
     setIsPuttingInfo,
     putProjectInfo,
     inviteProjectMember,
-    projects, 
-    fetch_Projects, 
-    isProjectsLoading, 
+    projects,
+    fetch_Projects,
+    isProjectsLoading,
     invitationsList,
     getInvitationList,
     activeStep,

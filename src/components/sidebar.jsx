@@ -12,7 +12,7 @@ const Sidebar = () => {
   const { logoutUser } = useContext(AuthContext);
 
   const {userData, isLoading, userInitialData} = useContext(ProfileContext);
-  
+
   const location = useLocation();
 
   const [selectedItemIndex, setSelectedItemIndex] = useState(

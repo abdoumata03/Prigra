@@ -114,12 +114,9 @@ export const ProfileProvider = ({ children }) => {
     projectData,
     isProjectLoading,
     fetch_project,
-<<<<<<< HEAD
     userInitialData, 
-=======
     type,
     setType
->>>>>>> d898dc0 (Soumission de projet (80%))
   };
 
   return (

@@ -4,9 +4,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import ProfileContext from "../context/profile-context";
 import ProjectInputField from "./input_field";
-import { FiUserPlus, FiSend, FiMail, FiCheck } from "react-icons/fi";
+import { FiSend, FiMail, FiCheck } from "react-icons/fi";
 import InviteEncadrant from "./encadrant_invitation";
-import { v4 as uuid } from "uuid";
 import InvitedMember from "./invited-member";
 import ProjectContext from "../context/project-context";
 import { Toaster, toast } from "react-hot-toast";
@@ -31,7 +30,9 @@ const ProjectThirdStep = ({ innerRef }) => {
   const [coEncList, setCoEncList] = useState(co_enc_list);
 
   const added_members = projectData?.members.map((item) => item.email);
-  const invited_members = invitationsList?.map((item) => (item.project_id === projectData.project_id && item.type === "Student") && item.email);
+  const invited_members = invitationsList?.filter((item) => {
+    item.project_id === projectData.id && item.type === "Student";
+  }).map((item) => item.email);
 
   const [invitedMembers, setInvitedMembers] = useState(invited_members);
 
@@ -79,11 +80,17 @@ const ProjectThirdStep = ({ innerRef }) => {
   }, [projectData]);
 
   useEffect(() => {
-    setInvitedMembers(invitationsList?.map((item) => item.email));
+    console.log(projectData);
+    setInvitedMembers(
+      invitationsList?.filter(
+        (item) => item.project_id === projectData.id && item.type === "Student"
+      ).map((item) => item.email)
+    );
   }, [invitationsList]);
 
   useEffect(() => {
     getInvitationList();
+    console.log(invited_members);
   }, []);
 
   const addMember = async (data) => {
