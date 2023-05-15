@@ -13,6 +13,7 @@
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@fluentui/react": "^8.108.3",
+    "@heroicons/react": "^1.0.6",
     "@hookform/resolvers": "^3.0.0",
     "@syncfusion/ej2-base": "^21.2.3",
     "@syncfusion/ej2-react-kanban": "^21.2.3",

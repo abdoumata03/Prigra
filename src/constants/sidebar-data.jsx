@@ -3,6 +3,7 @@ import { ReactComponent as Project } from "../assets/icons/project.svg";
 import { ReactComponent as Annonces } from "../assets/icons/annonces.svg";
 import { ReactComponent as Soutenance } from "../assets/icons/soutenance.svg";
 import { ReactComponent as Logout } from "../assets/icons/logout.svg";
+import { ReactComponent as Dates } from "../assets/icons/Calendar.svg";
 
 
 
@@ -37,7 +38,7 @@ export const TeacherSidebarData = [
 
     }, 
     {
-        title: "Mes Projet",
+        title: "Les Projet",
         icon: <Project/>,
         link : '/comite-projects'
     },
@@ -45,6 +46,12 @@ export const TeacherSidebarData = [
         title: "Annonces",
         icon: <Annonces/>,
         link: "/annonces"
+
+    }, 
+    {
+        title: 'Phases', 
+        icon : <Dates/>, 
+        link :'/date-planification', 
 
     }
 ];

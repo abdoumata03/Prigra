@@ -14,6 +14,7 @@ import Announcement from "./announcements";
 import Graduation from "./graduation";
 import ComiteProjects from './comite-projects'
 import ProjectInfo from "./project-info";
+import DatePlanification from "./date-planification";
 
 export {
     ChooseRole,
@@ -31,5 +32,6 @@ export {
     Announcement,
     Graduation, 
     ComiteProjects, 
-    ProjectInfo
+    ProjectInfo, 
+    DatePlanification
 }

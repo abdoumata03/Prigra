@@ -13,9 +13,9 @@ const ComiteProjects = () => {
 
     const navigate = useNavigate();
 
-    const columnTitles = ["Projet", "PDP", "Date de soumission", "Délai de réponse", "Status"];
+    const columnTitles = ["Projet", "PDP", "Date de soumission", "Status"];
 
-    const filteredSearchProjects = projects?.filter(project => project.name.toLowerCase().includes(searchProject.toLowerCase()));
+    const filteredSearchProjects = projects?.filter(project => project.nom_scientifique.toLowerCase().includes(searchProject.toLowerCase()));
     
     const filterProjects = (status) => {
         if (status === "all") {
@@ -80,16 +80,13 @@ const ComiteProjects = () => {
                 onClick={()=> handleClick(project)} 
                 className="border-b bg-white font-meduim text-gray3 cursor-pointer">
                 <th scope="row" className="px-6 py-4 font-medium text-gray1" >
-                    {project.name}
+                    {project.nom_scientifique}
                 </th>
                 <td className="px-6 py-4">
                     {project.owner}
                 </td>
                 <td className="px-6 py-4">
                     04/10/2023
-                </td>
-                <td className="px-6 py-4">
-                    14/10/2023
                 </td>
                 <td className="px-6 py-4 text-primary ">
                     {project.status_reponse}

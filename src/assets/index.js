@@ -24,11 +24,12 @@ import startup from './startup.png'
 import statistic from './statistics.png'
 import userPic from './userPic.svg'
 import Calendar from './Calendar.svg'
-import Clock from './Calendar Clock.svg'
 import Delete from './Delete Dismiss.svg'
 import Edit from './Edit.svg'
 import Vector from './Vector.svg'
 import Person from './Person Ribbon.svg'
+import checkedBox from './checked-box.svg'
+import checkBox from './check-box.svg'
 export{
     login,
     logo,
@@ -56,9 +57,10 @@ export{
     statistic, 
     userPic,
     Calendar, 
-    Clock, 
     Delete, 
     Edit, 
     Vector, 
     Person, 
+    checkedBox, 
+    checkBox
 }
