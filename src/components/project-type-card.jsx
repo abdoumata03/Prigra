@@ -2,12 +2,11 @@ import React from "react";
 import { FiCheckCircle } from "react-icons/fi";
 import { IconContext } from "react-icons";
 
-
 const ProjectTypeCard = ({ title, icon, description, clicked, onClick }) => {
   return (
     <div
       onClick={onClick}
-      className={`flex flex-row justify-start items-center h-24 w-[45%] border-[1px] px-8 rounded-[5px] ${
+      className={`flex flex-row w-full justify-start items-center h-24 border-[1px] px-8 rounded-[5px] ${
         clicked
           ? "bg-white outline outline-2 outline-primary outline-offset-0 shadow-none"
           : " bg-white  shadow-custom border-gray-200 hover:bg-gray-200 hover:border-accent hover:shadow-none hover:cursor-pointer"
@@ -20,9 +19,11 @@ const ProjectTypeCard = ({ title, icon, description, clicked, onClick }) => {
         </h5>
         <p className="text-xs font-normal text-gray3">{description}</p>
       </div>
-      {clicked? <IconContext.Provider value={{ className: "text-primary" }}>
-        <FiCheckCircle />
-      </IconContext.Provider>:null}
+      {clicked ? (
+        <IconContext.Provider value={{ className: "text-primary" }}>
+          <FiCheckCircle />
+        </IconContext.Provider>
+      ) : null}
     </div>
   );
 };

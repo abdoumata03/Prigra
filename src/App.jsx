@@ -67,7 +67,7 @@ function App() {
                   <Route element={<ProtectedProject />}>
                     <Route
                       element={<ProjectForm />}
-                      path="/project/add"
+                      path="/project/edit"
                       exact
                     />
                   </Route>

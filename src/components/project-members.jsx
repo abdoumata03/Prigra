@@ -23,20 +23,20 @@ const ProjectThirdStep = ({ innerRef }) => {
     putCoEnc,
   } = useContext(ProjectContext);
 
+
   const enc_list = projectData?.encadrant;
   const co_enc_list = projectData?.co_encadrant;
-
-
-  console.log(enc_list);
-  console.log(co_enc_list);
 
   const [encList, setEncList] = useState(enc_list);
   const [coEncList, setCoEncList] = useState(co_enc_list);
 
   const added_members = projectData?.members.map((item) => item.email);
-  const invited_members = invitationsList?.filter((item) => {
-    item.project_id === projectData.id && item.type === "Student";
-  }).map((item) => item.email);
+
+  const invited_members = invitationsList
+    ?.filter((item) => {
+      item.project_id === projectData.id && item.type === "Student";
+    })
+    .map((item) => item.email);
 
   const [invitedMembers, setInvitedMembers] = useState(invited_members);
 
@@ -86,9 +86,12 @@ const ProjectThirdStep = ({ innerRef }) => {
   useEffect(() => {
     console.log(projectData);
     setInvitedMembers(
-      invitationsList?.filter(
-        (item) => item.project_id === projectData.id && item.type === "Student"
-      ).map((item) => item.email)
+      invitationsList
+        ?.filter(
+          (item) =>
+            item.project_id === projectData.id && item.type === "Student"
+        )
+        .map((item) => item.email)
     );
   }, [invitationsList]);
 
@@ -110,6 +113,7 @@ const ProjectThirdStep = ({ innerRef }) => {
         } else if (error.message.includes("INVITED")) {
           toast.error(data.invited_mail + " est déja invité!");
         } else if (error.message.includes("SUCCESS")) {
+          toast.success(data.invited_mail + " a été invité");
           await getInvitationList();
         }
       }
@@ -184,7 +188,7 @@ const ProjectThirdStep = ({ innerRef }) => {
           </form>
           {errors.invited_mail?.message && (
             <p className="text-error text-xs">
-              • {errors_enc.invited_mail.message}
+              • {errors_enc.invited_mail?.message}
             </p>
           )}
         </FormProvider>
@@ -246,11 +250,11 @@ const ProjectThirdStep = ({ innerRef }) => {
         )}
         {encList.map((item, index) => (
           <div
-            className={`bg-white border  ${index === 0 &&
+            className={`bg-white border shadow-custom  ${index === 0 &&
               `rounded-t-[5px]`} ${index === encList.length - 1 &&
               `rounded-b-[5px]`} px-3 flex flex-col py-3`}
           >
-            <p className="text-sm font-medium text-gray1">{item}</p>
+            <p className="text-sm font-medium text-gray1">{item.email}</p>
           </div>
         ))}
         {coEncList.length > 0 && (
@@ -258,11 +262,11 @@ const ProjectThirdStep = ({ innerRef }) => {
         )}
         {coEncList.map((item, index) => (
           <div
-            className={`bg-white border  ${index === 0 &&
+            className={`bg-white border shadow-custom ${index === 0 &&
               `rounded-t-[5px]`} ${index === encList.length - 1 &&
               `rounded-b-[5px]`} px-3 flex flex-col py-3`}
           >
-            <p className="text-sm font-medium text-gray1">{item}</p>
+            <p className="text-sm font-medium text-gray1">{item.email }</p>
           </div>
         ))}
       </div>

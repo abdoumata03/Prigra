@@ -50,6 +50,7 @@ const ProjectInputField = ({
         <textarea
           {...register(name)}
           name={name}
+          maxLength={field_name === "Description" && 250}
           defaultValue={defaultValue}
           className={`${
             field_name === "Description" ? `h-36` : `h-16`

@@ -3,28 +3,29 @@ import { ReactComponent as Project } from "../assets/icons/project.svg";
 import { ReactComponent as Annonces } from "../assets/icons/annonces.svg";
 import { ReactComponent as Soutenance } from "../assets/icons/soutenance.svg";
 import { ReactComponent as Logout } from "../assets/icons/logout.svg";
+import { FiBriefcase, FiClipboard, FiLogOut, FiUser, FiVolume1 } from "react-icons/fi";
 
 
 
 export const StudentSidebarData = [
     {   
-        title: "Mon Profile",
-        icon: <Profile/>,
+        title: "Mon profile",
+        icon: <FiUser/>,
         link: "/profile"
     }, 
     {
-        title: "Mon Projet",
-        icon: <Project/>,
+        title: "Mon projet",
+        icon: <FiClipboard/>,
         link: "/project"
     },
     {
         title: "Soutenance",
-        icon: <Soutenance/>,
+        icon: <FiBriefcase/>,
         link: "/soutenance"
     },
     {
         title: "Annonces",
-        icon: <Annonces/>,
+        icon: <FiVolume1/>,
         link: "/annonces"
     },
 ];
@@ -51,7 +52,7 @@ export const TeacherSidebarData = [
 
 export const LogoutData = [
     {
-       title: "Logout",
-       icon: <Logout/> 
+       title: "Se déconnecter",
+       icon: <FiLogOut/> 
     }
 ]

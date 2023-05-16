@@ -129,7 +129,7 @@ const ProjectForm = () => {
           {isNotFirstStep() && (
             <button
               onClick={handleBack}
-              className={`h-[40px] px-6 md:h-[50px] rounded-[5px] border-2 border-gray2 text-gray`}
+              className={`h-[40px] px-6 md:h-[50px] rounded-[5px] border-2 border-gray4 text-gray2`}
             >
               Précédent
             </button>

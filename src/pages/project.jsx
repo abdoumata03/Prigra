@@ -14,7 +14,7 @@ const Project = () => {
   const location = useLocation();
 
   const renderContent = () => {
-    if (location?.pathname.includes("add")) {
+    if (location?.pathname.includes("edit")) {
       return <Outlet />;
     }
 
@@ -28,7 +28,7 @@ const Project = () => {
   return isLoading ? (
     <LoadingData />
   ) : (
-    <div className="flex flex-col justify-start items-start w-full h-screen px-8 py-8">
+    <div className="flex flex-col justify-start items-start w-full">
       <Toaster position="top-center" reverseOrder={false} />
       <Breadcrumbs />
       {renderContent()}

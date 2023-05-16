@@ -7,7 +7,6 @@ const ProjectInfo = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const projectData = location.state;
-  
 
   const handleClick = () => {
     navigate("/comite-projects");

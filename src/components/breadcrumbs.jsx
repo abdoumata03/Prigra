@@ -9,8 +9,10 @@ const Breadcrumbs = () => {
   function getCrumbName(crumb) {
     if (crumb === "project") {
       return "Mon Projet";
-    } else if (crumb === "add") {
-      return "Créer";
+    } else if (crumb === "edit") {
+      return "Modifier";
+    } else if (crumb === "profile") {
+      return "Mon Profile";
     }
   }
 
@@ -42,7 +44,7 @@ const Breadcrumbs = () => {
   });
 
   return (
-    <div className="flex mb-10 flex-row border bg-white shadow-custom px-[0.3rem] py-[0.3rem] rounded-[8px]">
+    <div className="flex mb-10 w-fit flex-row border bg-white shadow-custom px-[0.3rem] py-[0.3rem] rounded-[8px]">
       {crumbs}
     </div>
   );

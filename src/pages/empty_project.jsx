@@ -15,7 +15,7 @@ const EmptyProject = () => {
     await createProject();
     setIsCreatingProject(false);
 
-    navigate("/project/add");
+    navigate("/project/edit");
     toast.success("Votre projet a été crée");
   };
 
