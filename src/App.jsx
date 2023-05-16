@@ -12,8 +12,9 @@ import {
   Profile,
   Graduation,
   Announcement,
-  ComiteProjects,
-  ProjectInfo,
+  ComiteProjects, 
+  ProjectInfo, 
+  DatePlanification, 
 } from "./pages/index.js";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import PrivateRoute from "./utils/private-route.jsx";
@@ -27,6 +28,7 @@ import { ProjectProvider } from "./context/project-context.jsx";
 import EmptyProject from "./pages/empty_project.jsx";
 import Project from "./pages/project.jsx";
 import ProtectedProject from "./utils/protect-add-project.jsx";
+import { PhaseProvider } from "./context/phase-context.jsx";
 
 // Wrap pages not requiring authenticatino in <PrivateLogin/>
 // Wrap pages requiring authentication in <PrivateRoute/>
@@ -37,6 +39,7 @@ function App() {
     <AuthProvider>
       <ProfileProvider>
         <ProjectProvider>
+          <PhaseProvider>
           <Routes>
             <Route element={<LandingPage />} path="/" />
 
@@ -50,6 +53,7 @@ function App() {
               <Route element={<SignUp />} path="/sign-up"></Route>
               <Route element={<ChooseUser />} path="/users"></Route>
               <Route element={<VerifyEmail />} path="/verify-email"></Route>
+              <Route element={<SetPassword />} path="/reset-password/:uid/:token"/>
               <Route
                 element={<RegistrationSuccess />}
                 path="/registration-success"
@@ -75,11 +79,14 @@ function App() {
                 <Route element={<Profile />} path="/profile" exact />
                 <Route element={<Graduation />} path="/soutenance" exact />
                 <Route element={<Announcement />} path="/annonces" exact />
-                <Route element={<ComiteProjects />} path="/comite-projects" />
-                <Route element={<ProjectInfo />} path="/project-info"></Route>
+                <Route element={<ComiteProjects/>} path="/comite-projects"/>
+                <Route element={<ProjectInfo/>} path="/project-info"/>
+                <Route element={<DatePlanification/>} path='/date-planification'/>
+
               </Route>
             </Route>
           </Routes>
+          </PhaseProvider>
         </ProjectProvider>
       </ProfileProvider>
     </AuthProvider>

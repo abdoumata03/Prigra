@@ -1,7 +1,8 @@
-import {useContext, useState} from 'react'
+import {useContext, useState,useEffect} from 'react'
 import ProjectContext from '../context/project-context'
 import { useNavigate } from 'react-router';
 import BlueLoadingSpinner from "../components/spinner_blue";
+import { ReactComponent as Search } from "../assets/icons/Search.svg";
 
 const ComiteProjects = () => {
 
@@ -13,9 +14,9 @@ const ComiteProjects = () => {
 
     const navigate = useNavigate();
 
-    const columnTitles = ["Projet", "PDP", "Date de soumission", "Délai de réponse", "Status"];
+    const columnTitles = ["Projet", "PDP", "Date de soumission", "Status"];
 
-    const filteredSearchProjects = projects?.filter(project => project.name.toLowerCase().includes(searchProject.toLowerCase()));
+    const filteredSearchProjects = projects?.filter(project => project.nom_scientifique.toLowerCase().includes(searchProject.toLowerCase()));
     
     const filterProjects = (status) => {
         if (status === "all") {
@@ -42,12 +43,13 @@ const ComiteProjects = () => {
   return (
     <div className='w-5/6 flex flex-col mt-20'>
         <div className='flex flex-row justify-between mb-10'>
-            <div className='w-1/2 py-3 sm:px-5 px-[1px] rounded-md border border-gray6  bg-white '> 
+            <div className='w-1/2 py-3 sm:px-5 px-[1px] rounded-md border border-gray6  bg-white flex flex-row justify-between items-center'> 
                 <input 
                 type="text" 
                 placeholder="Rechercher un projet" 
                 className="text-[15px] outline-none" 
                 onChange={event => setSearchProject(event.target.value)} />   
+                <Search/>
 
             </div>
             <div> 
@@ -80,7 +82,7 @@ const ComiteProjects = () => {
                 onClick={()=> handleClick(project)} 
                 className="border-b bg-white font-meduim text-gray3 cursor-pointer">
                 <th scope="row" className="px-6 py-4 font-medium text-gray1" >
-                    {project.name}
+                    {project.nom_scientifique}
                 </th>
                 <td className="px-6 py-4">
                     {project.owner}
@@ -88,10 +90,8 @@ const ComiteProjects = () => {
                 <td className="px-6 py-4">
                     04/10/2023
                 </td>
-                <td className="px-6 py-4">
-                    14/10/2023
-                </td>
-                <td className="px-6 py-4 text-primary ">
+                <td className={` px-6 py-4 ${ 
+                  project.status_reponse === 'En cour' ? 'text-primary': 'text-primary'} `}>
                     {project.status_reponse}
                 </td>
                 </tr>

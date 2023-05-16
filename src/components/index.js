@@ -10,6 +10,9 @@ import LoginButton from "./login-button";
 import ProfileInputField from "./profile-input-field";
 import ProjectInfoField from "./project-info-field";
 import PersonField from "./person-filed";
+import PopUpReponse from "./pop-up-reponce";
+import CheckProject from "./check-project";
+import FileInput from './file_input'
 
 
 
@@ -27,6 +30,9 @@ export {
     LoginButton,
     ProfileInputField,
     ProjectInfoField, 
-    PersonField
+    PersonField, 
+    PopUpReponse,
+    CheckProject, 
+    FileInput
 
 }

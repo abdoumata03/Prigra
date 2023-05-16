@@ -107,17 +107,18 @@ export const ProjectProvider = ({ children }) => {
     }
   };
 
-  const fetch_Projects = async () => {
+
+  const fetch_projects = async () => {
     setIsProjectsLoading(true);
     const projectsResponse = await fetch(
       "https://prigra.onrender.com/diplome/projects/",
       {
-        method: "GET",
-        headers: {
+        method : "GET", 
+        headers : {
           Authorization: `JWT ${
             JSON.parse(localStorage.getItem("authTokens")).access
-          }`,
-        },
+            }`,   
+        }
       }
     );
 
@@ -199,6 +200,21 @@ export const ProjectProvider = ({ children }) => {
     return put_enc_resposne.status;
   };
 
+  const deleteProject = async (ID) => {
+    const deleteResponse = await fetch(
+      `https://prigra.onrender.com/diplome/projects/${ID}/`,
+      {
+        method : "DELETE", 
+        headers :  {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem("authTokens")).access
+            }`,
+            "content-type": "application/json",
+          }
+      } 
+    )
+  }
+
   const contextData = {
     createProject,
     isInvitationLoading,
@@ -206,9 +222,6 @@ export const ProjectProvider = ({ children }) => {
     setIsPuttingInfo,
     putProjectInfo,
     inviteProjectMember,
-    projects,
-    fetch_Projects,
-    isProjectsLoading,
     invitationsList,
     getInvitationList,
     activeStep,
@@ -216,6 +229,10 @@ export const ProjectProvider = ({ children }) => {
     putEnc,
     putCoEnc,
     isPuttingInfo,
+    projects, 
+    fetch_projects, 
+    isProjectsLoading, 
+    deleteProject,
   };
 
   return (
