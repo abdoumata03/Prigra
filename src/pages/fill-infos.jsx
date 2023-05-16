@@ -334,6 +334,7 @@ const FillInfos = () => {
 
             {/* filière ou grade */}
             <div className="flex flex-col md:flex-row justify-between gap-4">
+              
               <div className="w-full">
                 <p className="font-bold text-[13px] mb-[6px] mt-[20px] text-gray2">
                   {type === "Student" ? "Filière" : "Grade"}

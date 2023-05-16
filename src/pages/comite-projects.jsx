@@ -1,7 +1,8 @@
-import {useContext, useState} from 'react'
+import {useContext, useState,useEffect} from 'react'
 import ProjectContext from '../context/project-context'
 import { useNavigate } from 'react-router';
 import BlueLoadingSpinner from "../components/spinner_blue";
+import { ReactComponent as Search } from "../assets/icons/Search.svg";
 
 const ComiteProjects = () => {
 
@@ -42,12 +43,13 @@ const ComiteProjects = () => {
   return (
     <div className='w-5/6 flex flex-col mt-20'>
         <div className='flex flex-row justify-between mb-10'>
-            <div className='w-1/2 py-3 sm:px-5 px-[1px] rounded-md border border-gray6  bg-white '> 
+            <div className='w-1/2 py-3 sm:px-5 px-[1px] rounded-md border border-gray6  bg-white flex flex-row justify-between items-center'> 
                 <input 
                 type="text" 
                 placeholder="Rechercher un projet" 
                 className="text-[15px] outline-none" 
                 onChange={event => setSearchProject(event.target.value)} />   
+                <Search/>
 
             </div>
             <div> 
@@ -88,7 +90,8 @@ const ComiteProjects = () => {
                 <td className="px-6 py-4">
                     04/10/2023
                 </td>
-                <td className="px-6 py-4 text-primary ">
+                <td className={` px-6 py-4 ${ 
+                  project.status_reponse === 'En cour' ? 'text-primary': 'text-primary'} `}>
                     {project.status_reponse}
                 </td>
                 </tr>

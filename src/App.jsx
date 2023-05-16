@@ -26,6 +26,7 @@ import RegistrationSuccess from "./pages/registration-success.jsx";
 import ProjectForm from "./pages/project-form.jsx";
 import { ProfileProvider } from "./context/profile-context.jsx";
 import { ProjectProvider } from "./context/project-context.jsx";
+import { PhaseProvider } from "./context/phase-context.jsx";
 
 // Wrap pages not requiring authenticatino in <PrivateLogin/>
 // Wrap pages requiring authentication in <PrivateRoute/>
@@ -36,6 +37,7 @@ function App() {
     <AuthProvider>
       <ProfileProvider>
         <ProjectProvider>
+          <PhaseProvider>
           <Routes>
             <Route element={<LandingPage />} path="/" />
 
@@ -70,6 +72,7 @@ function App() {
               </Route>
             </Route>
           </Routes>
+          </PhaseProvider>
         </ProjectProvider>
       </ProfileProvider>
     </AuthProvider>

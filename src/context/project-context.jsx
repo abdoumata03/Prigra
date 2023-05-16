@@ -91,17 +91,16 @@ export const ProjectProvider = ({ children }) => {
   };
 
 
-  const fetch_Projects = async () => {
+  const fetch_projects = async () => {
     setIsProjectsLoading(true);
     const projectsResponse = await fetch(
       "https://prigra.onrender.com/diplome/projects/", 
       {
-        method: "GET", 
+        method : "GET", 
         headers : {
           Authorization: `JWT ${
             JSON.parse(localStorage.getItem("authTokens")).access
-            }`,
-            
+            }`,   
         }
       }
     ); 
@@ -109,6 +108,21 @@ export const ProjectProvider = ({ children }) => {
     const projects_response_data = await projectsResponse.json();
     setProjects(projects_response_data); 
     setIsProjectsLoading(false);
+  }
+
+  const deleteProject = async (ID) => {
+    const deleteResponse = await fetch(
+      `https://prigra.onrender.com/diplome/projects/${ID}/`,
+      {
+        method : "DELETE", 
+        headers :  {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem("authTokens")).access
+            }`,
+            "content-type": "application/json",
+          }
+      } 
+    )
   }
 
   const contextData = {
@@ -119,8 +133,9 @@ export const ProjectProvider = ({ children }) => {
     putProjectInfo,
     inviteProjectMember,
     projects, 
-    fetch_Projects, 
+    fetch_projects, 
     isProjectsLoading, 
+    deleteProject,
   };
 
   return (

@@ -1,7 +1,8 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import { useLocation, useNavigate } from 'react-router'
 import { Calendar, Delete, Edit} from '../assets';
 import {ProjectInfoField, PersonField, PopUpReponse} from '../components/index.js'
+import ProjectContext from '../context/project-context';
 
 
 const ProjectInfo = () => {
@@ -10,7 +11,8 @@ const ProjectInfo = () => {
     const projectData= location.state; 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
-
+    const {deleteProject} = useContext(ProjectContext); 
+    const [projectDeleted, setProjectDeleted] = useState(false);
 
     const openPopup = () => {
         setIsPopupOpen(true);
@@ -28,7 +30,7 @@ const ProjectInfo = () => {
         setIsDeletePopupOpen(false);
       };
    
-   const handleClick =()=>{
+   const handleBack =()=>{
     navigate('/comite-projects');
    } 
 
@@ -38,12 +40,19 @@ const ProjectInfo = () => {
   
    const handleDelete = () => {
     openDeletePopup();
+
    }
 
    const handleConfirmDelete = () => {
-   }
+    deleteProject(projectData.id);
+    setProjectDeleted(true);
+    navigate('/comite-projects',
+     {state : setProjectDeleted });
 
-   
+ }
+
+
+
   return (
     <div className='w-[90%] flex flex-col mt-20 mb-20'>
         <div className=' flex lg:flex-row flex-col mt-10 lg:gap-10 gap-0'>       
@@ -79,7 +88,7 @@ const ProjectInfo = () => {
                         </p>
                         <div >
                         {projectData.encadrant?.map((Enc, index) => (
-                            <PersonField name=' Belbachir Chaimaa' email={Enc}/>
+                            <PersonField name={Enc.full_name} email={Enc.email} key={index}/>
                         ))}
                         </div>
                         
@@ -90,7 +99,7 @@ const ProjectInfo = () => {
                         </p>
                         <div >
                         {projectData.co_encadrant?.map((coEnc, index) => (
-                            <PersonField name=' Belbachir Chaimaa' email={coEnc}/>
+                            <PersonField name={coEnc.full_name} email={coEnc.email}/>
                         ))}
                         </div>      
                     </div>
