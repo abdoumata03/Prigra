@@ -33,7 +33,7 @@ const Sidebar = () => {
     );
   } else {
     return (
-      <div className="flex flex-col border-r border-gray-200 justify-start fixed h-screen z-10 items-center py-10 w-[18%] bg-white shadow-custom">
+      <div className="flex flex-col border-r border-gray-200 justify-start fixed h-screen items-center py-10 w-[18%] bg-white shadow-custom">
         <img src={logo} alt="logo" className="mb-14 w-1/3" />
         {/* <div className="flex flex-col items-center justify-center mb-5"> */}
           {/* <img
