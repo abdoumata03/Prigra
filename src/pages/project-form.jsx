@@ -135,7 +135,7 @@ const ProjectForm = () => {
         {isNotFirstStep() && (
           <button
             onClick={handleBack}
-            className={`h-[40px] px-6 md:h-[50px] rounded-[5px] border-2 border-gray4 text-gray2`}
+            className={`h-[40px] px-6 md:h-[50px] rounded-[0.4rem] border-2 border-gray4 text-gray2`}
           >
             Précédent
           </button>
@@ -146,7 +146,7 @@ const ProjectForm = () => {
             isProjectLoading || isPuttingInfo
               ? "bg-opacity-75"
               : "bg-opacity-100"
-          } bg-primary rounded-[5px] text-white font-semibold`}
+          } bg-primary rounded-[0.4rem] text-white font-semibold`}
         >
           {isProjectLoading || isPuttingInfo ? (
             <LoadingSpinner />

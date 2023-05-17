@@ -24,10 +24,10 @@ const Profile = () => {
                   className="w-[110px] h-[110px] rounded-full mr-6"
                 />
                 <div className="flex flex-col items-start gap-2">
-                  <button className="h-[45px] text-sm border border-primary text-primary font-bold rounded-[5px] px-5 w-full">
+                  <button className="h-[45px] text-sm border border-primary text-primary font-bold rounded-[0.4rem] px-5 w-full">
                     Changer la photo
                   </button>
-                  <button className="h-[45px] border text-sm border-error font-bold text-error rounded-[5px] px-5 w-full flex justify-center items-center gap-3">
+                  <button className="h-[45px] border text-sm border-error font-bold text-error rounded-[0.4rem] px-5 w-full flex justify-center items-center gap-3">
                     <Delete />
                     Supprimer
                   </button>
@@ -74,7 +74,7 @@ const Profile = () => {
                   />
                 </div>
               </div>
-              <button className="flex justify-center items-center gap-3 self-end h-[40px] md:h-[50px] bg-primary text-white text-sm md:text-md font-semibold rounded-[5px] px-5 mb-10 lg:mb-0 mt-10 w-full md:w-auto">
+              <button className="flex justify-center items-center gap-3 self-end h-[40px] md:h-[50px] bg-primary text-white text-sm md:text-md font-semibold rounded-[0.4rem] px-5 mb-10 lg:mb-0 mt-10 w-full md:w-auto">
                 <Save />
                 Sauvegarder
               </button>

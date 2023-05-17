@@ -41,7 +41,7 @@ const Sidebar = () => {
             <NavLink to={val.link} key={index} activeclassname="active">
               <button
                 key={index}
-                className={`rounded-[5px] mb-2 w-full py-4 md:py-2 pl-0 md:pl-10 ${
+                className={`rounded-[0.4rem] mb-2 w-full py-4 md:py-2 pl-0 md:pl-10 ${
                   selectedItemIndex === index
                     ? "hover:bg-none border-r-2 border-primary rounded-r-none"
                     : "hover:bg-accent"

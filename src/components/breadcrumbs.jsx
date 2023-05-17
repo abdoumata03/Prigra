@@ -29,7 +29,7 @@ const Breadcrumbs = () => {
         <NavLink
           className={`text-base font-medium ${
             i === filtered_crumbs.length - 1 && filtered_crumbs.length !== 1
-              ? "font-bold rounded-[5px] "
+              ? "font-bold rounded-[0.4rem] "
               : "text-gray3 font-normal"
           } text-gray1 py-2 px-5`}
           to={currentPath}

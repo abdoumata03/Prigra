@@ -63,7 +63,7 @@ const FileInput = ({ onFileChange }) => {
       {fileList.map((item, index) => (
         <div
           key={index}
-          className="bg-white shadow-custom rounded-[5px] px-6 py-3 mb-2 w-[80%] flex flex-row justify-between items-center"
+          className="bg-white shadow-custom rounded-[0.4rem] px-6 py-3 mb-2 w-[80%] flex flex-row justify-between items-center"
         >
           <div className="w-8 mr-3">{ImageConfig[item.type.split("/")[1]]}</div>
 

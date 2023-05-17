@@ -9,7 +9,6 @@ export const ProjectProvider = ({ children }) => {
   const [projects, setProjects] = useState(null);
   const [isProjectsLoading, setIsProjectsLoading] = useState(false);
   const { projectId, setHasProject, type } = useContext(ProfileContext);
-  // const [type, setType] = useState(projectData?.type);
 
   const [invitationsList, setInvitationsList] = useState([]);
 
@@ -107,18 +106,17 @@ export const ProjectProvider = ({ children }) => {
     }
   };
 
-
   const fetch_projects = async () => {
     setIsProjectsLoading(true);
     const projectsResponse = await fetch(
       "https://prigra.onrender.com/diplome/projects/",
       {
-        method : "GET", 
-        headers : {
+        method: "GET",
+        headers: {
           Authorization: `JWT ${
             JSON.parse(localStorage.getItem("authTokens")).access
-            }`,   
-        }
+          }`,
+        },
       }
     );
 
@@ -204,16 +202,16 @@ export const ProjectProvider = ({ children }) => {
     const deleteResponse = await fetch(
       `https://prigra.onrender.com/diplome/projects/${ID}/`,
       {
-        method : "DELETE", 
-        headers :  {
+        method: "DELETE",
+        headers: {
           Authorization: `JWT ${
             JSON.parse(localStorage.getItem("authTokens")).access
-            }`,
-            "content-type": "application/json",
-          }
-      } 
-    )
-  }
+          }`,
+          "content-type": "application/json",
+        },
+      }
+    );
+  };
 
   const contextData = {
     createProject,
@@ -229,9 +227,9 @@ export const ProjectProvider = ({ children }) => {
     putEnc,
     putCoEnc,
     isPuttingInfo,
-    projects, 
-    fetch_projects, 
-    isProjectsLoading, 
+    projects,
+    fetch_projects,
+    isProjectsLoading,
     deleteProject,
   };
 

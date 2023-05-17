@@ -75,7 +75,7 @@ const SignUp = () => {
               name="firstName"
               placeholder="saisir votre nom"
               required
-              className="text-[16px] rounded-[5px] bg-gray-50 w-auto h-[50px] pl-[24px] text-gray3"
+              className="text-[16px] rounded-[0.4rem] bg-gray-50 w-auto h-[50px] pl-[24px] text-gray3"
             />
 
             {/* prenom */}
@@ -89,7 +89,7 @@ const SignUp = () => {
               name="lastName"
               placeholder="saisir votre prénom"
               required
-              className="text-[16px] rounded-[5px] bg-gray-50 w-auto h-[50px] pl-[24px] text-gray3"
+              className="text-[16px] rounded-[0.4rem] bg-gray-50 w-auto h-[50px] pl-[24px] text-gray3"
             />
 
             {/* email */}
@@ -103,7 +103,7 @@ const SignUp = () => {
               name="email"
               placeholder="mail@esi-sba.dz"
               required
-              className=" bg-gray-50 rounded-[5px] w-full h-[50px] pl-[24px] text-gray3"
+              className=" bg-gray-50 rounded-[0.4rem] w-full h-[50px] pl-[24px] text-gray3"
             />
             <p className="text-error text-sm ml-2">
               {errors.email && errors.email?.message}
@@ -120,7 +120,7 @@ const SignUp = () => {
               name="password"
               placeholder="min 8 caractères"
               required
-              className="rounded-[5px] w-auto h-[50px] pl-[24px] bg-gray-50 text-gray3"
+              className="rounded-[0.4rem] w-auto h-[50px] pl-[24px] bg-gray-50 text-gray3"
             />
             <p className="text-error text-sm ml-2">
               {errors.password && errors.password?.message}
@@ -137,7 +137,7 @@ const SignUp = () => {
               name="confirm_password"
               placeholder="min 8 caractères"
               required
-              className="text-[16px] rounded-[5px] bg-gray-50 w-auto h-[50px] pl-[24px] text-gray3"
+              className="text-[16px] rounded-[0.4rem] bg-gray-50 w-auto h-[50px] pl-[24px] text-gray3"
             />
             <p className="text-error text-sm ml-2">
               {errors.confirm_password && errors.confirm_password?.message}
@@ -145,7 +145,7 @@ const SignUp = () => {
 
             <br />
 
-            <button className="w-full h-[50px] bg-primary mt-[50px] mb-[8px] rounded-[5px] text-white font-semibold">
+            <button className="w-full h-[50px] bg-primary mt-[50px] mb-[8px] rounded-[0.4rem] text-white font-semibold">
               Continuer
             </button>
 

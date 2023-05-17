@@ -37,7 +37,7 @@ const ProjectInputField = ({
             value={value}
             defaultValue={defaultValue}
             placeholder={hint}
-            className={`shadow-custom border-[1px] rounded-[5px] w-full text-[12px] md:text-sm ${
+            className={`shadow-custom border-[1px] rounded-[0.4rem] w-full text-[12px] md:text-sm ${
               icon ? `pl-10` : `pl-5`
             }  h-[30px]  ${
               field_name === "Description"

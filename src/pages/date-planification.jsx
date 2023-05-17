@@ -98,7 +98,7 @@ const {phases, putPhase} = useContext(PhaseContext);
                     type="date"
                     name="debut_phase1"
                     required
-                    className="text-[16px] rounded-[5px] bg-white w-full h-[50px] pl-[24px] text-gray3 outline-none pr-5"
+                    className="text-[16px] rounded-[0.4rem] bg-white w-full h-[50px] pl-[24px] text-gray3 outline-none pr-5"
                     />
                   </div>
                   <div className='w-full'>
@@ -108,7 +108,7 @@ const {phases, putPhase} = useContext(PhaseContext);
                     type="date"
                     name="fin_phase1"
                     required
-                    className="text-[16px] rounded-[5px] bg-white w-full h-[50px] pl-[24px] text-gray3 outline-none pr-5"
+                    className="text-[16px] rounded-[0.4rem] bg-white w-full h-[50px] pl-[24px] text-gray3 outline-none pr-5"
                     onChange={(event) => handleFinPhaseChange(2, event)}
                     />
                     <p className='text-error text-sm ml-2'>{errors.fin_phase1 && errors.fin_phase1.message}</p>
@@ -124,7 +124,7 @@ const {phases, putPhase} = useContext(PhaseContext);
                   type="date"
                   name="debut_phase2"
                   required
-                  className="text-[16px] rounded-[5px] bg-white w-full h-[50px] pl-[24px] text-gray3 outline-none pr-5"
+                  className="text-[16px] rounded-[0.4rem] bg-white w-full h-[50px] pl-[24px] text-gray3 outline-none pr-5"
                   />
                   <p className='text-error text-sm ml-2'>{errors.debut_phase2 && errors.debut_phase2.message}</p>
                   </div>
@@ -135,7 +135,7 @@ const {phases, putPhase} = useContext(PhaseContext);
                     type="date"
                     name="fin_phase2"
                     required
-                    className="text-[16px] rounded-[5px] bg-white w-full h-[50px] pl-[24px] text-gray3 outline-none pr-5"
+                    className="text-[16px] rounded-[0.4rem] bg-white w-full h-[50px] pl-[24px] text-gray3 outline-none pr-5"
                     onChange={(event) => handleFinPhaseChange(3, event)}
                     />
                     {errors.fin_phase2 && <p className='text-error text-sm ml-2'>{errors.fin_phase2.message}</p>}
@@ -150,7 +150,7 @@ const {phases, putPhase} = useContext(PhaseContext);
                   type="date"
                   name="debut_phase3"
                   required
-                  className="text-[16px] rounded-[5px] bg-white w-full h-[50px] pl-[24px] text-gray3 outline-none pr-5"
+                  className="text-[16px] rounded-[0.4rem] bg-white w-full h-[50px] pl-[24px] text-gray3 outline-none pr-5"
                   />
                   {errors.debut_phase3 && <p className='text-error text-sm ml-2'>{errors.debut_phase3.message}</p>}
                   </div>
@@ -161,7 +161,7 @@ const {phases, putPhase} = useContext(PhaseContext);
                     type="date"
                     name="fin_phase3"
                     required
-                    className="text-[16px] rounded-[5px] bg-white w-full h-[50px] pl-[24px] text-gray3 outline-none pr-5"
+                    className="text-[16px] rounded-[0.4rem] bg-white w-full h-[50px] pl-[24px] text-gray3 outline-none pr-5"
                     onChange={(event) => handleFinPhaseChange(4, event)}
                     />
                     {errors.fin_phase3 && <p className='text-error text-sm ml-2'>{errors.fin_phase3.message}</p>}
@@ -176,7 +176,7 @@ const {phases, putPhase} = useContext(PhaseContext);
                   type="date"
                   name="debut_phase4"
                   required
-                  className="text-[16px] rounded-[5px] bg-white w-full h-[50px] pl-[24px] text-gray3 outline-none pr-5"
+                  className="text-[16px] rounded-[0.4rem] bg-white w-full h-[50px] pl-[24px] text-gray3 outline-none pr-5"
                   />
                   {errors.debut_phase4 && <p className='text-error text-sm ml-2'>{errors.debut_phase4.message}</p>}
                   </div>
@@ -187,14 +187,14 @@ const {phases, putPhase} = useContext(PhaseContext);
                     type="date"
                     name="fin_phase4"
                     required
-                    className="text-[16px] rounded-[5px] bg-white w-full h-[50px] pl-[24px] text-gray3 outline-none pr-5"
+                    className="text-[16px] rounded-[0.4rem] bg-white w-full h-[50px] pl-[24px] text-gray3 outline-none pr-5"
                     />
                     {errors.fin_phase4 && <p className='text-error text-sm ml-2'>{errors.fin_phase4?.message}</p>}
                   </div>
               </div>
 
               <button 
-              className=" absolute bottom-20 right-40 flex justify-center items-center gap-3 self-end h-[40px] md:h-[50px] bg-primary text-white text-sm md:text-md font-semibold rounded-[5px] px-5 mb-10 lg:mb-0 mt-10 w-full md:w-auto">
+              className=" absolute bottom-20 right-40 flex justify-center items-center gap-3 self-end h-[40px] md:h-[50px] bg-primary text-white text-sm md:text-md font-semibold rounded-[0.4rem] px-5 mb-10 lg:mb-0 mt-10 w-full md:w-auto">
               <Save />
               Sauvegarder
             </button>

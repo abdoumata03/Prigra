@@ -68,7 +68,7 @@ const Login = () => {
               name="email"
               placeholder="mail@esi-sba.dz"
               required
-              className="shadow-custom rounded-[5px] w-full text-[12px] md:text-sm pl-5 h-[40px] md:h-[50px] text-gray3"
+              className="shadow-custom rounded-[0.4rem] w-full text-[12px] md:text-sm pl-5 h-[40px] md:h-[50px] text-gray3"
               //   ref={inputRef}
             />
             <p className="text-error ml-2">
@@ -84,7 +84,7 @@ const Login = () => {
               name="password"
               placeholder="Min 8 caractères"
               required
-              className="shadow-custom rounded-[5px] w-full text-[12px] md:text-sm pl-5 h-[40px] md:h-[50px] text-gray3"
+              className="shadow-custom rounded-[0.4rem] w-full text-[12px] md:text-sm pl-5 h-[40px] md:h-[50px] text-gray3"
             />
             <p className="text-error ml-2">
               {errors.password && "Votre mot de passe est très court"}
@@ -99,7 +99,7 @@ const Login = () => {
             <br />
             <div className="flex flex-col items-center">
               <button
-                className={`w-full text-sm md:text-base h-[40px] md:h-[50px] bg-primary mt-[50px] mb-[8px] rounded-[5px] text-white font-semibold ${
+                className={`w-full text-sm md:text-base h-[40px] md:h-[50px] bg-primary mt-[50px] mb-[8px] rounded-[0.4rem] text-white font-semibold ${
                   isFetching ? "bg-opacity-75" : "bg-opacity-100"
                 }`}
                 disabled={isFetching}

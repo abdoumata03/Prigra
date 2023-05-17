@@ -23,7 +23,7 @@ const ProfileInputField = ({ field_name, value, icon }) => {
           disabled
           className={`shadow-custom ${
             icon ? `pl-10` : `pl-5`
-          } border-[1px] rounded-[5px] w-full text-[12px] md:text-sm h-[35px] md:h-[45px] font-medium disabled:bg-white disabled:text-gray1 text-gray3`}
+          } border-[1px] rounded-[0.4rem] w-full text-[12px] md:text-sm h-[35px] md:h-[45px] font-medium disabled:bg-white disabled:text-gray1 text-gray3`}
         />
       </div>
     </div>

@@ -6,7 +6,7 @@ const ProjectTypeCard = ({ title, icon, description, clicked, onClick }) => {
   return (
     <div
       onClick={onClick}
-      className={`flex flex-row w-full justify-start items-center h-24 border-[1px] px-8 rounded-[5px] ${
+      className={`flex flex-row w-full justify-start items-center h-24 border-[1px] px-8 rounded-[0.4rem] ${
         clicked
           ? "bg-white outline outline-2 outline-primary outline-offset-0 shadow-none"
           : " bg-white  shadow-custom border-gray-200 hover:bg-gray-200 hover:border-accent hover:shadow-none hover:cursor-pointer"

@@ -3,10 +3,10 @@ import { FiClock, FiMapPin } from "react-icons/fi";
 
 const AnnouncementCard = () => {
   return (
-    <div class="max-w-[300px] bg-white border border-gray-200 rounded-[5px] shadow-custom">
+    <div class="max-w-[300px] bg-white border border-gray-200 rounded-[0.4rem] shadow-custom">
       <a className="" href="#">
         <img
-          class="object-cover rounded-t-[5px] h-48 w-96"
+          class="object-cover rounded-t-[0.4rem] h-48 w-96"
           src="https://www.esi-sba.dz/fr/wp-content/uploads/2023/05/20230514_135844.jpg"
           alt=""
         />

@@ -241,8 +241,8 @@ const FillInfos = () => {
       } justify-center font-eudox bg-gray-50 overflow-auto`}
     >
       {isEmailActivated ? (
-        <div className=" lg:w-[55%] sm:w-3/5 w-[90%] my-14 flex flex-col items-center justify-center bg-white shadow-custom rounded-[5px] px-10 py-[48px]">
-          <div className="w-full flex justify-center items-center text-success font-medium border border-success text-center h-12 rounded-[5px] mb-5">
+        <div className=" lg:w-[55%] sm:w-3/5 w-[90%] my-14 flex flex-col items-center justify-center bg-white shadow-custom rounded-[0.4rem] px-10 py-[48px]">
+          <div className="w-full flex justify-center items-center text-success font-medium border border-success text-center h-12 rounded-[0.4rem] mb-5">
             Votre compte a été activé avec succés
           </div>
 
@@ -274,7 +274,7 @@ const FillInfos = () => {
                   ? "Saisir votre numéro d'inscription "
                   : "Saisir votre matricule"
               }
-              className="rounded-[5px] w-auto h-[50px] pl-[24px] bg-gray-50 text-gray3"
+              className="rounded-[0.4rem] w-auto h-[50px] pl-[24px] bg-gray-50 text-gray3"
             />
             <p className="text-error text-sm ml-1">
               {errors.num_inscription && errors.num_inscription.message}
@@ -290,7 +290,7 @@ const FillInfos = () => {
               type="date"
               name="birth_date"
               placeholder="JJ/MM/AAAA"
-              className="text-[16px] rounded-[5px] bg-gray-50 w-auto h-[50px] pl-[24px] pr-4 text-gray3"
+              className="text-[16px] rounded-[0.4rem] bg-gray-50 w-auto h-[50px] pl-[24px] pr-4 text-gray3"
             />
             <p className="text-error text-sm ml-2">{errors.date?.message}</p>
 
@@ -303,7 +303,7 @@ const FillInfos = () => {
               type="text"
               name="phone_number"
               placeholder="0-xxx-xx-xx-xx"
-              className="text-[16px] rounded-[5px] bg-gray-50 w-auto h-[50px] pl-[24px] text-gray3"
+              className="text-[16px] rounded-[0.4rem] bg-gray-50 w-auto h-[50px] pl-[24px] text-gray3"
             />
             <p className="text-error text-sm ml-2">
               {errors.phone_number?.message}
@@ -412,7 +412,7 @@ const FillInfos = () => {
               <button
                 onClick={handleClick}
                 type="button"
-                className="border border-gray4 text-gray3 rounded-[5px] px-[44px] py-3 h-[50px]"
+                className="border border-gray4 text-gray3 rounded-[0.4rem] px-[44px] py-3 h-[50px]"
               >
                 Changer photo
               </button>
@@ -424,14 +424,14 @@ const FillInfos = () => {
                 style={{ display: "none" }}
                 ref={hiddenFileInput}
                 onChange={handleChange}
-                className="border border-gray4 text-gray3 rounded-[5px] px-[44px] py-3 h-[50px]"
+                className="border border-gray4 text-gray3 rounded-[0.4rem] px-[44px] py-3 h-[50px]"
               />
             </div>
 
             {/* submit button */}
             <button
               type="submit"
-              className={`w-full text-sm md:text-base h-[40px] md:h-[50px] bg-primary mt-[50px] mb-[8px] rounded-[5px] text-white font-semibold ${
+              className={`w-full text-sm md:text-base h-[40px] md:h-[50px] bg-primary mt-[50px] mb-[8px] rounded-[0.4rem] text-white font-semibold ${
                 isFetching ? "bg-opacity-75" : "bg-opacity-100"
               }`}
               disabled={isFetching}

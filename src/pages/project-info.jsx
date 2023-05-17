@@ -80,7 +80,7 @@ const ProjectInfo = () => {
           </div>
         </div>
         <div className=" lg:w-2/5 w-full flex flex-col mb-10">
-          <div className=" w-full flex flex-row px-5 py-3 bg-white mb-3 rounded-[5px] border items-center">
+          <div className=" w-full flex flex-row px-5 py-3 bg-white mb-3 rounded-[0.4rem] border items-center">
             <img src={Calendar} alt="calendar" className="w-[30px] h-[30px]" />
             <div className="ml-4">
               <h1 className="text-[14px] text-gray3 mb-2 ">
@@ -90,7 +90,7 @@ const ProjectInfo = () => {
             </div>
           </div>
           <div className="lg:overflow-auto lg:h-[600px] h-auto ">
-            <div className="bg-white rounded-[5px] shadow-custom flex flex-col justify-center py-3 px-5 border mb-3 ">
+            <div className="bg-white rounded-[0.4rem] shadow-custom flex flex-col justify-center py-3 px-5 border mb-3 ">
               <p className="text-[13px] font-medium text-gray3 mb-2 ">
                 Porteur de projet
               </p>
@@ -99,7 +99,7 @@ const ProjectInfo = () => {
                 email="c.belbachir@esi-sba.dz"
               />
             </div>
-            <div className="bg-white rounded-[5px] shadow-custom flex flex-col justify-center py-3 px-5 border mb-3">
+            <div className="bg-white rounded-[0.4rem] shadow-custom flex flex-col justify-center py-3 px-5 border mb-3">
               <p className="text-[13px] font-medium text-gray3 mb-2 ">
                 Encadrant
               </p>
@@ -113,7 +113,7 @@ const ProjectInfo = () => {
                 ))}
               </div>
             </div>
-            <div className="bg-white rounded-[5px] shadow-custom flex flex-col justify-center py-3 px-5 border mb-3">
+            <div className="bg-white rounded-[0.4rem] shadow-custom flex flex-col justify-center py-3 px-5 border mb-3">
               <p className="text-[13px] font-medium text-gray3 mb-2 ">
                 Co-Encadrants
               </p>
@@ -123,7 +123,7 @@ const ProjectInfo = () => {
                 ))}
               </div>
             </div>
-            <div className="bg-white rounded-[5px] shadow-custom flex flex-col justify-center py-3 px-5 border">
+            <div className="bg-white rounded-[0.4rem] shadow-custom flex flex-col justify-center py-3 px-5 border">
               <p className="text-[13px] font-medium text-gray3 mb-2 ">
                 Membres de l'equipe
               </p>
@@ -137,7 +137,7 @@ const ProjectInfo = () => {
       {/* actions */}
       <div className="flex flex-row justify-between">
         <div
-          className="flex flex-row px-5 py-3 bg-info text-white rounded-[5px] cursor-pointer"
+          className="flex flex-row px-5 py-3 bg-info text-white rounded-[0.4rem] cursor-pointer"
           onClick={handleReponce}
         >
           <img src={Edit} alt="edit" />
@@ -145,7 +145,7 @@ const ProjectInfo = () => {
         </div>
       </div>
       <div className="lg:overflow-auto lg:h-100 h-auto ">
-        <div className="bg-white rounded-[5px] shadow-custom flex flex-col justify-center py-3 px-5 border mb-3 ">
+        <div className="bg-white rounded-[0.4rem] shadow-custom flex flex-col justify-center py-3 px-5 border mb-3 ">
           <p className="text-[13px] font-medium text-gray3 mb-2 ">
             Porteur de projet
           </p>
@@ -165,12 +165,12 @@ const ProjectInfo = () => {
             <div className="flex flex-row justify-center gap-5 bottom-10">
               <div
                 onClick={closeDeletePopup}
-                className="flex w-max flex-row px-5 py-3 rounded-[5px] cursor-pointer border border-gray4"
+                className="flex w-max flex-row px-5 py-3 rounded-[0.4rem] cursor-pointer border border-gray4"
               >
                 <h1 className=" text-gray3">Annuler</h1>
               </div>
               <div
-                className="flex flex-row px-5 py-3 text-white rounded-[5px] border border-error cursor-pointer"
+                className="flex flex-row px-5 py-3 text-white rounded-[0.4rem] border border-error cursor-pointer"
                 onClick={handleConfirmDelete}
               >
                 <img src={Delete} alt="delete" />

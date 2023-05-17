@@ -39,7 +39,7 @@ const SetPassword = () => {
       {isResetSuccess ? (
         <ResetPasswordSucces />
       ) : (
-        <div className="w-2/5 h-auto flex flex-col items-center justify-center bg-white shadow-custom rounded-[5px] px-10 py-[48px]">
+        <div className="w-2/5 h-auto flex flex-col items-center justify-center bg-white shadow-custom rounded-[0.4rem] px-10 py-[48px]">
           <h1 className="text-2xl mb-8 font-bold text-gray1 text-center">
             Réinitialiser votre mot de pass
           </h1>
@@ -66,7 +66,7 @@ const SetPassword = () => {
               name="password"
               placeholder="Min 8 caractères"
               required
-              className="rounded-[5px] w-auto h-[50px] pl-[24px] bg-gray-50 text-gray3"
+              className="rounded-[0.4rem] w-auto h-[50px] pl-[24px] bg-gray-50 text-gray3"
             />
             <p className="text-error text-sm ml-2">
               {errors.password && errors.password?.message}
@@ -80,13 +80,13 @@ const SetPassword = () => {
               name="confirm_password"
               placeholder="Min 8 caractères"
               required
-              className="text-[16px] rounded-[5px] bg-gray-50 w-auto h-[50px] pl-[24px] text-gray3"
+              className="text-[16px] rounded-[0.4rem] bg-gray-50 w-auto h-[50px] pl-[24px] text-gray3"
             />
             <p className="text-error text-sm ml-2">
               {errors.confirm_password && errors.confirm_password?.message}
             </p>
             <button
-              className={`w-full h-[50px] bg-primary mt-[50px] mb-[8px] rounded-[5px] text-white font-semibold`}
+              className={`w-full h-[50px] bg-primary mt-[50px] mb-[8px] rounded-[0.4rem] text-white font-semibold`}
             >
               Confirmer
             </button>

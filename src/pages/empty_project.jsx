@@ -15,7 +15,7 @@ const EmptyProject = () => {
     await createProject();
     setIsCreatingProject(false);
 
-    navigate("/project/edit");
+    navigate("/project/edit", { forceRefresh: true });
     toast.success("Votre projet a été crée");
   };
 
@@ -33,7 +33,7 @@ const EmptyProject = () => {
         </p>
         <button
           onClick={handleClick}
-          className={`w-1/4 text-sm md:text-base h-[40px] md:h-[50px] bg-primary mt-[50px] mb-[8px] rounded-[5px] text-white font-semibold ${
+          className={`w-1/4 text-sm md:text-base h-[40px] md:h-[50px] bg-primary mt-[50px] mb-[8px] rounded-[0.4rem] text-white font-semibold ${
             isCreatingProject ? "bg-opacity-75" : "bg-opacity-100"
           }`}
           disabled={isCreatingProject}

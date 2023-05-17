@@ -6,7 +6,7 @@ const AnnouncementPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full bg-white rounded-[5px] px-10 py-12 shadow-custom flex flex-col">
+    <div className="w-full bg-white rounded-[0.4rem] px-10 py-12 shadow-custom flex flex-col">
       <button onClick={() => navigate(-1)}>
         <div className="flex items-center gap-3 mb-8 text-primary">
           <FiChevronLeft />
@@ -20,7 +20,7 @@ const AnnouncementPage = () => {
       <p className="text-sm mb-12 text-gray3">JUIN 25, 2023</p>
       <a href="#" className="flex justify-center items-center mb-12">
         <img
-          class="rounded-[5px] w-4/5"
+          class="rounded-[0.4rem] w-4/5"
           src="https://flowbite.com/docs/images/blog/image-1.jpg"
           alt=""
         />

@@ -34,7 +34,7 @@ const ResetPassword = () => {
         <div className="w-4/5 md:w-1/2 lg:w-1/3 flex flex-col items-center">
           <div className="flex flex-col items-center w-full">
             <img src={logo} alt="logo" className="mb-[60px] w-[120px]" />
-            <h1 className="text-2xl mb-[5px] font-bold text-gray1">
+            <h1 className="text-2xl mb-[0.4rem] font-bold text-gray1">
               Oublié le mot de pass?
             </h1>
             <p className="text-sm text-gray3 mb-[40px] text-center">
@@ -52,13 +52,13 @@ const ResetPassword = () => {
                 name="email"
                 placeholder="mail@esi-sba.dz"
                 required
-                className="shadow-custom rounded-[5px] w-full h-[50px] pl-[24px] text-gray3"
+                className="shadow-custom rounded-[0.4rem] w-full h-[50px] pl-[24px] text-gray3"
               />
               <p className="text-error ml-2 mt-2 text-sm">
                 {errors.email && "Votre adresse email est invalide"}
               </p>
               <button
-                className={`w-full h-[50px] bg-primary mt-[50px]  rounded-[5px] text-white font-semibold ${
+                className={`w-full h-[50px] bg-primary mt-[50px]  rounded-[0.4rem] text-white font-semibold ${
                   isFetching ? "bg-opacity-75" : "bg-opacity-100  "
                 }`}
                 disabled={isFetching}
