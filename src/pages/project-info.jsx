@@ -143,17 +143,14 @@ const ProjectInfo = () => {
           <img src={Edit} alt="edit" />
           <h1 className="ml-2">Réponse</h1>
         </div>
+        <div 
+                        className='flex flex-row px-5 py-3 text-white rounded-[5px] border border-error cursor-pointer'
+                        onClick={handleDelete}>
+                            <img src={Delete} alt="delete" />
+                            <h1 className='ml-2 text-error'>Retirer</h1>
+                        </div>
       </div>
       <div className="lg:overflow-auto lg:h-100 h-auto ">
-        <div className="bg-white rounded-[5px] shadow-custom flex flex-col justify-center py-3 px-5 border mb-3 ">
-          <p className="text-[13px] font-medium text-gray3 mb-2 ">
-            Porteur de projet
-          </p>
-          <PersonField
-            name={projectData?.owner}
-            email="c.belbachir@esi-sba.dz"
-          />
-        </div>
       </div>
       {isPopupOpen && <PopUpReponse onclick={closePopup} />}
       {isDeletePopupOpen && (

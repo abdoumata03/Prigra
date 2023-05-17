@@ -4,6 +4,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { ReactComponent as Save } from "../assets/icons/save.svg";
 import PhaseContext from '../context/phase-context';
+import { format } from "date-fns";
+import BlueLoadingSpinner from "../components/spinner_blue";
 
 const schema = yup.object().shape({
   debut_phase1: yup.date(),
@@ -53,7 +55,7 @@ const schema = yup.object().shape({
 
 
 const DatePlanification = () => {
-const {phases, putPhase} = useContext(PhaseContext);
+const {phases, putPhase, fetch_phases, isPhasesLoading} = useContext(PhaseContext);
 
   const {
     register,
@@ -64,145 +66,163 @@ const {phases, putPhase} = useContext(PhaseContext);
     resolver: yupResolver(schema),
   });
    
-
-  const submitForm = (data) => {  
-  }
+  const submitForm = (data) => {
+    phases.forEach((index) => {
+      const debutKey = `debut_phase${index + 1}`;
+      const finKey = `fin_phase${index + 1}`;
+      const debutDate = format(data[debutKey], "yyyy-MM-dd");
+      const finDate = format(data[finKey], "yyyy-MM-dd");
+      putPhase(index + 1, debutDate, finDate);
+    });
+  };
 
   const handleFinPhaseChange = (phaseNumber, event) => {
     const finPhaseValue = event.target.value;
     setValue(`debut_phase${phaseNumber}`, finPhaseValue);
   };
 
-  // useEffect(() => {
-  //   for (let phaseNumber = 1; phaseNumber <= 4; phaseNumber++) {
-  //    setValue(`debut_phase${phaseNumber}, ${phases[phaseNumber].date_debut} `);
-  //   }
-    
-  
-  
-  //  }, [])
-  
-  return (
-      <div className="w-5/6 mt-[50px] flex flex-col">
-        <div className="w-3/6">
-          <h1 className=' text-xl font-bold text-gray1'>Planificaiton Des Phases Des Projets</h1>
-          <h2 className='text-sm font-normal text-gray3 mb-6'>Optimisez l'organisation et la progression des projets grâce à une planification précise des phases</h2>
-            <form onSubmit={handleSubmit(submitForm)} className="flex flex-col w-full">
+  useEffect(() => {
+    fetch_phases();
+    console.log(phases);
+    phases?.map((phase, index) => {
+      setValue(`debut_phase${index}`, phase.date_debut);
+      setValue(`fin_phase${index}`, phase.date_fin);
+    });
+  }, []);
 
-              <h1 className='text-gray2 font-medium text-[18px] mt-10 mb-5'>Phase 1</h1>
-              <div className='flex flex-row gap-10'>
-                  <div className='w-full items-start justify-start'>
-                    <p className="text-[13px] font-medium text-gray3 mb-1">Début</p>
-                    <input
-                    {...register("debut_phase1")}
-                    type="date"
-                    name="debut_phase1"
-                    required
-                    className="text-[16px] rounded-[5px] bg-white w-full h-[50px] pl-[24px] text-gray3 outline-none pr-5"
-                    />
-                  </div>
-                  <div className='w-full'>
-                    <p className="text-[13px] font-medium text-gray3 mb-1">Fin</p>
-                    <input
-                    {...register("fin_phase1")}
-                    type="date"
-                    name="fin_phase1"
-                    required
-                    className="text-[16px] rounded-[5px] bg-white w-full h-[50px] pl-[24px] text-gray3 outline-none pr-5"
-                    onChange={(event) => handleFinPhaseChange(2, event)}
-                    />
-                    <p className='text-error text-sm ml-2'>{errors.fin_phase1 && errors.fin_phase1.message}</p>
-                  </div>
-              </div>
-
-              <h1 className='text-gray2 font-medium text-[18px] mt-10  mb-5'>Phase 2</h1>
-              <div className='flex flex-row gap-10'>
-                <div className='w-full'>
-                  <p className="text-[13px] font-medium text-gray3 mb-1">Début</p>
-                  <input
-                  {...register("debut_phase2")}
-                  type="date"
-                  name="debut_phase2"
-                  required
-                  className="text-[16px] rounded-[5px] bg-white w-full h-[50px] pl-[24px] text-gray3 outline-none pr-5"
-                  />
-                  <p className='text-error text-sm ml-2'>{errors.debut_phase2 && errors.debut_phase2.message}</p>
-                  </div>
-                  <div className='w-full'>
-                    <p className="text-[13px] font-medium text-gray3 mb-1">Fin</p>
-                    <input
-                    {...register("fin_phase2")}
-                    type="date"
-                    name="fin_phase2"
-                    required
-                    className="text-[16px] rounded-[5px] bg-white w-full h-[50px] pl-[24px] text-gray3 outline-none pr-5"
-                    onChange={(event) => handleFinPhaseChange(3, event)}
-                    />
-                    {errors.fin_phase2 && <p className='text-error text-sm ml-2'>{errors.fin_phase2.message}</p>}
-                  </div>
-              </div>
-              <h1 className='text-gray2 font-medium text-[18px] mt-10 mb-5'>Phase 3</h1>
-              <div className='flex flex-row gap-10'>
-                <div className='w-full'>
-                  <p className="text-[13px] font-medium text-gray3 mb-1">Début</p>
-                  <input
-                  {...register("debut_phase3")}
-                  type="date"
-                  name="debut_phase3"
-                  required
-                  className="text-[16px] rounded-[5px] bg-white w-full h-[50px] pl-[24px] text-gray3 outline-none pr-5"
-                  />
-                  {errors.debut_phase3 && <p className='text-error text-sm ml-2'>{errors.debut_phase3.message}</p>}
-                  </div>
-                  <div className='w-full'>
-                    <p className="text-[13px] font-medium text-gray3 mb-1">Fin</p>
-                    <input
-                    {...register("fin_phase3")}
-                    type="date"
-                    name="fin_phase3"
-                    required
-                    className="text-[16px] rounded-[5px] bg-white w-full h-[50px] pl-[24px] text-gray3 outline-none pr-5"
-                    onChange={(event) => handleFinPhaseChange(4, event)}
-                    />
-                    {errors.fin_phase3 && <p className='text-error text-sm ml-2'>{errors.fin_phase3.message}</p>}
-                  </div>
-              </div>
-              <h1 className='text-gray2 font-medium text-[18px] mt-10  mb-5'>Phase 4</h1>
-              <div className='flex flex-row gap-10'>
-                <div className='w-full'>
-                  <p className="text-[13px] font-medium text-gray3 mb-1">Début</p>
-                  <input
-                  {...register("debut_phase4")}
-                  type="date"
-                  name="debut_phase4"
-                  required
-                  className="text-[16px] rounded-[5px] bg-white w-full h-[50px] pl-[24px] text-gray3 outline-none pr-5"
-                  />
-                  {errors.debut_phase4 && <p className='text-error text-sm ml-2'>{errors.debut_phase4.message}</p>}
-                  </div>
-                  <div className='w-full'>
-                    <p className="text-[13px] font-medium text-gray3 mb-1">Fin</p>
-                    <input
-                    {...register("fin_phase4")}
-                    type="date"
-                    name="fin_phase4"
-                    required
-                    className="text-[16px] rounded-[5px] bg-white w-full h-[50px] pl-[24px] text-gray3 outline-none pr-5"
-                    />
-                    {errors.fin_phase4 && <p className='text-error text-sm ml-2'>{errors.fin_phase4?.message}</p>}
-                  </div>
-              </div>
-
-              <button 
-              className=" absolute bottom-20 right-40 flex justify-center items-center gap-3 self-end h-[40px] md:h-[50px] bg-primary text-white text-sm md:text-md font-semibold rounded-[5px] px-5 mb-10 lg:mb-0 mt-10 w-full md:w-auto">
-              <Save />
-              Sauvegarder
-            </button>
-              
-            </form>
-        </div>
+  if (isPhasesLoading) {
+    return (
+      <div className="flex flex-row gap-3 h-full justify-center items-center">
+        <BlueLoadingSpinner />
+        <p className="text-md text-gray3">
+          Nous préparons vos données, merci de patienter...
+        </p>
       </div>
-  )
+    );
+  } else {
+  return (
+  <div className="w-5/6 mt-10 flex flex-col">
+    <div className="w-4/6">
+      <h1 className="text-xl font-bold text-gray-800">Planification Des Phases Des Projets</h1>
+      <h2 className="text-sm font-normal text-gray3 mb-6">Optimisez l'organisation et la progression des projets grâce à une planification précise des phases</h2>
+      <form onSubmit={handleSubmit(submitForm)} className="flex flex-col w-full">
+
+        <h1 className="text-gray-700 font-medium text-lg mt-10 mb-5">Période de soumission des projets</h1>
+        <div className="flex flex-row gap-10">
+          <div className="w-1/2">
+            <p className="text-xs font-medium text-gray3 mb-1">Début</p>
+            <input
+              {...register("debut_phase1")}
+              type="date"
+              name="debut_phase1"
+              required
+              className="text-base rounded-md bg-white w-full h-10 pl-4 text-gray3 outline-none"
+            />
+          </div>
+          <div className="w-1/2">
+            <p className="text-xs font-medium text-gray3 mb-1">Fin</p>
+            <input
+              {...register("fin_phase1")}
+              type="date"
+              name="fin_phase1"
+              required
+              className="text-base rounded-md bg-white w-full h-10 pl-4 text-gray3 outline-none"
+              onChange={(event) => handleFinPhaseChange(2, event)}
+            />
+            {errors.fin_phase1 && <p className="text-red-500 text-sm ml-2">{errors.fin_phase1.message}</p>}
+          </div>
+        </div>
+
+        <h1 className="text-gray-700 font-medium text-lg mt-10 mb-5">Période de validation des projets</h1>
+        <div className="flex flex-row gap-10">
+          <div className="w-1/2">
+            <p className="text-xs font-medium text-gray3 mb-1">Début</p>
+            <input
+              {...register("debut_phase2")}
+              type="date"
+              name="debut_phase2"
+              required
+              className="text-base rounded-md bg-white w-full h-10 pl-4 text-gray3 outline-none"
+            />
+            {errors.debut_phase2 && <p className="text-red-500 text-sm ml-2">{errors.debut_phase2.message}</p>}
+          </div>
+          <div className="w-1/2">
+            <p className="text-xs font-medium text-gray3 mb-1">Fin</p>
+            <input
+              {...register("fin_phase2")}
+              type="date"
+              name="fin_phase2"
+              required
+              className="text-base rounded-md bg-white w-full h-10 pl-4 text-gray3 outline-none"
+              onChange={(event) => handleFinPhaseChange(3, event)}
+            />
+            {errors.fin_phase2 && <p className="text-red-500 text-sm ml-2">{errors.fin_phase2.message}</p>}
+          </div>
+        </div>
+
+        <h1 className="text-gray-700 font-medium text-lg mt-10 mb-5">Période de dépôt de recours</h1>
+        <div className="flex flex-row gap-10">
+          <div className="w-1/2">
+            <p className="            text-xs font-medium text-gray3 mb-1">Début</p>
+            <input
+              {...register("debut_phase3")}
+              type="date"
+              name="debut_phase3"
+              required
+              className="text-base rounded-md bg-white w-full h-10 pl-4 text-gray3 outline-none"
+            />
+            {errors.debut_phase3 && <p className="text-red-500 text-sm ml-2">{errors.debut_phase3.message}</p>}
+          </div>
+          <div className="w-1/2">
+            <p className="text-xs font-medium text-gray3 mb-1">Fin</p>
+            <input
+              {...register("fin_phase3")}
+              type="date"
+              name="fin_phase3"
+              required
+              className="text-base rounded-md bg-white w-full h-10 pl-4 text-gray3 outline-none"
+              onChange={(event) => handleFinPhaseChange(4, event)}
+            />
+            {errors.fin_phase3 && <p className="text-red-500 text-sm ml-2">{errors.fin_phase3.message}</p>}
+          </div>
+        </div>
+
+        <h1 className="text-gray-700 font-medium text-lg mt-10 mb-5">Période de validation des projets après recours</h1>
+        <div className="flex flex-row gap-10">
+          <div className="w-1/2">
+            <p className="text-xs font-medium text-gray3 mb-1">Début</p>
+            <input
+              {...register("debut_phase4")}
+              type="date"
+              name="debut_phase4"
+              required
+              className="text-base rounded-md bg-white w-full h-10 pl-4 text-gray3 outline-none"
+            />
+            {errors.debut_phase4 && <p className="text-red-500 text-sm ml-2">{errors.debut_phase4.message}</p>}
+          </div>
+          <div className="w-1/2">
+            <p className="text-xs font-medium text-gray3 mb-1">Fin</p>
+            <input
+              {...register("fin_phase4")}
+              type="date"
+              name="fin_phase4"
+              required
+              className="text-base rounded-md bg-white w-full h-10 pl-4 text-gray3 outline-none"
+            />
+            {errors.fin_phase4 && <p className="text-red-500 text-sm ml-2">{errors.fin_phase4?.message}</p>}
+          </div>
+        </div>
+
+        <button className="flex justify-center items-center gap-3 self-end h-[40px] md:h-[50px] bg-primary text-white text-sm md:text-md font-semibold rounded-[5px] px-5 mb-10 lg:mb-0 mt-10 w-full md:w-auto">
+                <Save />
+                Sauvegarder
+        </button>
+
+      </form>
+    </div>
+  </div>
+);
+  }
 }
 
 export default DatePlanification

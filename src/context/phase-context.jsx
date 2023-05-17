@@ -6,9 +6,11 @@ export default PhaseContext;
 
 export const PhaseProvider = ({ children }) => {
     const [phases, setPhases] = useState(null);
-    const [isPhasetsLoading, setIsPhasesLoading] = useState(false);
+    const [isPhasesLoading, setIsPhasesLoading] = useState(false);
 
     const fetch_phases = async () => {
+      setIsPhasesLoading(true);
+
         const phasesResponse = await fetch(
             'https://prigra.onrender.com/diplome/phases/', 
             {
@@ -47,7 +49,7 @@ export const PhaseProvider = ({ children }) => {
 
     const contextData = {
         phases, 
-        isPhasetsLoading, 
+        isPhasesLoading, 
         fetch_phases,
         putPhase,    
       };
