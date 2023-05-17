@@ -8,7 +8,7 @@ export default ProjectContext;
 export const ProjectProvider = ({ children }) => {
   const [projects, setProjects] = useState(null);
   const [isProjectsLoading, setIsProjectsLoading] = useState(false);
-  const { projectId, setHasProject, type } = useContext(ProfileContext);
+  const { projectId, setProjectId, setHasProject, type } = useContext(ProfileContext);
 
   const [invitationsList, setInvitationsList] = useState([]);
 
@@ -31,6 +31,9 @@ export const ProjectProvider = ({ children }) => {
         },
       }
     );
+
+    const resp = await project_response.json();
+    setProjectId(resp.id);
 
     setHasProject(true);
   };
