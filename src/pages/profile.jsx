@@ -8,18 +8,9 @@ import ProfileContext from "../context/profile-context";
 import Breadcrumbs from "../components/breadcrumbs";
 
 const Profile = () => {
-  const { userData, isLoading } = useContext(ProfileContext);
+  const { userData } = useContext(ProfileContext);
 
-  if (isLoading) {
-    return (
-      <div className="flex flex-row gap-3 h-full justify-center items-center">
-        <BlueLoadingSpinner />
-        <p className="text-md text-gray3">
-          Nous préparons vos données, merci de patienter...
-        </p>
-      </div>
-    );
-  } else {
+ 
     return (
       <>
         <Breadcrumbs />
@@ -92,7 +83,6 @@ const Profile = () => {
         </div>
       </>
     );
-  }
 };
 
 export default Profile;

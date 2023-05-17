@@ -169,8 +169,8 @@ const MyProjectInfo = () => {
                 <FiClock />
               </div>
               <div>
-                <p className="text-gray3 text-xs mb-1">Statut de projet</p>
-                <h2 className="text-gray1 text-base font-medium">En cours</h2>
+                <p className="text-gray3 text-xs mb-1">Délai de modification</p>
+                <h2 className="text-gray1 text-base font-medium">27/03/2023</h2>
               </div>
             </div>
           </div>

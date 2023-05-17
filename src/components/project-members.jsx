@@ -23,14 +23,13 @@ const ProjectThirdStep = ({ innerRef }) => {
     putCoEnc,
   } = useContext(ProjectContext);
 
-
   const enc_list = projectData?.encadrant;
   const co_enc_list = projectData?.co_encadrant;
 
   const [encList, setEncList] = useState(enc_list);
   const [coEncList, setCoEncList] = useState(co_enc_list);
 
-  const added_members = projectData?.members.map((item) => item.email);
+  const added_members = projectData?.members?.map((item) => item.email);
 
   const invited_members = invitationsList
     ?.filter((item) => {
@@ -188,7 +187,7 @@ const ProjectThirdStep = ({ innerRef }) => {
           </form>
           {errors.invited_mail?.message && (
             <p className="text-error text-xs">
-              • {errors_enc.invited_mail?.message}
+              • {errors.invited_mail?.message}
             </p>
           )}
         </FormProvider>
@@ -266,7 +265,7 @@ const ProjectThirdStep = ({ innerRef }) => {
               `rounded-t-[5px]`} ${index === encList.length - 1 &&
               `rounded-b-[5px]`} px-3 flex flex-col py-3`}
           >
-            <p className="text-sm font-medium text-gray1">{item.email }</p>
+            <p className="text-sm font-medium text-gray1">{item.email}</p>
           </div>
         ))}
       </div>

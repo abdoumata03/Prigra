@@ -36,7 +36,7 @@ const FileInput = ({ onFileChange }) => {
   };
 
   return (
-    <div class="flex flex-col items-center justify-center w-full">
+    <div class="flex flex-col justify-center w-full">
       <label
         for="dropzone-file"
         onChange={onFileUpload}

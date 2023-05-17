@@ -25,9 +25,7 @@ const Project = () => {
     return <MyProjectInfo />;
   };
 
-  return isLoading ? (
-    <LoadingData />
-  ) : (
+  return (
     <div className="flex flex-col justify-start items-start w-full">
       <Toaster position="top-center" reverseOrder={false} />
       <Breadcrumbs />

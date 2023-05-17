@@ -13,6 +13,8 @@ const Breadcrumbs = () => {
       return "Modifier";
     } else if (crumb === "profile") {
       return "Mon Profile";
+    } else if (crumb === "annonces") {
+      return "Annonces";
     }
   }
 
