@@ -3,6 +3,16 @@ import { FiAtSign } from "react-icons/fi";
 import { IconContext } from "react-icons";
 
 const ProfileInputField = ({ field_name, value, icon }) => {
+
+
+  const uneditable = [
+    'email',
+    'num_inscription',
+    'etablissement',
+    'filière',
+    'spécialité'
+  ]
+
   return (
     <div>
       {field_name && (
@@ -19,7 +29,7 @@ const ProfileInputField = ({ field_name, value, icon }) => {
           </div>
         )}
         <input
-          value={value}
+          defaultValue={value}
           disabled
           className={`shadow-custom ${
             icon ? `pl-10` : `pl-5`

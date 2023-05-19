@@ -8,8 +8,37 @@ export default ProjectContext;
 export const ProjectProvider = ({ children }) => {
   const [projects, setProjects] = useState(null);
   const [isProjectsLoading, setIsProjectsLoading] = useState(false);
-  const { projectId, setProjectId, setHasProject, type } = useContext(ProfileContext);
+  const { projectId, setProjectId, setHasProject, type } = useContext(
+    ProfileContext
+  );
 
+  const [tasksData, setTasksData] = useState([
+    {
+      id: "J00005",
+      title: "Task 5",
+      status: "TO DO",
+      description: "Implement new feature",
+      startDate: "2023-05-25",
+      endDate: "2023-06-05",
+      workDone: "Some Work",
+    },
+    {
+      id: "J00006",
+      title: "Task 6",
+      status: "ATTENTE",
+      description: "Design user interface",
+      startDate: "2023-05-21",
+      endDate: "2023-05-30",
+    },
+    {
+      id: "J00007",
+      title: "Task 7",
+      status: "DONE",
+      description: "Optimize database queries",
+      startDate: "2023-05-22",
+      endDate: "2023-05-28",
+    },
+  ]);
   const [invitationsList, setInvitationsList] = useState([]);
 
   const [isPuttingInfo, setIsPuttingInfo] = useState(false);
@@ -231,6 +260,7 @@ export const ProjectProvider = ({ children }) => {
     putCoEnc,
     isPuttingInfo,
     projects,
+    tasksData,
     fetch_projects,
     isProjectsLoading,
     deleteProject,

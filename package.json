@@ -10,14 +10,15 @@
     "preview": "vite preview --port 5173"
   },
   "dependencies": {
+    "@devexpress/dx-react-core": "^4.0.4",
+    "@devexpress/dx-react-scheduler": "^4.0.4",
+    "@devexpress/dx-react-scheduler-material-ui": "^4.0.4",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@fluentui/react": "^8.108.3",
     "@heroicons/react": "^1.0.6",
     "@hookform/resolvers": "^3.0.0",
     "@mui/material": "^5.13.0",
-    "@syncfusion/ej2-base": "^21.2.3",
-    "@syncfusion/ej2-react-kanban": "^21.2.3",
     "autoprefixer": "^10.4.14",
     "autosize": "^6.0.1",
     "axios": "^1.3.6",

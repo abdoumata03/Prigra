@@ -40,7 +40,7 @@ const FileInput = ({ onFileChange }) => {
       <label
         for="dropzone-file"
         onChange={onFileUpload}
-        class="flex flex-col items-center mb-5 justify-center w-[80%] h-26 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-accent px-3"
+        class="flex flex-col items-center mb-5 justify-center w-full h-26 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-accent px-3"
       >
         <div class="flex flex-row items-center justify-center gap-5 pt-5 pb-6">
           <Upload />
@@ -63,7 +63,7 @@ const FileInput = ({ onFileChange }) => {
       {fileList.map((item, index) => (
         <div
           key={index}
-          className="bg-white shadow-custom rounded-[0.4rem] px-6 py-3 mb-2 w-[80%] flex flex-row justify-between items-center"
+          className="bg-white shadow-custom rounded-[0.4rem] px-6 py-3 mb-2 w-full flex flex-row justify-between items-center"
         >
           <div className="w-8 mr-3">{ImageConfig[item.type.split("/")[1]]}</div>
 

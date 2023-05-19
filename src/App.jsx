@@ -31,9 +31,7 @@ import ProtectedProject from "./utils/protect-add-project.jsx";
 import { PhaseProvider } from "./context/phase-context.jsx";
 import AnnouncementPage from "./pages/announcement-page.jsx";
 
-// Wrap pages not requiring authenticatino in <PrivateLogin/>
-// Wrap pages requiring authentication in <PrivateRoute/>
-//hey
+
 
 function App() {
   return (
@@ -83,7 +81,11 @@ function App() {
                   <Route element={<Profile />} path="/profile" exact />
                   <Route element={<Graduation />} path="/soutenance" exact />
                   <Route element={<Announcement />} path="/annonces" exact />
-                  <Route element={<AnnouncementPage/>} path="/annonces/:id" exact />
+                  <Route
+                    element={<AnnouncementPage />}
+                    path="/annonces/:id"
+                    exact
+                  />
                   <Route element={<ComiteProjects />} path="/comite-projects" />
                   <Route element={<ProjectInfo />} path="/project-info" />
                   <Route
