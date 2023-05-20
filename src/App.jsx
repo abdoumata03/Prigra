@@ -31,8 +31,6 @@ import ProtectedProject from "./utils/protect-add-project.jsx";
 import { PhaseProvider } from "./context/phase-context.jsx";
 import AnnouncementPage from "./pages/announcement-page.jsx";
 
-
-
 function App() {
   return (
     <AuthProvider>

@@ -13,13 +13,25 @@ import { ProjectInfoField, PersonField } from "../components/index.js";
 import { Link, useNavigate } from "react-router-dom";
 import { Dialog } from "primereact/dialog";
 import ProjectContext from "../context/project-context";
+import PhaseContext from "../context/phase-context";
 
 const MyProjectInfo = () => {
   const { projectData, userData, projectId } = useContext(ProfileContext);
+  const { phases } = useContext(PhaseContext);
   const { deleteProject } = useContext(ProjectContext);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const [value, setValue] = useState(0);
+
+  function getDateFinSoumission() {
+    for (let i = 0; i < phases?.length; i++) {
+      if (phases[i].nom_phase === "Période de soumission des projets") {
+        return phases[i].date_fin;
+      }
+    }
+
+    return null; // Return null if the phase is not found
+  }
 
   const navigate = useNavigate();
 
@@ -179,8 +191,10 @@ const MyProjectInfo = () => {
                 <FiCalendar />
               </div>
               <div>
-                <p className="text-gray3 text-xs mb-1">Date de soumission</p>
-                <h2 className="text-gray1 text-base font-medium">15/03/2023</h2>
+                <p className="text-gray3 text-xs mb-1">Date de création</p>
+                <h2 className="text-gray1 text-base font-medium">
+                  {projectData?.created_at}
+                </h2>
               </div>
             </div>
             <div className="flex gap-6 items-center py-3">
@@ -189,7 +203,9 @@ const MyProjectInfo = () => {
               </div>
               <div>
                 <p className="text-gray3 text-xs mb-1">Délai de modification</p>
-                <h2 className="text-gray1 text-base font-medium">27/03/2023</h2>
+                <h2 className="text-gray1 text-base font-medium">
+                  {getDateFinSoumission()}
+                </h2>
               </div>
             </div>
           </div>

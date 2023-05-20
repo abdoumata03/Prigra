@@ -38,7 +38,6 @@ const ProjectDashboard = () => {
                   : ` bg-white text-gray3 font-medium`
               } py-2 flex items-center gap-2 px-6 rounded-[0.5rem] text-sm shadow-custom`}
             >
-              
               {item.icon}
               {item.titre}
             </div>

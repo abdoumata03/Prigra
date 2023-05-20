@@ -69,8 +69,6 @@ export const ProfileProvider = ({ children }) => {
 
       const project_response_data = await project_response.json();
 
-      console.log(project_response_data.co_encadrant);
-
       setProjectData(project_response_data);
 
       setType((_) => project_response_data.type);

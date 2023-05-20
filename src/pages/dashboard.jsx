@@ -15,6 +15,7 @@ const Dashboard = () => {
   const deletedProject = location.state;
 
   useEffect(() => {
+    console.log('HERE');
     fetch_user();
     fetch_phases();
     fetch_projects();
@@ -23,7 +24,7 @@ const Dashboard = () => {
   return (
     <div className="flex flex-row min-h-screen bg-white_bg  font-eudox">
       <Sidebar />
-      {isLoading ? (
+      {/* {isLoading ? (
         <div className="flex flex-col px-8 py-8 w-full min-h-screen">
           <div className="flex flex-row gap-3 h-full justify-center items-center">
             <BlueLoadingSpinner />
@@ -32,11 +33,11 @@ const Dashboard = () => {
             </p>
           </div>
         </div>
-      ) : (
+      ) : ( */}
         <div className="flex flex-col px-8 py-8 w-full ml-[18%] min-h-screen">
           <Outlet />
         </div>
-      )}
+      {/* )} */}
     </div>
   );
 };

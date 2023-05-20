@@ -8,25 +8,27 @@ import { LoadingData } from "../components/loading_data";
 import { Toaster } from "react-hot-toast";
 import Breadcrumbs from "../components/breadcrumbs";
 import ProjectDashboard from "./project-dashboard";
+import PhaseContext from "../context/phase-context";
 
 const Project = () => {
-  const { hasProject, isLoading } = useContext(ProfileContext);
+  const { hasProject, projectData } = useContext(ProfileContext);
+  const { currentPhase } = useContext(PhaseContext);
+
+  const status = projectData?.status_reponse.toLowerCase();
 
   const location = useLocation();
 
-
-  const suivi = true;
 
   const renderContent = () => {
     if (location?.pathname.includes("edit")) {
       return <Outlet />;
     }
 
-    if(suivi) {
-      return <ProjectDashboard/>;
+    if (status === "validé") {
+      return <ProjectDashboard />;
     }
 
-    if (!hasProject) {
+    if (!hasProject && currentPhase.includes("soumission")) {
       return <EmptyProject />;
     }
 
