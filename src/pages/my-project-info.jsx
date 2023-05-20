@@ -1,11 +1,10 @@
 import React, { useContext, useState } from "react";
 import ProfileContext from "../context/profile-context";
-import { styled } from "@mui/material/styles";
+
 
 import {
   FiCalendar,
   FiClock,
-  FiDelete,
   FiEdit3,
   FiTrash2,
 } from "react-icons/fi";
