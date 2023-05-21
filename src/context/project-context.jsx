@@ -1,5 +1,6 @@
 import { createContext, useState, useContext } from "react";
 import ProfileContext from "./profile-context";
+import { async } from "q";
 
 const ProjectContext = createContext();
 
@@ -245,6 +246,31 @@ export const ProjectProvider = ({ children }) => {
     );
   };
 
+
+  const ProjectReponse = async (id, reponse, rapportName, rapportSize, rapportFormat, rapportUrl) => {
+    const projectReponse = await fetch(
+    `https://prigra.onrender.com/diplome/reponses/${id}/`, 
+    {
+      method : "POST", 
+      headers : {
+        Authorization: `JWT ${
+          JSON.parse(localStorage.getItem("authTokens")).access
+      }`,
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      reponse,
+      rapport_expertise : {
+        name: rapportName,
+        size: rapportSize,
+        format: rapportFormat,
+        url: rapportUrl
+      }
+   })
+   } 
+    )
+  }
+
   const contextData = {
     createProject,
     isInvitationLoading,
@@ -264,6 +290,8 @@ export const ProjectProvider = ({ children }) => {
     fetch_projects,
     isProjectsLoading,
     deleteProject,
+    ProjectReponse, 
+
   };
 
   return (
