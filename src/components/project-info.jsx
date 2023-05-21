@@ -74,7 +74,7 @@ const ProjectInfo = ({ innerRef }) => {
             <p className="text-[13px] font-medium text-gray3 mb-3">
               Attacher des fichiers
             </p>
-            <FileInput />
+            <FileInput isInvitaion={true} />
           </div>
         </div>
         <button ref={innerRef} className="hidden"></button>

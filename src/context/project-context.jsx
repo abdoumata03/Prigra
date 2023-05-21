@@ -8,9 +8,13 @@ export default ProjectContext;
 export const ProjectProvider = ({ children }) => {
   const [projects, setProjects] = useState(null);
   const [isProjectsLoading, setIsProjectsLoading] = useState(false);
-  const { projectId, setProjectId, setHasProject, type } = useContext(
-    ProfileContext
-  );
+  const {
+    projectId,
+    setProjectId,
+    setHasProject,
+    type,
+    fetch_project,
+  } = useContext(ProfileContext);
 
   const [tasksData, setTasksData] = useState([
     {
@@ -101,6 +105,46 @@ export const ProjectProvider = ({ children }) => {
         description,
       }),
     });
+  };
+
+  const putProjectFile = async (name, size, format, url) => {
+    await fetch(`https://prigra.onrender.com/diplome/projects/${projectId}/`, {
+      method: "PUT",
+      headers: {
+        Authorization: `JWT ${
+          JSON.parse(localStorage.getItem("authTokens")).access
+        }`,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        project_files: [
+          {
+            name: name,
+            size: size,
+            format: format,
+            url: url,
+          },
+        ],
+      }),
+    });
+
+    await fetch_project({isFileSubmit: true});
+  };
+
+  const deleteFile = async (fileId) => {
+    await fetch(
+      `https://prigra.onrender.com/diplome/files/${fileId}/`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem("authTokens")).access
+          }`,
+        },
+      }
+    );
+    await fetch_project({isFileSubmit: true});
+
   };
 
   const inviteProjectMember = async (email) => {
@@ -253,6 +297,7 @@ export const ProjectProvider = ({ children }) => {
     putProjectInfo,
     inviteProjectMember,
     invitationsList,
+    deleteFile,
     getInvitationList,
     activeStep,
     setActiveStep,
@@ -264,6 +309,7 @@ export const ProjectProvider = ({ children }) => {
     fetch_projects,
     isProjectsLoading,
     deleteProject,
+    putProjectFile,
   };
 
   return (

@@ -1,10 +1,19 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { ReactComponent as Upload } from "../assets/illustrations/upload.svg";
 import { ReactComponent as Delete } from "../assets/icons/delete.svg";
 import { ImageConfig } from "../utils/image-config";
+import { storage } from "../services/firebase.jsx";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import ProjectContext from "../context/project-context";
+import ProfileContext from "../context/profile-context";
+import { Toaster, toast } from "react-hot-toast";
 
 const FileInput = ({ onFileChange }) => {
   const [fileList, setFileList] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const { putProjectFile, deleteFile } = useContext(ProjectContext);
+  const { fetch_project, projectData } = useContext(ProfileContext);
+  const [percent, setPercent] = useState(0);
 
   const bytesToMB = (bytes) => {
     if (bytes < 1024) {
@@ -21,22 +30,62 @@ const FileInput = ({ onFileChange }) => {
   const onFileUpload = (e) => {
     const newFile = e.target.files[0];
 
+    console.log("HI");
+
     if (newFile) {
       const updatedList = [...fileList, newFile];
+      setSelectedImage(newFile);
       setFileList(updatedList);
-      onFileChange(updatedList);
+      const storageRef = ref(storage, `/files/${newFile?.name}`);
+      const uploadTask = toast.promise(
+        uploadBytesResumable(storageRef, newFile),
+        {
+          loading: `En train d'uploader le fichier...`,
+          error: "Erreur lors l'upload du fichier",
+          success: "Le fichier a été bien ajouté",
+        }
+      );
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const percent = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          ); // update progress
+          setPercent(percent);
+        },
+        (err) => console.log(err),
+        () => {
+          // download url
+          getDownloadURL(uploadTask.snapshot.ref).then(async (url) => {
+            await putProjectFile(
+              newFile.name,
+              newFile.size,
+              newFile.type.split("/")[1],
+              url
+            );
+          });
+        }
+      );
     }
   };
 
-  const fileRemove = (file) => {
-    const updatedList = [...fileList];
-    updatedList.splice(fileList.indexOf(file), 1);
-    setFileList(updatedList);
-    onFileChange(updatedList);
+  const fileRemove = async (id) => {
+    toast.promise(deleteFile(id), {
+      loading: "En train de supprimer le fichier...",
+      success: "Ce fichier a été supprimé",
+      error: "Erreur lors la supression de fichier",
+    });
+
+    // const updatedList = [...fileList];
+    // updatedList.splice(fileList.indexOf(file), 1);
+    // setFileList(updatedList);
   };
 
   return (
     <div class="flex flex-col justify-center w-full">
+      <Toaster position="top-center" reverseOrder={false} />
+
       <label
         for="dropzone-file"
         onChange={onFileUpload}
@@ -60,13 +109,12 @@ const FileInput = ({ onFileChange }) => {
           accept=".jpg, .jpeg, .png, .doc, .docx, .pdf"
         />
       </label>
-      {fileList.map((item, index) => (
+      {projectData?.project_files?.reverse().map((item, index) => (
         <div
           key={index}
           className="bg-white shadow-custom rounded-[0.4rem] px-6 py-3 mb-2 w-full flex flex-row justify-between items-center"
         >
-          <div className="w-8 mr-3">{ImageConfig[item.type.split("/")[1]]}</div>
-
+          <div className="w-8 mr-3">{ImageConfig[item.format]}</div>
           <div className="flex flex-col flex-1 overflow-hidden">
             <p className="font-medium text-sm text-gray1 mb-1 truncate">
               {item.name}
@@ -75,9 +123,12 @@ const FileInput = ({ onFileChange }) => {
               {bytesToMB(item.size)}
             </p>
           </div>
-          <button className="ml-3" onClick={() => fileRemove(item)}>
+          <div
+            className="ml-3 cursor-pointer"
+            onClick={() => fileRemove(item.id)}
+          >
             <Delete />
-          </button>
+          </div>
         </div>
       ))}
     </div>

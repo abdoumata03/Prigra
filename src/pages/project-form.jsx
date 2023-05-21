@@ -131,7 +131,7 @@ const ProjectForm = () => {
       </div>
 
       <div className="flex-1">{stepContent()}</div>
-      <div className="flex gap-3 self-end items-end absolute bottom-16">
+      <div className="flex gap-3 self-end items-end mt-6">
         {isNotFirstStep() && (
           <button
             onClick={handleBack}

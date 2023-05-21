@@ -77,8 +77,13 @@ export const ProfileProvider = ({ children }) => {
     setIsLoading(false);
   };
 
-  const fetch_project = async ({ isInvitation = false } = {}) => {
-    isInvitation ? setIsInvitationLoading(true) : setIsProjectLoading(true);
+  const fetch_project = async ({
+    isInvitation = false,
+    isFileSubmit = false,
+  } = {}) => {
+    if (!isFileSubmit) {
+      isInvitation ? setIsInvitationLoading(true) : setIsProjectLoading(true);
+    }
 
     const project_response = await fetch(
       `https://prigra.onrender.com/diplome/projects/${projectId}/`,
@@ -95,7 +100,26 @@ export const ProfileProvider = ({ children }) => {
     const project_response_data = await project_response.json();
     setProjectData(project_response_data);
 
-    isInvitation ? setIsInvitationLoading(false) : setIsProjectLoading(false);
+    if (!isFileSubmit) {
+      isInvitation ? setIsInvitationLoading(false) : setIsProjectLoading(false);
+    }
+  };
+
+  const putUserTypeInfo = (data) => {
+    fetch(
+      `https://prigra.onrender.com/base/${userInitialData.type}/${userInitialData.type_id}/`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem("authTokens")).access
+          }`,
+          "content-type": "application/json",
+        },
+
+        body: JSON.stringify(data),
+      }
+    );
   };
 
   const contextData = {
@@ -108,6 +132,7 @@ export const ProfileProvider = ({ children }) => {
     isInvitationLoading,
     projectData,
     isProjectLoading,
+    putUserTypeInfo,
     fetch_project,
     userInitialData,
     type,

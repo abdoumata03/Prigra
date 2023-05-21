@@ -59,7 +59,9 @@ const SignUp = () => {
     <div className="flex flex-row h-full justify-center items-center font-eudox bg-white_bg min-h-screen">
       <div className="lg:w-5/6 w-full mt-[50px] flex flex-col items-center justify-center">
         <div className="flex flex-col items-center w-1/2">
-          <h1 className="text-3xl mb-1 font-bold text-gray1">Créer un compte</h1>
+          <h1 className="text-3xl mb-1 font-bold text-gray1">
+            Créer un compte
+          </h1>
           <p className="text-sm text-gray3 mb-4">
             Saisir vos informations personelles pour continuer
           </p>
