@@ -37,7 +37,7 @@ const InviteEncadrant = ({
           value={value}
           name={mail_name}
           placeholder={hint}
-          className={`shadow-custom border-[1px] rounded-[5px] w-full text-[12px] md:text-sm pl-10 h-[30px]  ${
+          className={`shadow-custom border-[1px] rounded-[0.4rem] w-full text-[12px] md:text-sm pl-10 h-[30px]  ${
             field_name === "Description"
               ? `md:h-40 resize-none leading-tight`
               : `md:h-[42px]`

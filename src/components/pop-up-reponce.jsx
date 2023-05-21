@@ -65,7 +65,7 @@ const PopUpReponse = (props) => {
                                 value={description}
                                 onChange={handleDescriptionChange}
                                 placeholder={refuse? 'Motif' : 'Description'}
-                                className="w-[95%] h-60 resize-none outline-none px-5 py-5 mt-10 border rounded-[5px]"
+                                className="w-[95%] h-60 resize-none outline-none px-5 py-5 mt-10 border rounded-[0.4rem]"
                             />
                         </div>
                     </div>
@@ -76,12 +76,12 @@ const PopUpReponse = (props) => {
                 <div className='absolute right-10 flex flex-row justify-end items-end gap-5 bottom-10'> 
                     <div 
                     onClick={props.onclick}
-                    className='flex w-max flex-row px-5 py-3 rounded-[5px] cursor-pointer border border-gray4' >
+                    className='flex w-max flex-row px-5 py-3 rounded-[0.4rem] cursor-pointer border border-gray4' >
                             <h1 className=' text-gray3'>Annuler</h1>
                     </div>             
                     <div 
                     onClick={handleSubmit}
-                    className='flex w-max flex-row px-5 py-3 bg-success text-white rounded-[5px] cursor-pointer' >
+                    className='flex w-max flex-row px-5 py-3 bg-success text-white rounded-[0.4rem] cursor-pointer' >
                             <img src={Vector} alt="valider" />
                             <h1 className='ml-2'>Envoyer réponse</h1>
                     </div>

@@ -16,6 +16,7 @@ import {
   center,
   arrows,
 } from "../assets";
+import { FiKey, FiMail } from "react-icons/fi";
 
 const shema = yup.object().shape({
   email: yup
@@ -45,14 +46,14 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-row h-screen items-center justify-center lg:justify-normal font-eudox bg-gray-50">
+    <div className="flex flex-row h-screen items-center justify-center lg:justify-normal font-eudox bg-white_bg">
       <div className="lg:w-1/2 w-5/6 md:w-3/4 2xl:mt-[0px] flex flex-col items-center justify-center">
         <div className="flex flex-col items-start w-5/6 md:w-3/4">
           <img src={logo} alt="logo" className="mb-[32px] w-[137px]" />
           <h1 className="text-lg md:text-2xl mb-[4px] font-bold text-gray1">
-            Se Connecter
+            Se connecter
           </h1>
-          <p className="text-[10px] md:text-xs text-gray3 mb-[45px]">
+          <p className="text-xs md:text-xs text-gray3 mb-[45px]">
             Saisir vos informations pour continuer
           </p>
         </div>
@@ -61,31 +62,43 @@ const Login = () => {
             onSubmit={handleSubmit(submitForm)}
             className="flex flex-col w-full"
           >
-            <p className="font-bold text-[14px] mb-[6px] text-gray2">Email*</p>
-            <input
-              {...register("email")}
-              type="text"
-              name="email"
-              placeholder="mail@esi-sba.dz"
-              required
-              className="shadow-custom rounded-[5px] w-full text-[12px] md:text-sm pl-5 h-[40px] md:h-[50px] text-gray3"
-              //   ref={inputRef}
-            />
+            <p className="font-medium text-xs mb-1 mt-[20px] text-gray3">
+              Email<span className="text-error"> *</span>
+            </p>
+            <div className="relative flex item-center">
+              <input
+                {...register("email")}
+                type="text"
+                name="email"
+                placeholder="mail@esi-sba.dz"
+                required
+                className="shadow-custom border rounded-[0.4rem] w-full text-[0.85rem] md:text-sm pl-10 h-10 md:h-11 text-gray3"
+                //   ref={inputRef}
+              />
+              <div className="absolute h-full flex items-center px-4 text-gray2">
+                <FiMail />
+              </div>
+            </div>
             <p className="text-error ml-2">
               {errors.email && "Votre adresse email est invalide"}
             </p>
 
-            <p className="font-bold text-[14px] mb-[6px] mt-[20px] text-gray2">
-              Mot de passe*
+            <p className="font-medium text-xs mb-1 mt-[20px] text-gray3">
+              Mot de pass<span className="text-error"> *</span>
             </p>
-            <input
-              {...register("password")}
-              type="password"
-              name="password"
-              placeholder="Min 8 caractères"
-              required
-              className="shadow-custom rounded-[5px] w-full text-[12px] md:text-sm pl-5 h-[40px] md:h-[50px] text-gray3"
-            />
+            <div className="relative flex item-center">
+              <input
+                {...register("password")}
+                type="password"
+                name="password"
+                placeholder="Min 8 caractères"
+                required
+                className="shadow-custom border rounded-[0.4rem] w-full text-[12px] md:text-sm pl-10   h-10 md:h-11 text-gray3"
+              />
+              <div className="absolute h-full flex items-center px-4 text-gray2">
+                <FiKey />
+              </div>
+            </div>
             <p className="text-error ml-2">
               {errors.password && "Votre mot de passe est très court"}
             </p>
@@ -99,7 +112,7 @@ const Login = () => {
             <br />
             <div className="flex flex-col items-center">
               <button
-                className={`w-full text-sm md:text-base h-[40px] md:h-[50px] bg-primary mt-[50px] mb-[8px] rounded-[5px] text-white font-semibold ${
+                className={`w-full text-sm md:text-base h-10 md:h-11 bg-primary mt-[50px] mb-[8px] rounded-[0.4rem] text-white font-semibold ${
                   isFetching ? "bg-opacity-75" : "bg-opacity-100"
                 }`}
                 disabled={isFetching}
@@ -107,9 +120,9 @@ const Login = () => {
                 {isFetching ? <LoadingSpinner /> : "Continuer"}
               </button>
             </div>
-            <p className="text-xs md:text-[14px]">
+            <p className="text-xs md:text-sm text-gray3">
               Vous n'avez pas encore un compte?{" "}
-              <Link className="text-primary font-semibold" to="/sign-up">
+              <Link className="text-primary font-bold" to="/sign-up">
                 Isncrire
               </Link>
             </p>
@@ -130,8 +143,6 @@ const Login = () => {
         <div className="w-[500px]">
           <img src={center} alt="center" />
         </div>
-        {/* <p className='absolute top-[650px] left-[340px] text-[30px] w-[250px] text-white font-semibold text-center'>Turn your ideas into reality.</p>
-            <img src={arrows} alt="arrows" className='absolute top-[750px] left-[412px] w-[100px]'/> */}
       </div>
     </div>
   );

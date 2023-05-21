@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+*::-webkit-scrollbar {
+  width: 0.7rem;
+}
+
+*::-webkit-scrollbar-track {
+  background: #fff;
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #e0e0e0;
+  border-radius: 14px;
+}
+
 .bg-primary-gradient {
   background: linear-gradient(
     223.49deg,
@@ -12,13 +26,17 @@
   border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
+.dxeBase {
+  font-size: 9pt;
+  font-family: cursive;
+}
+
 input[type="file"]::-webkit-file-upload-button,
 input[type="file"]::file-selector-button {
   @apply text-white bg-gray-700 hover:bg-gray-600 font-medium text-sm cursor-pointer border-0 py-2.5 pl-8 pr-4;
   margin-inline-start: -1rem;
   margin-inline-end: 1rem;
 }
-
 
 @keyframes wiggle {
   0% {

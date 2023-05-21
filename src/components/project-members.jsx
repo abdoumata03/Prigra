@@ -23,14 +23,13 @@ const ProjectThirdStep = ({ innerRef }) => {
     putCoEnc,
   } = useContext(ProjectContext);
 
-
   const enc_list = projectData?.encadrant;
   const co_enc_list = projectData?.co_encadrant;
 
   const [encList, setEncList] = useState(enc_list);
   const [coEncList, setCoEncList] = useState(co_enc_list);
 
-  const added_members = projectData?.members.map((item) => item.email);
+  const added_members = projectData?.members?.map((item) => item.email);
 
   const invited_members = invitationsList
     ?.filter((item) => {
@@ -145,7 +144,7 @@ const ProjectThirdStep = ({ innerRef }) => {
     <div className="flex flex-row gap-16">
       <Toaster position="top-center" reverseOrder={false} />
       <div className="flex flex-col gap-4 w-[45%]">
-        <div className="bg-white rounded-[5px] shadow-custom border flex flex-col justify-center py-3 px-5">
+        <div className="bg-white rounded-[0.4rem] shadow-custom border flex flex-col justify-center py-3 px-5">
           <p className="text-[13px] font-medium text-gray3 mb-2">
             Chef d'équipe
           </p>
@@ -179,7 +178,7 @@ const ProjectThirdStep = ({ innerRef }) => {
                 className="flex-1"
               />
             </div>
-            <button className="h-[40px] flex items-center justify-center gap-2 text-sm font-medium text-white px-4 rounded-[5px] bg-primary">
+            <button className="h-[40px] flex items-center justify-center gap-2 text-sm font-medium text-white px-4 rounded-[0.4rem] bg-primary">
               <div className={`${isInvitationLoading && `animate-wiggle`}`}>
                 <FiSend />
               </div>
@@ -188,15 +187,15 @@ const ProjectThirdStep = ({ innerRef }) => {
           </form>
           {errors.invited_mail?.message && (
             <p className="text-error text-xs">
-              • {errors_enc.invited_mail?.message}
+              • {errors.invited_mail?.message}
             </p>
           )}
         </FormProvider>
         <div>
-          {addedMembers.map(
+          {addedMembers?.map(
             (item, index) =>
               index > 0 && (
-                <div className="bg-white flex items-center rounded-[5px] shadow-custom border py-3 px-5 mb-2">
+                <div className="bg-white flex items-center rounded-[0.4rem] shadow-custom border py-3 px-5 mb-2">
                   <p className="text-sm text-gray1 font-medium flex-1">
                     {item}
                   </p>
@@ -237,7 +236,7 @@ const ProjectThirdStep = ({ innerRef }) => {
                 </p>
               )}
             </div>
-            <button className="bg-primary w-1/4 mt-3 justify-self-end self-end rounded-[5px] h-[40px] text-sm font-medium flex justify-center items-center gap-2 text-white">
+            <button className="bg-primary w-1/4 mt-3 justify-self-end self-end rounded-[0.4rem] h-[40px] text-sm font-medium flex justify-center items-center gap-2 text-white">
               <div className={`${isInvitationLoading && `animate-wiggle`}`}>
                 <FiSend />
               </div>
@@ -251,8 +250,8 @@ const ProjectThirdStep = ({ innerRef }) => {
         {encList.map((item, index) => (
           <div
             className={`bg-white border shadow-custom  ${index === 0 &&
-              `rounded-t-[5px]`} ${index === encList.length - 1 &&
-              `rounded-b-[5px]`} px-3 flex flex-col py-3`}
+              `rounded-t-[0.4rem]`} ${index === encList.length - 1 &&
+              `rounded-b-[0.4rem]`} px-3 flex flex-col py-3`}
           >
             <p className="text-sm font-medium text-gray1">{item.email}</p>
           </div>
@@ -263,10 +262,10 @@ const ProjectThirdStep = ({ innerRef }) => {
         {coEncList.map((item, index) => (
           <div
             className={`bg-white border shadow-custom ${index === 0 &&
-              `rounded-t-[5px]`} ${index === encList.length - 1 &&
-              `rounded-b-[5px]`} px-3 flex flex-col py-3`}
+              `rounded-t-[0.4rem]`} ${index === encList.length - 1 &&
+              `rounded-b-[0.4rem]`} px-3 flex flex-col py-3`}
           >
-            <p className="text-sm font-medium text-gray1">{item.email }</p>
+            <p className="text-sm font-medium text-gray1">{item.email}</p>
           </div>
         ))}
       </div>

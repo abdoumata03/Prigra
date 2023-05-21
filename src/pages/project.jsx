@@ -7,28 +7,36 @@ import BlueLoadingSpinner from "../components/spinner_blue";
 import { LoadingData } from "../components/loading_data";
 import { Toaster } from "react-hot-toast";
 import Breadcrumbs from "../components/breadcrumbs";
+import ProjectDashboard from "./project-dashboard";
+import PhaseContext from "../context/phase-context";
 
 const Project = () => {
-  const { hasProject, isLoading } = useContext(ProfileContext);
+  const { hasProject, projectData } = useContext(ProfileContext);
+  const { currentPhase } = useContext(PhaseContext);
+
+  const status = projectData?.status_reponse.toLowerCase();
 
   const location = useLocation();
+
 
   const renderContent = () => {
     if (location?.pathname.includes("edit")) {
       return <Outlet />;
     }
 
-    if (!hasProject) {
+    if (status === "validé") {
+      return <ProjectDashboard />;
+    }
+
+    if (!hasProject && currentPhase.includes("soumission")) {
       return <EmptyProject />;
     }
 
     return <MyProjectInfo />;
   };
 
-  return isLoading ? (
-    <LoadingData />
-  ) : (
-    <div className="flex flex-col justify-start items-start w-full">
+  return (
+    <div className="flex flex-col justify-start items-start w-full flex-grow">
       <Toaster position="top-center" reverseOrder={false} />
       <Breadcrumbs />
       {renderContent()}

@@ -47,7 +47,7 @@ const ChooseType = () => {
           />
         </div>
       </div>
-      <div className="bg-accent border px-8 py-6 rounded-[5px] w-1/2 self-center">
+      <div className="bg-accent border px-8 py-6 rounded-[0.4rem] w-1/2 self-center">
         <div className="flex w-full gap-3">
           <div className="text-primary mt-1">
             <FiInfo />

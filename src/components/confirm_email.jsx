@@ -15,7 +15,7 @@ const ConfirmEmail = () => {
   }
 
   return (
-    <div className="w-4/5 md:w-2/5 flex flex-col items-center justify-center bg-white shadow-custom rounded-[5px] px-10 py-[48px]">
+    <div className="w-4/5 md:w-2/5 flex flex-col items-center justify-center bg-white shadow-custom rounded-[0.4rem] px-10 py-[48px]">
       <div className="bg-accent p-4 w-[120px] h-[120px] rounded-md flex items-center justify-center mb-5">
         <Mail width="65px" height="58px" />
       </div>
@@ -27,7 +27,7 @@ const ConfirmEmail = () => {
       </p>
       <button
       onClick={handleClick}
-       className="w-full text-sm md:text-base h-[40px] md:h-[50px] bg-primary mt-[50px] mb-[8px] rounded-[5px] text-white font-semibold">
+       className="w-full text-sm md:text-base h-[40px] md:h-[50px] bg-primary mt-[50px] mb-[8px] rounded-[0.4rem] text-white font-semibold">
         Activer mon compte
       </button>
       <button onClick={handleClick}>

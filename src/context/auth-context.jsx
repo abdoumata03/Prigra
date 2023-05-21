@@ -72,36 +72,6 @@ export const AuthProvider = ({ children }) => {
       const token_data = await auth_token_response.json();
 
       if (auth_token_response.status === 200) {
-        const response_me = await fetch(
-          "https://prigra.onrender.com/auth/users/me/",
-          {
-            method: "GET",
-            headers: {
-              Authorization: `JWT ${token_data.access}`,
-            },
-          }
-        );
-
-        const me_data = await response_me.json();
-        const user_type = me_data.type;
-        const user_id = me_data.type_id;
-
-        const fetch_user_type = await fetch(
-          `https://prigra.onrender.com/base/${user_type}/${user_id}/`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `JWT ${token_data.access}`,
-            },
-          }
-        );
-
-        const user_type_data = await fetch_user_type.json();
-
-        setUserData(user_type_data);
-
-        console.log(user_type_data);
-
         setAuthTokens(token_data);
         setUser(jwt_decode(token_data.access));
         localStorage.setItem("authTokens", JSON.stringify(token_data));
@@ -118,7 +88,6 @@ export const AuthProvider = ({ children }) => {
     setisFetching(false);
   };
 
-  
   //SignUp Function
   const signupUser = async (email, password, first_name, last_name, type) => {
     setisFetching(true);
@@ -264,14 +233,12 @@ export const AuthProvider = ({ children }) => {
       } else if (registration_response.status === 403) {
         alert("Lien expiré!");
         setisFetching(false);
-
       }
     } catch (error) {
       console.log(error);
       setisFetching(false);
     }
     setisFetching(false);
-
   };
 
   //forgot pass
@@ -353,6 +320,7 @@ export const AuthProvider = ({ children }) => {
     setAuthTokens,
     loginUser,
     logoutUser,
+    setIsValidEmail,
     signupUser,
     isEmailActivated,
     isRegistrationSuccessful,

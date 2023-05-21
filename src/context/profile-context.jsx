@@ -5,7 +5,7 @@ const ProfileContext = createContext();
 export default ProfileContext;
 
 export const ProfileProvider = ({ children }) => {
-  const [userInitialData, setUserInitialData] = useState(null); 
+  const [userInitialData, setUserInitialData] = useState(null);
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isProjectLoading, setIsProjectLoading] = useState(false);
@@ -30,9 +30,8 @@ export const ProfileProvider = ({ children }) => {
       }
     );
 
-
     const me_data = await response_me.json();
-    setUserInitialData(me_data); 
+    setUserInitialData(me_data);
     const user_type = me_data.type;
     const user_id = me_data.type_id;
 
@@ -70,14 +69,9 @@ export const ProfileProvider = ({ children }) => {
 
       const project_response_data = await project_response.json();
 
-
-
-      console.log(project_response_data.co_encadrant);
-
       setProjectData(project_response_data);
 
       setType((_) => project_response_data.type);
-
     }
 
     setIsLoading(false);
@@ -109,12 +103,13 @@ export const ProfileProvider = ({ children }) => {
     hasProject,
     userData,
     projectId,
+    setProjectId,
     isLoading,
     isInvitationLoading,
     projectData,
     isProjectLoading,
     fetch_project,
-    userInitialData, 
+    userInitialData,
     type,
     setType,
     setHasProject,

@@ -1,8 +1,8 @@
-import React, {createContext, useState } from 'react'
+import React, { createContext, useState } from "react";
 
 const PhaseContext = createContext();
 
-export default PhaseContext; 
+export default PhaseContext;
 
 export const PhaseProvider = ({ children }) => {
     const [phases, setPhases] = useState(null);
@@ -28,35 +28,51 @@ export const PhaseProvider = ({ children }) => {
         setIsPhasesLoading(false);
     }   
 
-    const putPhase = async (ID, date_debut, date_fin) => {
-        const phaseResponse = await fetch(
-            `https://prigra.onrender.com/diplome/phases/${ID}/`,
-            {
-                method : 'PUT',  
-                headers: {
-                    Authorization: `JWT ${
-                      JSON.parse(localStorage.getItem("authTokens")).access
-                    }`,
-                    "content-type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    date_debut,
-                    date_fin
-                  }),
-            }
-        )
-    }
+    const now_date = Date.now();
 
-    const contextData = {
-        phases, 
-        isPhasesLoading, 
-        fetch_phases,
-        putPhase,    
-      };
-    
-      return (
-        <PhaseContext.Provider value={contextData}>
-          {children}
-        </PhaseContext.Provider>
-      );
-}
+    phases_response_data?.forEach((element) => {
+      if (
+        now_date >= Date.parse(element.date_debut) &&
+        now_date <= Date.parse(element.date_fin)
+      ) {
+        setCurrentPhase(element.nom_phase);
+      }
+    });
+
+    setPhases(phases_response_data);
+    setIsPhasesLoading(false);
+  };
+
+  const putPhase = async (ID, date_debut, date_fin) => {
+    const phaseResponse = await fetch(
+      `https://prigra.onrender.com/diplome/phases/${ID}/`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem("authTokens")).access
+          }`,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          date_debut,
+          date_fin,
+        }),
+      }
+    );
+  };
+
+  const contextData = {
+    phases,
+    isPhasetsLoading,
+    fetch_phases,
+    putPhase,
+    currentPhase,
+  };
+
+  return (
+    <PhaseContext.Provider value={contextData}>
+      {children}
+    </PhaseContext.Provider>
+  );
+
