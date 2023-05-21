@@ -8,6 +8,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import Breadcrumbs from "../components/breadcrumbs";
 import { Toaster, toast } from "react-hot-toast";
 import { changeSectionValueFormat } from "@mui/x-date-pickers/internals/hooks/useField/useField.utils";
+import { FiTrash2 } from "react-icons/fi";
 
 let initialFormValues;
 
@@ -63,7 +64,7 @@ const Profile = () => {
                     Changer la photo
                   </button>
                   <button className="h-[45px] border text-sm border-error font-bold text-error rounded-[0.4rem] px-5 w-full flex justify-center items-center gap-3">
-                    <Delete />
+                    <FiTrash2 />
                     Supprimer
                   </button>
                 </div>

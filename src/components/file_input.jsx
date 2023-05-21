@@ -7,6 +7,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import ProjectContext from "../context/project-context";
 import ProfileContext from "../context/profile-context";
 import { Toaster, toast } from "react-hot-toast";
+import { FiTrash2 } from "react-icons/fi";
 
 const FileInput = ({ onFileChange }) => {
   const [fileList, setFileList] = useState([]);
@@ -127,7 +128,7 @@ const FileInput = ({ onFileChange }) => {
             className="ml-3 cursor-pointer"
             onClick={() => fileRemove(item.id)}
           >
-            <Delete />
+            <FiTrash2 />
           </div>
         </div>
       ))}
