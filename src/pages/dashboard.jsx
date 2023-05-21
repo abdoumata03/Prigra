@@ -12,7 +12,7 @@ import PhaseContext from "../context/phase-context";
 const Dashboard = () => {
   const { fetch_user } = useContext(ProfileContext);
   const { fetch_projects } = useContext(ProjectContext);
-  const {fetch_phases} = useContext(PhaseContext);
+  const { fetch_phases } = useContext(PhaseContext);
   const location = useLocation();
   const deletedProject = location.state;
 

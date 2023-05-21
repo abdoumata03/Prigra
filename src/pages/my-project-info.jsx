@@ -1,18 +1,12 @@
 import React, { useContext, useState } from "react";
 import ProfileContext from "../context/profile-context";
-
-
-import {
-  FiCalendar,
-  FiClock,
-  FiEdit3,
-  FiTrash2,
-} from "react-icons/fi";
+import { FiCalendar, FiClock, FiEdit3, FiTrash2, FiX } from "react-icons/fi";
 import { ProjectInfoField, PersonField } from "../components/index.js";
 import { Link, useNavigate } from "react-router-dom";
-import { Dialog } from "primereact/dialog";
 import ProjectContext from "../context/project-context";
 import PhaseContext from "../context/phase-context";
+import { toast } from "react-hot-toast";
+import { ImageConfig } from "../utils/image-config";
 
 const MyProjectInfo = () => {
   const { projectData, userData, projectId } = useContext(ProfileContext);
@@ -31,6 +25,18 @@ const MyProjectInfo = () => {
 
     return null; // Return null if the phase is not found
   }
+
+  const bytesToMB = (bytes) => {
+    if (bytes < 1024) {
+      return bytes + " bytes";
+    } else if (bytes < 1048576) {
+      return (bytes / 1024).toFixed(2) + " KB";
+    } else if (bytes < 1073741824) {
+      return (bytes / 1048576).toFixed(2) + " MB";
+    } else {
+      return (bytes / 1073741824).toFixed(2) + " GB";
+    }
+  };
 
   const navigate = useNavigate();
 
@@ -51,7 +57,11 @@ const MyProjectInfo = () => {
   };
 
   const handleConfirmDelete = async () => {
-    await deleteProject(projectId);
+    await toast.promise(deleteProject(projectId), {
+      loading: "En train de retirer votre projet...",
+      success: "Votre projet a été retiré",
+      error: "Erreur lors la supression de votre projet",
+    });
     navigate(0);
   };
 
@@ -112,7 +122,27 @@ const MyProjectInfo = () => {
                     : "Non spécifié"
                 }
               />
-              <ProjectInfoField title="Fichiers attachés" />
+              <div className=" px-4 py-3 bg-white mb-3 w-auto rounded-[0.4rem] border">
+                <h1 className="text-xs text-gray3 mb-2 ">Fichiers attachés</h1>
+                <p className={`font-medium text-sm`}>
+                  {projectData?.project_files?.reverse().map((item, index) => (
+                    <div
+                      key={index}
+                      className="bg-accent rounded-[0.4rem] px-6 py-3 mb-2 w-full flex flex-row justify-between items-center"
+                    >
+                      <div className="w-8 mr-3">{ImageConfig[item.format]}</div>
+                      <div className="flex flex-col flex-1 overflow-hidden">
+                        <p className="font-medium text-sm text-gray1 mb-1 truncate">
+                          {item.name}
+                        </p>
+                        <p className="font-regualar text-xs text-gray3">
+                          {bytesToMB(item.size)}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </p>
+              </div>
             </div>
           ) : (
             <div className="flex flex-col mb-10">
@@ -211,18 +241,28 @@ const MyProjectInfo = () => {
         </div>
       </div>
       {isDeleteDialogOpen && (
-        <div className="fixed inset-0 px-10 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="w-2/5 rounded flex flex-col items-center bg-white py-10 px-10 justify-center">
-            <h1 className="text-lg text-gray1 mb-3 font-bold text-center">
-              Êtes-vous sûr de vouloir supprimer votre projet ?
-            </h1>
-            <p className="text-base text-gray2">
-              Toutes les informations de votre projet seront perdues
-            </p>
-            <div className="flex flex-col md:flex-row justify-center gap-3 bottom-10 mt-9">
+        <div className="fixed inset-0 px-10 flex items-center justify-center bg-black bg-opacity-25">
+          <div className="w-2/5 rounded-lg flex flex-col items-start bg-white justify-center">
+            <div className="flex flex-col items-start py-4 px-10 w-full">
+              <div className="flex items-center gap-20 mb-4 w-full">
+                <h1 className="text-gray1 text-lg font-bold flex-1 ">
+                  Êtes-vous sûr de vouloir supprimer votre projet ?
+                </h1>
+                <div
+                  onClick={onHideDelete}
+                  className="text-gray3 cursor-pointer"
+                >
+                  <FiX />
+                </div>
+              </div>
+              <p className="text-sm font-medium text-gray3 mb-6">
+                Toutes les informations de votre projet seront perdues
+              </p>
+            </div>
+            <div className="w-full flex-col md:flex-row flex items-center justify-end gap-2 px-8 h-fit py-4 bg-gray-100 rounded-b-lg">
               <div
                 onClick={onHideDelete}
-                className="flex flex-row justify-center px-5 py-3 rounded-[0.4rem] cursor-pointer border border-gray3"
+                className="flex flex-row justify-center px-5 py-3 rounded-[0.4rem] cursor-pointer border bg-white "
               >
                 <h1 className=" text-gray2">Non, annuler</h1>
               </div>

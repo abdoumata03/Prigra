@@ -24,7 +24,6 @@ import startup from './startup.png'
 import statistic from './statistics.png'
 import userPic from './userPic.svg'
 import Calendar from './Calendar.svg'
-import Delete from './Delete Dismiss.svg'
 import Edit from './Edit.svg'
 import Vector from './Vector.svg'
 import Person from './Person Ribbon.svg'
@@ -56,8 +55,7 @@ export{
     startup, 
     statistic, 
     userPic,
-    Calendar, 
-    Delete, 
+    Calendar,  
     Edit, 
     Vector, 
     Person, 
