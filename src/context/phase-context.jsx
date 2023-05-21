@@ -28,21 +28,6 @@ export const PhaseProvider = ({ children }) => {
         setIsPhasesLoading(false);
     }   
 
-    const now_date = Date.now();
-
-    phases_response_data?.forEach((element) => {
-      if (
-        now_date >= Date.parse(element.date_debut) &&
-        now_date <= Date.parse(element.date_fin)
-      ) {
-        setCurrentPhase(element.nom_phase);
-      }
-    });
-
-    setPhases(phases_response_data);
-    setIsPhasesLoading(false);
-  };
-
   const putPhase = async (ID, date_debut, date_fin) => {
     const phaseResponse = await fetch(
       `https://prigra.onrender.com/diplome/phases/${ID}/`,
@@ -75,4 +60,18 @@ export const PhaseProvider = ({ children }) => {
       {children}
     </PhaseContext.Provider>
   );
+};
 
+const now_date = Date.now();
+
+phases_response_data?.forEach((element) => {
+  if (
+    now_date >= Date.parse(element.date_debut) &&
+    now_date <= Date.parse(element.date_fin)
+  ) {
+    setCurrentPhase(element.nom_phase);
+  }
+});
+
+setPhases(phases_response_data);
+setIsPhasesLoading(false);
