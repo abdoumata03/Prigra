@@ -7,27 +7,24 @@ import { useLocation } from "react-router";
 import BlueLoadingSpinner from "../components/spinner_blue";
 import Lottie from "lottie-react";
 import Paperplane from "../assets/lottie/paperplane.json";
+import PhaseContext from "../context/phase-context";
 
 const Dashboard = () => {
   const { fetch_user } = useContext(ProfileContext);
   const { fetch_projects } = useContext(ProjectContext);
+  const {fetch_phases} = useContext(PhaseContext);
   const location = useLocation();
   const deletedProject = location.state;
 
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-<<<<<<< HEAD
-    console.log('HERE');
-    fetch_user();
-=======
     (async () => {
       setIsLoading(true);
       await fetch_user();
       setIsLoading(false);
     })();
     fetch_phases();
->>>>>>> a024241 (file sumbmission)
     fetch_projects();
   }, [deletedProject]);
 
