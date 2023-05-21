@@ -1,6 +1,13 @@
 import React, { useContext, useState } from "react";
 import ProfileContext from "../context/profile-context";
-import { FiCalendar, FiClock, FiEdit3, FiTrash2, FiX } from "react-icons/fi";
+import {
+  FiCalendar,
+  FiClock,
+  FiEdit3,
+  FiLink2,
+  FiTrash2,
+  FiX,
+} from "react-icons/fi";
 import { ProjectInfoField, PersonField } from "../components/index.js";
 import { Link, useNavigate } from "react-router-dom";
 import ProjectContext from "../context/project-context";
@@ -93,7 +100,7 @@ const MyProjectInfo = () => {
           </div>
 
           {value === 0 ? (
-            <div className="w-full flex flex-col">
+            <div className="w-full flex flex-col divide-y divide-dashed bg-white rounded-[0.4rem] border py-2 px-4">
               <ProjectInfoField
                 title="Type de projet"
                 content={projectData?.type ? projectData?.type : "Non spécifié"}
@@ -122,8 +129,11 @@ const MyProjectInfo = () => {
                     : "Non spécifié"
                 }
               />
-              <div className=" px-4 py-3 bg-white mb-3 w-auto rounded-[0.4rem] border">
-                <h1 className="text-xs text-gray3 mb-2 ">Fichiers attachés</h1>
+              <div className=" px-4 py-3 bg-white w-auto">
+                <div className="flex gap-2  mb-2 text-gray3">
+                  <FiLink2 />
+                  <h1 className="text-xs">Fichiers attachés</h1>
+                </div>
                 <p className={`font-medium text-sm`}>
                   {projectData?.project_files?.reverse().map((item, index) => (
                     <div
