@@ -1,13 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
-import { ReactComponent as Delete } from "../assets/icons/delete.svg";
+import React, { useContext, useEffect } from "react";
 import { ReactComponent as Save } from "../assets/icons/save.svg";
 import { ProfileInputField } from "../components/index.js";
 import ProfileContext from "../context/profile-context";
 import { useForm, FormProvider } from "react-hook-form";
-
 import Breadcrumbs from "../components/breadcrumbs";
 import { Toaster, toast } from "react-hot-toast";
-import { changeSectionValueFormat } from "@mui/x-date-pickers/internals/hooks/useField/useField.utils";
 import { FiTrash2 } from "react-icons/fi";
 
 let initialFormValues;

@@ -3,8 +3,6 @@ import { Outlet, useLocation } from "react-router";
 import ProfileContext from "../context/profile-context";
 import EmptyProject from "./empty_project";
 import MyProjectInfo from "./my-project-info";
-import BlueLoadingSpinner from "../components/spinner_blue";
-import { LoadingData } from "../components/loading_data";
 import { Toaster } from "react-hot-toast";
 import Breadcrumbs from "../components/breadcrumbs";
 import ProjectDashboard from "./project-dashboard";
@@ -23,7 +21,7 @@ const Project = () => {
       return <Outlet />;
     }
 
-    if (status === "validé") {
+    if (status === "created") {
       return <ProjectDashboard />;
     }
 
