@@ -74,6 +74,24 @@ export const ProfileProvider = ({ children }) => {
       setType((_) => project_response_data.type);
     }
 
+    if (user_type === "Teacher" && user_type_data.is_encadrant === true) {
+      const project_response = await fetch(
+        `https://prigra.onrender.com/diplome/projects/${user_type_data.projects[0]}/`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `JWT ${
+              JSON.parse(localStorage.getItem("authTokens")).access
+            }`,
+          },
+        }
+      );
+
+      const project_response_data = await project_response.json();
+
+      setProjectData(project_response_data);
+    }
+
     setIsLoading(false);
   };
 

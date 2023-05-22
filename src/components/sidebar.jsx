@@ -1,6 +1,9 @@
 import React, { useContext, useState } from "react";
 import { logo } from "../assets";
-import { StudentSidebarData } from "../constants/sidebar-data";
+import {
+  StudentSidebarData,
+  TeacherEncadrantSidebarData,
+} from "../constants/sidebar-data";
 import { TeacherSidebarData } from "../constants/sidebar-data";
 import { LogoutData } from "../constants/sidebar-data";
 import { NavLink, useLocation } from "react-router-dom";
@@ -16,10 +19,24 @@ const Sidebar = () => {
   const location = useLocation();
 
   const [selectedItemIndex, setSelectedItemIndex] = useState(
-    StudentSidebarData.findIndex((item) =>
-      location.pathname.includes(item.id)
-    )
+    StudentSidebarData.findIndex((item) => location.pathname.includes(item.id))
   );
+
+  function getSidebarData() {
+    if (userInitialData?.type === "Student") {
+      return StudentSidebarData;
+    } else if (
+      userInitialData?.type === "Teacher" &&
+      userData?.is_comite_scientifique_incubateur === true
+    ) {
+      return TeacherSidebarData;
+    } else if (
+      userInitialData?.type === "Teacher" &&
+      userData?.is_encadrant === true
+    ) {
+      return TeacherEncadrantSidebarData;
+    }
+  }
 
   const isStudent = userInitialData?.type == "Student";
 
@@ -30,7 +47,7 @@ const Sidebar = () => {
       <img src={logo} alt="logo" className="mb-14 w-1/3" />
 
       <ul className=" flex-1 w-full">
-        {SidebarData.map((val, index) => (
+        {getSidebarData()?.map((val, index) => (
           <NavLink to={val.link} key={index} activeclassname="active">
             <button
               key={index}

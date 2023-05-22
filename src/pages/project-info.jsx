@@ -101,7 +101,11 @@ const ProjectInfo = () => {
                     >
                       <div className="w-8 mr-3">{ImageConfig[item.format]}</div>
                       <div className="flex flex-col flex-1 overflow-hidden">
-                        <a href={item.url} target="_blank" className="font-medium text-sm text-gray1 mb-1 truncate">
+                        <a
+                          href={item.url}
+                          target="_blank"
+                          className="font-medium text-sm text-gray1 mb-1 truncate"
+                        >
                           {item.name}
                         </a>
                         <p className="font-regualar text-xs text-gray3">

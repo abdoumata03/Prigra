@@ -84,21 +84,21 @@ const FileInput = ({ onFileChange }) => {
   };
 
   return (
-    <div class="flex flex-col justify-center w-full">
+    <div className="flex flex-col justify-center w-full">
       <Toaster position="top-center" reverseOrder={false} />
 
       <label
         for="dropzone-file"
         onChange={onFileUpload}
-        class="flex flex-col items-center mb-5 justify-center w-full h-26 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-accent px-3"
+        className="flex flex-col items-center mb-5 justify-center w-full h-26 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-accent px-3"
       >
-        <div class="flex flex-row items-center justify-center gap-5 pt-5 pb-6">
+        <div className="flex flex-row items-center justify-center gap-5 pt-5 pb-6">
           <Upload />
           <div className="flex flex-col">
-            <p class="mb-2 font-semibold text-sm text-gray-500 dark:text-gray-400 text-center">
+            <p className="mb-2 font-semibold text-sm text-gray-500 dark:text-gray-400 text-center">
               Cliquez pour uploader un fichier
             </p>
-            <p class="text-xs text-gray-500 dark:text-gray-400">
+            <p className="text-xs text-gray-500 dark:text-gray-400">
               DOCX, PDF, JPG, PNG
             </p>
           </div>

@@ -30,6 +30,7 @@ import Project from "./pages/project.jsx";
 import ProtectedProject from "./utils/protect-add-project.jsx";
 import { PhaseProvider } from "./context/phase-context.jsx";
 import AnnouncementPage from "./pages/announcement-page.jsx";
+import Encadrement from "./pages/encadrement.jsx";
 
 function App() {
   return (
@@ -84,13 +85,20 @@ function App() {
                     path="/annonces/:id"
                     exact
                   />
-                  <Route element={<ComiteProjects />} path="/commite-projects" />
-                  <Route element={<ProjectInfo  />} path="/commite-projects/:id" />
+                  <Route
+                    element={<ComiteProjects />}
+                    path="/commite-projects"
+                  />
+                  <Route
+                    element={<ProjectInfo />}
+                    path="/commite-projects/:id"
+                  />
                   {/* <Route element={<ProjectInfo />} path="/project-info" /> */}
                   <Route
                     element={<DatePlanification />}
                     path="/date-planification"
                   />
+                  <Route element={<Encadrement />} path="/encadrement" />
                 </Route>
               </Route>
             </Routes>

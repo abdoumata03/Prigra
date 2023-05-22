@@ -36,6 +36,9 @@ const ComiteProjects = () => {
     <>
       <Breadcrumbs />
       <div className="w-5/6 flex flex-col">
+        <h1 className="text-gray1 text-lg font-bold mb-6">
+          Consulter la liste des projets
+        </h1>
         <div className="flex flex-row justify-between mb-10">
           <div className="relative  w-1/2  flex flex-row items-center">
             <input

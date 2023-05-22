@@ -21,7 +21,7 @@ const ProjectInfo = ({ innerRef }) => {
     handleSubmit,
     getValues,
     formState: { errors },
-  } = methods;
+  } = methods; 
 
   let initialFormValues;
 

@@ -3,15 +3,17 @@ import { FiCheckCircle, FiClock, FiPercent } from "react-icons/fi";
 import StatCard from "./stat-card";
 import Messenger from "./messenger";
 import ProjectContext from "../context/project-context";
+import ProfileContext from "../context/profile-context";
 
 const TableauDeBord = () => {
   const { tasksData } = useContext(ProjectContext);
+  const { projectId } = useContext(ProfileContext);
 
   // STATS
-  const tasksCompleted = tasksData.filter((item) => item.status === "DONE")
+  const tasksCompleted = tasksData.filter((item) => item.status === "Complétée")
     .length;
   const tasksPending = tasksData.filter(
-    (item) => item.status === "ATTENTE" || item.status === "TO DO"
+    (item) => item.status === "En cours" || item.status === "À faire"
   ).length;
 
   const taux = 60;
@@ -30,9 +32,9 @@ const TableauDeBord = () => {
               {taux}%
             </span>
           </p>
-          <div class="w-full bg-gray-200 rounded-full h-3 mb-2">
+          <div className="w-full bg-gray-200 rounded-full h-3 mb-2">
             <div
-              class="bg-blue-600 h-3 rounded-full"
+              className="bg-blue-600 h-3 rounded-full"
               style={{ width: `${taux}%` }}
             ></div>
           </div>
@@ -50,7 +52,7 @@ const TableauDeBord = () => {
           />
         </div>
       </div>
-      <Messenger />
+      <Messenger id={projectId} />
     </div>
   );
 };

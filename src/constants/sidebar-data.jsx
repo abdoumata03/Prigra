@@ -5,6 +5,8 @@ import {
   FiUser,
   FiCalendar,
   FiVolume1,
+  FiUsers,
+  FiAward,
 } from "react-icons/fi";
 
 export const StudentSidebarData = [
@@ -23,7 +25,7 @@ export const StudentSidebarData = [
   {
     id: "soutenance",
     title: "Soutenance",
-    icon: <FiBriefcase />,
+    icon: <FiAward />,
     link: "/soutenance",
   },
   {
@@ -58,6 +60,21 @@ export const TeacherSidebarData = [
     title: "Phases",
     icon: <FiCalendar />,
     link: "/date-planification",
+  },
+];
+
+export const TeacherEncadrantSidebarData = [
+  {
+    id: "profile",
+    title: "Mon Profile",
+    icon: <FiUser />,
+    link: "/profile",
+  },
+  {
+    id: "encadrement",
+    title: "Encadrement",
+    icon: <FiUsers />,
+    link: "/encadrement",
   },
 ];
 

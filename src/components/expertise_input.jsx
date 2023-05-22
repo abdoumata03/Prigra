@@ -46,7 +46,7 @@ const ExpertiseInput = () => {
     );
   };
   return (
-    <div class="flex flex-col justify-center w-full">
+    <div className="flex flex-col justify-center w-full">
       <Toaster position="top-center" reverseOrder={false} />
       <p className="text-gray1 font-bold text-sm mb-4">
         Attacher le rapport d'expertise
@@ -56,15 +56,15 @@ const ExpertiseInput = () => {
           <label
             for="dropzone-file"
             onChange={handleChange}
-            class="flex flex-col items-center mb-5 justify-center w-full h-26 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-accent px-3"
+            className="flex flex-col items-center mb-5 justify-center w-full h-26 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-accent px-3"
           >
-            <div class="flex flex-row items-center justify-center gap-5 py-4">
+            <div className="flex flex-row items-center justify-center gap-5 py-4">
               <Upload />
               <div className="flex flex-col">
-                <p class="mb-2 font-semibold text-sm text-gray-500 dark:text-gray-400 text-center">
+                <p className="mb-2 font-semibold text-sm text-gray-500 dark:text-gray-400 text-center">
                   Cliquez pour uploader le fichier
                 </p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">
+                <p className="text-xs text-gray-500 dark:text-gray-400">
                   DOCX, PDF
                 </p>
               </div>

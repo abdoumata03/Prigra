@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import TableauDeBord from "../components/tableau-de-bord";
+import { FiCalendar, FiFileText, FiGrid, FiTrello } from "react-icons/fi";
+import MyProjectInfo from "./my-project-info";
+import Breadcrumbs from "../components/breadcrumbs";
+import EncProjectInfo from "./encadrement-project-info";
+import EncDashboard from "./encadrement-dashboard";
 import Tasks from "../components/taches";
-import Calendar from "../components/calendar";
-import { FiCalendar, FiGrid, FiTrello } from "react-icons/fi";
 
-const ProjectDashboard = () => {
-
-  
+const Encadrement = () => {
   const tabs = [
     { titre: "Tableau de bord", icon: <FiGrid /> },
+    { titre: "Détails du projet", icon: <FiFileText /> },
     { titre: "Tâches", icon: <FiTrello /> },
     { titre: "Calendrier", icon: <FiCalendar /> },
   ];
@@ -18,16 +19,18 @@ const ProjectDashboard = () => {
   function renderTab() {
     switch (selectedTabIndex) {
       case 0:
-        return <TableauDeBord />;
+        return <EncDashboard />;
       case 1:
-        return <Tasks />;
+        return <EncProjectInfo />;
       case 2:
-        return <Calendar />;
+        return <Tasks />;
+      case 3:
+        return <div>Calendrier</div>;
     }
   }
-
   return (
     <div className="w-full flex flex-col flex-grow">
+      <Breadcrumbs />
       <div className="flex gap-6 mb-10">
         {tabs.map((item, index) => (
           <button onClick={() => setSelectedTabIndex(index)}>
@@ -49,4 +52,4 @@ const ProjectDashboard = () => {
   );
 };
 
-export default ProjectDashboard;
+export default Encadrement;

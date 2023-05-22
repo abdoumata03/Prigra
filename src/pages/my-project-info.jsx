@@ -15,7 +15,7 @@ import PhaseContext from "../context/phase-context";
 import { toast } from "react-hot-toast";
 import { ImageConfig } from "../utils/image-config";
 
-const MyProjectInfo = () => {
+const MyProjectInfo = ({}) => {
   const { projectData, userData, projectId } = useContext(ProfileContext);
   const { phases } = useContext(PhaseContext);
   const { deleteProject } = useContext(ProjectContext);
@@ -145,9 +145,13 @@ const MyProjectInfo = () => {
                           {ImageConfig[item.format]}
                         </div>
                         <div className="flex flex-col flex-1 overflow-hidden">
-                          <p className="font-medium text-sm text-gray1 mb-1 truncate">
+                          <a
+                            href={item.url}
+                            target="_blank"
+                            className="font-medium text-sm text-gray1 mb-1 truncate"
+                          >
                             {item.name}
-                          </p>
+                          </a>
                           <p className="font-regualar text-xs text-gray3">
                             {bytesToMB(item.size)}
                           </p>
@@ -168,57 +172,79 @@ const MyProjectInfo = () => {
             <div className="flex flex-col mb-10">
               <div className="lg:overflow-auto">
                 <div className="bg-white rounded-[0.4rem] shadow-custom flex flex-col justify-center py-3 px-5 border mb-3 ">
-                  <p className="text-[13px] font-medium text-gray3 mb-2 ">
-                    Porteur de projet
-                  </p>
+                  <div className="flex items-center gap-3 mb-2 ">
+                    <p className="text-[13px] font-medium text-gray3 ">
+                      Porteur de projet
+                    </p>
+                    <div className="h-[1px] flex-grow bg-gray-200" />
+                  </div>
                   <PersonField
                     name={projectData?.owner}
-                    email={userData?.email}
+                    email="c.belbachir@esi-sba.dz"
                   />
-                </div>
-                {projectData?.encadrant?.length !== 0 && (
-                  <div className="bg-white rounded-[0.4rem] shadow-custom flex flex-col justify-center py-3 px-5 border mb-3">
-                    <p className="text-[13px] font-medium text-gray3 mb-2 ">
-                      Encadrants
+                  <div className="flex items-center gap-3 mb-2 ">
+                    <p className="text-[13px] font-medium text-gray3 ">
+                      Membres de l'équipe
                     </p>
-                    <div>
-                      {projectData?.encadrant?.map((Enc, index) => (
-                        <PersonField
-                          key={index}
-                          name={Enc.full_name}
-                          email={Enc.email}
-                        />
-                      ))}
-                    </div>
+                    <div className="h-[1px] flex-grow bg-gray-200" />
                   </div>
-                )}
-                {projectData?.co_encadrant?.length !== 0 && (
-                  <div className="bg-white rounded-[0.4rem] shadow-custom flex flex-col justify-center py-3 px-5 border mb-3">
-                    <p className="text-[13px] font-medium text-gray3 mb-2 ">
-                      Co-Encadrants
-                    </p>
-                    <div>
-                      {projectData?.co_encadrant?.map((coEnc, index) => (
-                        <PersonField
-                          key={index}
-                          name={coEnc.full_name}
-                          email={coEnc.email}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )}
-                <div className="bg-white rounded-[0.4rem] shadow-custom flex flex-col justify-center py-3 px-5 border">
-                  <p className="text-[13px] font-medium text-gray3 mb-2 ">
-                    Membres de l'equipe
-                  </p>
-                  {projectData?.members?.map((member, index) => (
+                  {projectData.members?.map((member, index) => (
                     <PersonField
                       name=" Belbachir Chaimaa"
-                      key={index}
                       email={member.email}
                     />
                   ))}
+                </div>
+                <div className="bg-white rounded-[0.4rem] shadow-custom flex flex-col justify-center py-3 px-5 border mb-3">
+                  <div className="flex items-center gap-3 mb-2 ">
+                    <p className="text-[13px] font-medium text-gray3 ">
+                      Encadrants
+                    </p>
+                    <div className="h-[1px] flex-grow bg-gray-200" />
+                  </div>
+                  <div>
+                    {projectData?.encadrant.length > 0 ? (
+                      projectData.encadrant?.map((Enc, index) => (
+                        <>
+                          <PersonField
+                            name={Enc.full_name}
+                            email={Enc.email}
+                            key={index}
+                          />
+                        </>
+                      ))
+                    ) : (
+                      <div className="flex items-center gap-2 text-gray4 pb-3">
+                        <FiInfo />
+                        <p className="text-sm ">
+                          Aucun encadrant a n'a été spécifié
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-3 mb-2 ">
+                    <p className="text-[13px] font-medium text-gray3 ">
+                      Co-encadrants
+                    </p>
+                    <div className="h-[1px] flex-grow bg-gray-200" />
+                  </div>
+                  <div>
+                    {projectData.co_encadrant?.length > 0 ? (
+                      projectData.co_encadrant?.map((coEnc, index) => (
+                        <PersonField
+                          name={coEnc.full_name}
+                          email={coEnc.email}
+                        />
+                      ))
+                    ) : (
+                      <div className="flex items-center gap-2 text-gray4 pb-3">
+                        <FiInfo />
+                        <p className="text-sm ">
+                          Aucun co-encadrant a n'a été spécifié
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

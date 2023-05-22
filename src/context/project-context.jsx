@@ -21,16 +21,25 @@ export const ProjectProvider = ({ children }) => {
     {
       id: "J00005",
       title: "Task 5",
-      status: "TO DO",
+      status: "À faire",
       description: "Implement new feature",
       startDate: "2023-05-25",
       endDate: "2023-06-05",
       workDone: "Some Work",
+      files: [
+        {
+          id: 0,
+          name: "fichier",
+          size: 1254,
+          format: "png",
+          url: "www.google.com",
+        },
+      ],
     },
     {
       id: "J00006",
       title: "Task 6",
-      status: "ATTENTE",
+      status: "En cours",
       description: "Design user interface",
       startDate: "2023-05-21",
       endDate: "2023-05-30",
@@ -38,7 +47,7 @@ export const ProjectProvider = ({ children }) => {
     {
       id: "J00007",
       title: "Task 7",
-      status: "DONE",
+      status: "Complétée",
       description: "Optimize database queries",
       startDate: "2023-05-22",
       endDate: "2023-05-28",
@@ -129,23 +138,19 @@ export const ProjectProvider = ({ children }) => {
       }),
     });
 
-    await fetch_project({isFileSubmit: true});
+    await fetch_project({ isFileSubmit: true });
   };
 
   const deleteFile = async (fileId) => {
-    await fetch(
-      `https://prigra.onrender.com/diplome/files/${fileId}/`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `JWT ${
-            JSON.parse(localStorage.getItem("authTokens")).access
-          }`,
-        },
-      }
-    );
-    await fetch_project({isFileSubmit: true});
-
+    await fetch(`https://prigra.onrender.com/diplome/files/${fileId}/`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `JWT ${
+          JSON.parse(localStorage.getItem("authTokens")).access
+        }`,
+      },
+    });
+    await fetch_project({ isFileSubmit: true });
   };
 
   const inviteProjectMember = async (email) => {
@@ -275,6 +280,21 @@ export const ProjectProvider = ({ children }) => {
     return put_enc_resposne.status;
   };
 
+  const putTauxAvancement = async (taux) => {
+    await fetch(`https://prigra.onrender.com/diplome/projects/${projectId}/`, {
+      method: "PUT",
+      headers: {
+        Authorization: `JWT ${
+          JSON.parse(localStorage.getItem("authTokens")).access
+        }`,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        taux_avancement: taux,
+      }),
+    });
+  };
+
   const deleteProject = async (ID) => {
     const deleteResponse = await fetch(
       `https://prigra.onrender.com/diplome/projects/${ID}/`,
@@ -290,30 +310,36 @@ export const ProjectProvider = ({ children }) => {
     );
   };
 
-
-  const ProjectReponse = async (id, reponse, rapportName, rapportSize, rapportFormat, rapportUrl) => {
+  const ProjectReponse = async (
+    id,
+    reponse,
+    rapportName,
+    rapportSize,
+    rapportFormat,
+    rapportUrl
+  ) => {
     const project_reponse_response = await fetch(
-    `https://prigra.onrender.com/diplome/reponses/${id}/`, 
-    {
-      method : "POST", 
-      headers : {
-        Authorization: `JWT ${
-          JSON.parse(localStorage.getItem("authTokens")).access
-      }`,
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({
-      reponse,
-      rapport_expertise : {
-        name: rapportName,
-        size: rapportSize,
-        format: rapportFormat,
-        url: rapportUrl
+      `https://prigra.onrender.com/diplome/reponses/${id}/`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem("authTokens")).access
+          }`,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          reponse,
+          rapport_expertise: {
+            name: rapportName,
+            size: rapportSize,
+            format: rapportFormat,
+            url: rapportUrl,
+          },
+        }),
       }
-   })
-   } 
-    )
-  }
+    );
+  };
 
   const contextData = {
     createProject,
@@ -321,6 +347,7 @@ export const ProjectProvider = ({ children }) => {
     putProjectType,
     setIsPuttingInfo,
     putProjectInfo,
+    putTauxAvancement,
     inviteProjectMember,
     invitationsList,
     deleteFile,
@@ -335,7 +362,7 @@ export const ProjectProvider = ({ children }) => {
     fetch_projects,
     isProjectsLoading,
     deleteProject,
-    ProjectReponse, 
+    ProjectReponse,
     putProjectFile,
   };
 

@@ -14,7 +14,7 @@ const Column = ({ data, titre, type }) => {
       {typeTasks.map((item, index) => (
         <Tache key={item.id} item={item} />
       ))}
-    </div>
+    </div> 
   );
 };
 

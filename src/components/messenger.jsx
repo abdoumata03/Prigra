@@ -5,10 +5,9 @@ import {
   addDoc,
   doc,
   setDoc,
-  getDocs,
   getDoc,
   serverTimestamp,
-  query,
+  query, 
   orderBy,
   onSnapshot,
   limit,
@@ -16,8 +15,8 @@ import {
 import ProfileContext from "../context/profile-context";
 import { FiSend } from "react-icons/fi";
 
-const Messenger = () => {
-  const { projectId, userData } = useContext(ProfileContext);
+const Messenger = ({id}) => {
+  const { userData } = useContext(ProfileContext);
   const [message, setMessage] = useState("");
   const [messagesData, setMessagesData] = useState([]);
 
@@ -29,7 +28,7 @@ const Messenger = () => {
 
     if (isNotEmpty(message.trim())) {
       try {
-        const projectDocRef = doc(db, "projects", `${projectId}`);
+        const projectDocRef = doc(db, "projects", `${id}`);
 
         const projectDocSnap = await getDoc(projectDocRef);
 
@@ -41,7 +40,7 @@ const Messenger = () => {
         const projectColletion = collection(
           db,
           "projects",
-          `${projectId}`,
+          `${id}`,
           "chat"
         );
 
@@ -64,7 +63,7 @@ const Messenger = () => {
 
   useEffect(() => {
     const q = query(
-      collection(db, "projects", `${projectId}`, "chat"),
+      collection(db, "projects", `${id}`, "chat"),
       orderBy("timestamp", "desc"),
       limit(50)
     );

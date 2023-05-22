@@ -21,7 +21,7 @@ const Project = () => {
       return <Outlet />;
     }
 
-    if (status === "validé") {
+    if (status === "created") {
       return <ProjectDashboard />;
     }
 
