@@ -295,9 +295,9 @@ export const ProjectProvider = ({ children }) => {
     });
   };
 
-  const deleteProject = async (ID) => {
+  const deleteProject = async (id) => {
     const deleteResponse = await fetch(
-      `https://prigra.onrender.com/diplome/projects/${ID}/`,
+      `https://prigra.onrender.com/diplome/projects/${id}/`,
       {
         method: "DELETE",
         headers: {
@@ -306,6 +306,52 @@ export const ProjectProvider = ({ children }) => {
           }`,
           "content-type": "application/json",
         },
+      }
+    );
+  };
+
+  const getProjectTasks = async (project_id) => {
+    const get_tasks_response = await fetch(
+      `https://prigra.onrender.com/diplome/projects/${project_id}/tasks/`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem("authTokens")).access
+          }`,
+          "content-type": "application/json",
+        },
+      }
+    );
+  };
+
+  const deleteProjectTask = async (project_id, task_id) => {
+    await fetch(
+      `https://prigra.onrender.com/diplome/projects/${project_id}/tasks/${task_id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem("authTokens")).access
+          }`,
+          "content-type": "application/json",
+        },
+      }
+    );
+  };
+
+  const addProjectTask = async (project_id, data) => {
+    const add_task_reponse = await fetch(
+      `https://prigra.onrender.com/diplome/projects/${project_id}/tasks/`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem("authTokens")).access
+          }`,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ data }),
       }
     );
   };
@@ -364,6 +410,8 @@ export const ProjectProvider = ({ children }) => {
     deleteProject,
     ProjectReponse,
     putProjectFile,
+    getProjectTasks,
+    deleteProjectTask,
   };
 
   return (
