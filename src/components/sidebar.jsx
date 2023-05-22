@@ -17,7 +17,7 @@ const Sidebar = () => {
 
   const [selectedItemIndex, setSelectedItemIndex] = useState(
     StudentSidebarData.findIndex((item) =>
-      location.pathname.includes(item.link)
+      location.pathname.includes(item.id)
     )
   );
 

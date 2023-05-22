@@ -7,7 +7,7 @@ import {
   PopUpReponse,
 } from "../components/index.js";
 import ProjectContext from "../context/project-context";
-import { FiCalendar, FiEdit, FiLink2, FiTrash2 } from "react-icons/fi";
+import { FiCalendar, FiEdit, FiInfo, FiLink2, FiTrash2 } from "react-icons/fi";
 import { ImageConfig } from "../utils/image-config";
 import Breadcrumbs from "../components/breadcrumbs";
 
@@ -101,9 +101,9 @@ const ProjectInfo = () => {
                     >
                       <div className="w-8 mr-3">{ImageConfig[item.format]}</div>
                       <div className="flex flex-col flex-1 overflow-hidden">
-                        <p className="font-medium text-sm text-gray1 mb-1 truncate">
+                        <a href={item.url} target="_blank" className="font-medium text-sm text-gray1 mb-1 truncate">
                           {item.name}
-                        </p>
+                        </a>
                         <p className="font-regualar text-xs text-gray3">
                           {bytesToMB(item.size)}
                         </p>
@@ -159,15 +159,24 @@ const ProjectInfo = () => {
                 <div className="h-[1px] flex-grow bg-gray-200" />
               </div>
               <div>
-                {projectData.encadrant?.map((Enc, index) => (
-                  <>
-                    <PersonField
-                      name={Enc.full_name}
-                      email={Enc.email}
-                      key={index}
-                    />
-                  </>
-                ))}
+                {projectData?.encadrant.length > 0 ? (
+                  projectData.encadrant?.map((Enc, index) => (
+                    <>
+                      <PersonField
+                        name={Enc.full_name}
+                        email={Enc.email}
+                        key={index}
+                      />
+                    </>
+                  ))
+                ) : (
+                  <div className="flex items-center gap-2 text-gray4 pb-3">
+                    <FiInfo />
+                    <p className="text-sm ">
+                      Aucun encadrant a n'a été spécifié
+                    </p>
+                  </div>
+                )}
               </div>
               <div className="flex items-center gap-3 mb-2 ">
                 <p className="text-[13px] font-medium text-gray3 ">
@@ -176,9 +185,18 @@ const ProjectInfo = () => {
                 <div className="h-[1px] flex-grow bg-gray-200" />
               </div>
               <div>
-                {projectData.co_encadrant?.map((coEnc, index) => (
-                  <PersonField name={coEnc.full_name} email={coEnc.email} />
-                ))}
+                {projectData.co_encadrant?.length > 0 ? (
+                  projectData.co_encadrant?.map((coEnc, index) => (
+                    <PersonField name={coEnc.full_name} email={coEnc.email} />
+                  ))
+                ) : (
+                  <div className="flex items-center gap-2 text-gray4 pb-3">
+                    <FiInfo />
+                    <p className="text-sm ">
+                      Aucun co-encadrant a n'a été spécifié
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </div>

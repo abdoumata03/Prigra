@@ -51,7 +51,7 @@ export const ProfileProvider = ({ children }) => {
 
     setUserData(user_type_data);
 
-    if (user_type_data.project_id !== null) {
+    if (user_type === "Student" && user_type_data.project_id !== null) {
       setHasProject(true);
       setProjectId(user_type_data.project_id);
 

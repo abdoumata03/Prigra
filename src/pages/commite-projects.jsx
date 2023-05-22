@@ -3,6 +3,7 @@ import ProjectContext from "../context/project-context";
 import { useNavigate } from "react-router";
 import BlueLoadingSpinner from "../components/spinner_blue";
 import { ReactComponent as Search } from "../assets/icons/Search.svg";
+import Breadcrumbs from "../components/breadcrumbs";
 
 const ComiteProjects = () => {
   const { projects, isProjectsLoading } = useContext(ProjectContext);
@@ -30,27 +31,22 @@ const ComiteProjects = () => {
   const handleClick = (project) => {
     navigate(`/commite-projects/${project.id}`, { state: project });
   };
-  if (isProjectsLoading) {
-    return (
-      <div className=" flex flex-row gap-3 justify-center items-center">
-        <BlueLoadingSpinner />
-        <p className="text-md text-gray3">
-          Nous préparons vos données, merci de patienter...
-        </p>
-      </div>
-    );
-  } else {
-    return (
-      <div className="w-5/6 flex flex-col mt-20">
+
+  return (
+    <>
+      <Breadcrumbs />
+      <div className="w-5/6 flex flex-col">
         <div className="flex flex-row justify-between mb-10">
-          <div className="w-1/2 py-3 sm:px-5 px-[1px] rounded-md border border-gray6  bg-white flex flex-row justify-between items-center">
+          <div className="relative  w-1/2  flex flex-row items-center">
             <input
               type="text"
               placeholder="Rechercher un projet"
-              className="text-[15px] outline-none"
+              className="text-[15px] outline-none py-3 w-full sm:px-5 px-[1px] rounded-md border border-gray6  bg-white "
               onChange={(event) => setSearchProject(event.target.value)}
             />
-            <Search />
+            <div className="absolute right-0 px-4 h-full flex items-center bg-white rounded-r-md border border-l-0 border-gray6">
+              <Search />
+            </div>
           </div>
           <div>
             <select
@@ -103,7 +99,7 @@ const ComiteProjects = () => {
           </table>
         </div>
       </div>
-    );
-  }
+    </>
+  );
 };
 export default ComiteProjects;
