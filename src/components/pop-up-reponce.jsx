@@ -77,7 +77,7 @@ const PopUpReponse = (props) => {
             <h1 className="text-gray1 font-bold text-sm flex-1 ">
               Indiquez votre décision
             </h1>
-            <div onClick={props.onClick} className="text-gray3 cursor-pointer">
+            <div onClick={props.onclick} className="text-gray3 cursor-pointer">
               <FiX />
             </div>
           </div>

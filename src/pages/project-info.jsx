@@ -1,12 +1,15 @@
 import React, { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { Calendar,Delete, Edit } from "../assets";
+import { Edit } from "../assets";
 import {
   ProjectInfoField,
   PersonField,
   PopUpReponse,
 } from "../components/index.js";
 import ProjectContext from "../context/project-context";
+import { FiCalendar, FiEdit, FiLink2, FiTrash2 } from "react-icons/fi";
+import { ImageConfig } from "../utils/image-config";
+import Breadcrumbs from "../components/breadcrumbs";
 
 const ProjectInfo = () => {
   const navigate = useNavigate();
@@ -17,6 +20,17 @@ const ProjectInfo = () => {
   const { deleteProject } = useContext(ProjectContext);
   const [projectDeleted, setProjectDeleted] = useState(false);
 
+  const bytesToMB = (bytes) => {
+    if (bytes < 1024) {
+      return bytes + " bytes";
+    } else if (bytes < 1048576) {
+      return (bytes / 1024).toFixed(2) + " KB";
+    } else if (bytes < 1073741824) {
+      return (bytes / 1048576).toFixed(2) + " MB";
+    } else {
+      return (bytes / 1073741824).toFixed(2) + " GB";
+    }
+  };
   const openPopup = () => {
     setIsPopupOpen(true);
   };
@@ -34,7 +48,7 @@ const ProjectInfo = () => {
   };
 
   const handleBack = () => {
-    navigate("/comite-projects");
+    navigate("/commite-projects");
   };
 
   const handleReponce = () => {
@@ -48,110 +62,146 @@ const ProjectInfo = () => {
   const handleConfirmDelete = () => {
     deleteProject(projectData.id);
     setProjectDeleted(true);
-    navigate("/comite-projects", { state: setProjectDeleted });
+    navigate("/commite-projects", { state: setProjectDeleted });
   };
 
   return (
-    <div className="w-[90%] flex flex-col mt-20 mb-20">
-      <div className=" flex lg:flex-row flex-col mt-10 lg:gap-10 gap-0">
+    <div className="w-full flex flex-col">
+      <Breadcrumbs />
+      <div className=" flex lg:flex-row flex-col lg:gap-10 gap-0">
         <div className=" lg:w-3/5 w-full flex flex-col">
-          <ProjectInfoField
-            title="Nom scientifique"
-            content={projectData.nom_scientifique}
-          />
-          <ProjectInfoField
-            title="Nom commercial"
-            content={projectData.nom_commercial}
-          />
-          <ProjectInfoField
-            title="Description de projet"
-            content={projectData.description}
-          />
-          <ProjectInfoField title="Fichier attaché" />
-          <div className="w-full flex flex-row gap-3">
+          <div className="w-full flex flex-col divide-y divide-dashed bg-white rounded-[0.4rem] border py-2 px-4 shadow-custom">
             <ProjectInfoField
               title="Type de projet"
               content={projectData.type}
             />
             <ProjectInfoField
-              title="Status de projet"
-              content={projectData.status_reponse}
+              title="Nom scientifique"
+              content={projectData.nom_scientifique}
             />
+            <ProjectInfoField
+              title="Nom commercial"
+              content={projectData.nom_commercial}
+            />
+            <ProjectInfoField
+              title="Description de projet"
+              content={projectData.description}
+            />
+            <div className=" px-4 py-3 bg-white w-auto">
+              <div className="flex gap-2  mb-2 text-gray3">
+                <FiLink2 />
+                <h1 className="text-xs">Fichiers attachés</h1>
+              </div>
+              <p className={`font-medium text-sm`}>
+                {projectData?.project_files ? (
+                  projectData?.project_files?.reverse().map((item, index) => (
+                    <div
+                      key={index}
+                      className="bg-accent rounded-[0.4rem] px-6 py-3 mb-2 w-full flex flex-row justify-between items-center"
+                    >
+                      <div className="w-8 mr-3">{ImageConfig[item.format]}</div>
+                      <div className="flex flex-col flex-1 overflow-hidden">
+                        <p className="font-medium text-sm text-gray1 mb-1 truncate">
+                          {item.name}
+                        </p>
+                        <p className="font-regualar text-xs text-gray3">
+                          {bytesToMB(item.size)}
+                        </p>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="w-full">
+                    <p className="text-gray3 font-medium">
+                      Aucun fichier attaché
+                    </p>
+                  </div>
+                )}
+              </p>
+            </div>
           </div>
         </div>
         <div className=" lg:w-2/5 w-full flex flex-col mb-10">
-          <div className=" w-full flex flex-row px-5 py-3 bg-white mb-3 rounded-[0.4rem] border items-center">
-            <img src={Calendar} alt="calendar" className="w-[30px] h-[30px]" />
+          <div className=" w-full flex flex-row px-5 py-3 shadow-custom bg-white mb-3 rounded-[0.4rem] border items-center">
+            <FiCalendar />
             <div className="ml-4">
-              <h1 className="text-[14px] text-gray3 mb-2 ">
-                Date de soumission{" "}
-              </h1>
-              <p className="font-medium">25/04/2023</p>
+              <h1 className="text-gray3 text-xs mb-1">Date de création</h1>
+              <p className="text-gray1 font-medium">25/04/2023</p>
             </div>
           </div>
-          <div className="lg:overflow-auto lg:h-[600px] h-auto ">
+          <div className="h-auto ">
             <div className="bg-white rounded-[0.4rem] shadow-custom flex flex-col justify-center py-3 px-5 border mb-3 ">
-              <p className="text-[13px] font-medium text-gray3 mb-2 ">
-                Porteur de projet
-              </p>
+              <div className="flex items-center gap-3 mb-2 ">
+                <p className="text-[13px] font-medium text-gray3 ">
+                  Porteur de projet
+                </p>
+                <div className="h-[1px] flex-grow bg-gray-200" />
+              </div>
               <PersonField
                 name={projectData?.owner}
                 email="c.belbachir@esi-sba.dz"
               />
+              <div className="flex items-center gap-3 mb-2 ">
+                <p className="text-[13px] font-medium text-gray3 ">
+                  Membres de l'équipe
+                </p>
+                <div className="h-[1px] flex-grow bg-gray-200" />
+              </div>
+              {projectData.members?.map((member, index) => (
+                <PersonField name=" Belbachir Chaimaa" email={member.email} />
+              ))}
             </div>
             <div className="bg-white rounded-[0.4rem] shadow-custom flex flex-col justify-center py-3 px-5 border mb-3">
-              <p className="text-[13px] font-medium text-gray3 mb-2 ">
-                Encadrant
-              </p>
+              <div className="flex items-center gap-3 mb-2 ">
+                <p className="text-[13px] font-medium text-gray3 ">
+                  Encadrants
+                </p>
+                <div className="h-[1px] flex-grow bg-gray-200" />
+              </div>
               <div>
                 {projectData.encadrant?.map((Enc, index) => (
-                  <PersonField
-                    name={Enc.full_name}
-                    email={Enc.email}
-                    key={index}
-                  />
+                  <>
+                    <PersonField
+                      name={Enc.full_name}
+                      email={Enc.email}
+                      key={index}
+                    />
+                  </>
                 ))}
               </div>
-            </div>
-            <div className="bg-white rounded-[0.4rem] shadow-custom flex flex-col justify-center py-3 px-5 border mb-3">
-              <p className="text-[13px] font-medium text-gray3 mb-2 ">
-                Co-Encadrants
-              </p>
+              <div className="flex items-center gap-3 mb-2 ">
+                <p className="text-[13px] font-medium text-gray3 ">
+                  Co-encadrants
+                </p>
+                <div className="h-[1px] flex-grow bg-gray-200" />
+              </div>
               <div>
                 {projectData.co_encadrant?.map((coEnc, index) => (
                   <PersonField name={coEnc.full_name} email={coEnc.email} />
                 ))}
               </div>
             </div>
-            <div className="bg-white rounded-[0.4rem] shadow-custom flex flex-col justify-center py-3 px-5 border">
-              <p className="text-[13px] font-medium text-gray3 mb-2 ">
-                Membres de l'equipe
-              </p>
-              {projectData.members?.map((member, index) => (
-                <PersonField name=" Belbachir Chaimaa" email={member.email} />
-              ))}
-            </div>
           </div>
         </div>
       </div>
       {/* actions */}
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-row justify-end gap-6">
         <div
-          className="flex flex-row px-5 py-3 bg-info text-white rounded-[0.4rem] cursor-pointer"
+          className="flex flex-row items-center px-5 py-3  text-error  rounded-[5px] border border-error cursor-pointer"
+          onClick={handleDelete}
+        >
+          <FiTrash2 />
+          <h1 className="ml-2">Retirer</h1>
+        </div>
+        <div
+          className="flex flex-row items-center gap-3 px-5 py-3 bg-info text-white rounded-[0.4rem] cursor-pointer"
           onClick={handleReponce}
         >
-          <img src={Edit} alt="edit" />
+          <FiEdit />
           <h1 className="ml-2">Réponse</h1>
         </div>
-        <div 
-                        className='flex flex-row px-5 py-3 text-white rounded-[5px] border border-error cursor-pointer'
-                        onClick={handleDelete}>
-                          
-                            <h1 className='ml-2 text-error'>Retirer</h1>
-                        </div>
       </div>
-      <div className="lg:overflow-auto lg:h-100 h-auto ">
-      </div>
+      <div className="lg:overflow-auto lg:h-100 h-auto "></div>
       <div className="lg:overflow-auto lg:h-100 h-auto "></div>
       {isPopupOpen && <PopUpReponse onclick={closePopup} />}
       {isDeletePopupOpen && (

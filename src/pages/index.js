@@ -12,7 +12,7 @@ import Profile from "./profile";
 import EmptyProject from "./empty_project";
 import Announcement from "./announcements";
 import Graduation from "./graduation";
-import ComiteProjects from './comite-projects'
+import ComiteProjects from './commite-projects'
 import ProjectInfo from "./project-info";
 import DatePlanification from "./date-planification";
 

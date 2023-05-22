@@ -15,7 +15,10 @@ const Breadcrumbs = () => {
       return "Mon Profile";
     } else if (crumb === "annonces") {
       return "Annonces";
-    }
+    } else if (crumb === "commite-projects") {
+      return "Projets";
+    } else if (location.pathname.includes("commite") && !isNaN(crumb))
+      return "Détails du Projet";
   }
 
   const filtered_crumbs = location.pathname

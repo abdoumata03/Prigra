@@ -39,7 +39,7 @@ export const TeacherSidebarData = [
   {
     title: "Les Projet",
     icon: <FiClipboard />,
-    link: "/comite-projects",
+    link: "/commite-projects",
   },
   {
     title: "Annonces",

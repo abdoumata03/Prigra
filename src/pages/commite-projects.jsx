@@ -28,7 +28,7 @@ const ComiteProjects = () => {
   };
 
   const handleClick = (project) => {
-    navigate("/project-info", { state: project });
+    navigate(`/commite-projects/${project.id}`, { state: project });
   };
   if (isProjectsLoading) {
     return (

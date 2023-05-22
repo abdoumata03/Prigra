@@ -37,8 +37,7 @@ const ExpertiseInput = () => {
       () => {
         // download url
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-
-        // CALL THE API HERE
+          // CALL THE API HERE
           console.log(url);
           setFileUrl(url);
           setIsFileUploading(false);

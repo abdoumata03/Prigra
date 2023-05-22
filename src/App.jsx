@@ -84,8 +84,9 @@ function App() {
                     path="/annonces/:id"
                     exact
                   />
-                  <Route element={<ComiteProjects />} path="/comite-projects" />
-                  <Route element={<ProjectInfo />} path="/project-info" />
+                  <Route element={<ComiteProjects />} path="/commite-projects" />
+                  <Route element={<ProjectInfo  />} path="/commite-projects/:id" />
+                  {/* <Route element={<ProjectInfo />} path="/project-info" /> */}
                   <Route
                     element={<DatePlanification />}
                     path="/date-planification"
