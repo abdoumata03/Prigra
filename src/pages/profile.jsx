@@ -4,7 +4,6 @@ import { ProfileInputField } from "../components/index.js";
 import ProfileContext from "../context/profile-context";
 import { useForm, FormProvider } from "react-hook-form";
 import Breadcrumbs from "../components/breadcrumbs";
-import { Toaster, toast } from "react-hot-toast";
 import { FiTrash2 } from "react-icons/fi";
 
 let initialFormValues;
