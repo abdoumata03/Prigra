@@ -218,7 +218,7 @@ const FillInfos = () => {
 
   const handleChange = (event) => {
     const fileUploaded = event.target.files[0];
-    setSelectedImage(fileUploaded);
+    setSelectedImage(fileUploaded); 
     setImagePreview(URL.createObjectURL(fileUploaded));
     uploadTask.on(
       "state_changed",
