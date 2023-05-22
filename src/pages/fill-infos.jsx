@@ -228,12 +228,11 @@ const FillInfos = () => {
         // download url
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           setImageUrl(url);
-
         });
       }
     );
   };
-
+ 
   return (
     <div
       className={`flex items-center ${
@@ -450,6 +449,6 @@ const FillInfos = () => {
       )}
     </div>
   );
-};
+}; 
 
 export default FillInfos;

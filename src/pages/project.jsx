@@ -14,10 +14,9 @@ const Project = () => {
   const { hasProject, projectData } = useContext(ProfileContext);
   const { currentPhase } = useContext(PhaseContext);
 
-  const status = projectData?.status_reponse.toLowerCase();
+  const status = projectData?.status_reponse?.toLowerCase();
 
   const location = useLocation();
-
 
   const renderContent = () => {
     if (location?.pathname.includes("edit")) {

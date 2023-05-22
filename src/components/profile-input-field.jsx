@@ -1,17 +1,19 @@
 import React from "react";
 import { FiAtSign } from "react-icons/fi";
 import { IconContext } from "react-icons";
+import { useFormContext } from "react-hook-form";
 
-const ProfileInputField = ({ field_name, value, icon }) => {
-
-
+const ProfileInputField = ({ field_name, value, icon, name }) => {
   const uneditable = [
-    'email',
-    'num_inscription',
-    'etablissement',
-    'filière',
-    'spécialité'
-  ]
+    "full_name",
+    "email",
+    "num_inscription",
+    "etablissment",
+    "filière",
+    "spécialité",
+  ];
+
+  const { register } = useFormContext();
 
   return (
     <div>
@@ -29,8 +31,10 @@ const ProfileInputField = ({ field_name, value, icon }) => {
           </div>
         )}
         <input
+          {...(!uneditable.includes(name) ? register(name) : {})}
+          type={name === "birth_date" && "date"}
           defaultValue={value}
-          disabled
+          disabled={uneditable.includes(name)}
           className={`shadow-custom ${
             icon ? `pl-10` : `pl-5`
           } border-[1px] rounded-[0.4rem] w-full text-[12px] md:text-sm h-[35px] md:h-[45px] font-medium disabled:bg-white disabled:text-gray1 text-gray3`}

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { Calendar, Delete, Edit } from "../assets";
+import { Calendar, Edit } from "../assets";
 import {
   ProjectInfoField,
   PersonField,
@@ -146,7 +146,7 @@ const ProjectInfo = () => {
         <div 
                         className='flex flex-row px-5 py-3 text-white rounded-[5px] border border-error cursor-pointer'
                         onClick={handleDelete}>
-                            <img src={Delete} alt="delete" />
+                          
                             <h1 className='ml-2 text-error'>Retirer</h1>
                         </div>
       </div>
