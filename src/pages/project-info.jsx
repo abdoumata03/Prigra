@@ -152,6 +152,7 @@ const ProjectInfo = () => {
       </div>
       <div className="lg:overflow-auto lg:h-100 h-auto ">
       </div>
+      <div className="lg:overflow-auto lg:h-100 h-auto "></div>
       {isPopupOpen && <PopUpReponse onclick={closePopup} />}
       {isDeletePopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">

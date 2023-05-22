@@ -1,6 +1,13 @@
 import React, { useContext, useState } from "react";
 import ProfileContext from "../context/profile-context";
-import { FiCalendar, FiClock, FiEdit3, FiTrash2, FiX } from "react-icons/fi";
+import {
+  FiCalendar,
+  FiClock,
+  FiEdit3,
+  FiLink2,
+  FiTrash2,
+  FiX,
+} from "react-icons/fi";
 import { ProjectInfoField, PersonField } from "../components/index.js";
 import { Link, useNavigate } from "react-router-dom";
 import ProjectContext from "../context/project-context";
@@ -69,13 +76,13 @@ const MyProjectInfo = () => {
     <>
       <div className="flex lg:flex-row flex-col gap-10 w-full">
         <div className="flex flex-col w-1/2 gap-0 lg:gap-6">
-          <div className="flex bg-white shadow-custom w-full py-[0.3rem] px-[0.3rem] rounded-[0.4rem] ">
+          <div className="flex bg-white border shadow-custom w-full py-[0.3rem] px-[0.3rem] rounded-[0.4rem] ">
             <button
               onClick={onClickInfo}
               className={`flex-1 py-2 rounded-[0.4rem] ${
                 value === 0
                   ? `bg-primary  text-white font-medium`
-                  : `bg-white text-gray1`
+                  : `bg-white text-gray2`
               }`}
             >
               Informations
@@ -85,15 +92,15 @@ const MyProjectInfo = () => {
               className={`flex-1 py-2 rounded-[0.4rem] ${
                 value === 1
                   ? `bg-primary text-white font-medium`
-                  : `bg-white text-gray1`
+                  : `bg-white text-gray2`
               }`}
             >
-              Equipe
+              Équipe
             </button>
           </div>
 
           {value === 0 ? (
-            <div className="w-full flex flex-col">
+            <div className="w-full flex flex-col divide-y divide-dashed bg-white rounded-[0.4rem] border py-2 px-4 shadow-custom">
               <ProjectInfoField
                 title="Type de projet"
                 content={projectData?.type ? projectData?.type : "Non spécifié"}
@@ -122,25 +129,38 @@ const MyProjectInfo = () => {
                     : "Non spécifié"
                 }
               />
-              <div className=" px-4 py-3 bg-white mb-3 w-auto rounded-[0.4rem] border">
-                <h1 className="text-xs text-gray3 mb-2 ">Fichiers attachés</h1>
+              <div className=" px-4 py-3 bg-white w-auto">
+                <div className="flex gap-2  mb-2 text-gray3">
+                  <FiLink2 />
+                  <h1 className="text-xs">Fichiers attachés</h1>
+                </div>
                 <p className={`font-medium text-sm`}>
-                  {projectData?.project_files?.reverse().map((item, index) => (
-                    <div
-                      key={index}
-                      className="bg-accent rounded-[0.4rem] px-6 py-3 mb-2 w-full flex flex-row justify-between items-center"
-                    >
-                      <div className="w-8 mr-3">{ImageConfig[item.format]}</div>
-                      <div className="flex flex-col flex-1 overflow-hidden">
-                        <p className="font-medium text-sm text-gray1 mb-1 truncate">
-                          {item.name}
-                        </p>
-                        <p className="font-regualar text-xs text-gray3">
-                          {bytesToMB(item.size)}
-                        </p>
+                  {projectData?.project_files ? (
+                    projectData?.project_files?.reverse().map((item, index) => (
+                      <div
+                        key={index}
+                        className="bg-accent rounded-[0.4rem] px-6 py-3 mb-2 w-full flex flex-row justify-between items-center"
+                      >
+                        <div className="w-8 mr-3">
+                          {ImageConfig[item.format]}
+                        </div>
+                        <div className="flex flex-col flex-1 overflow-hidden">
+                          <p className="font-medium text-sm text-gray1 mb-1 truncate">
+                            {item.name}
+                          </p>
+                          <p className="font-regualar text-xs text-gray3">
+                            {bytesToMB(item.size)}
+                          </p>
+                        </div>
                       </div>
+                    ))
+                  ) : (
+                    <div className="w-full">
+                      <p className="text-gray3 font-medium">
+                        Aucun fichier attaché
+                      </p>
                     </div>
-                  ))}
+                  )}
                 </p>
               </div>
             </div>
@@ -162,8 +182,12 @@ const MyProjectInfo = () => {
                       Encadrants
                     </p>
                     <div>
-                      {projectData?.encadrant?.map((Enc) => (
-                        <PersonField name={Enc.full_name} email={Enc.email} />
+                      {projectData?.encadrant?.map((Enc, index) => (
+                        <PersonField
+                          key={index}
+                          name={Enc.full_name}
+                          email={Enc.email}
+                        />
                       ))}
                     </div>
                   </div>
@@ -174,8 +198,9 @@ const MyProjectInfo = () => {
                       Co-Encadrants
                     </p>
                     <div>
-                      {projectData?.co_encadrant?.map((coEnc) => (
+                      {projectData?.co_encadrant?.map((coEnc, index) => (
                         <PersonField
+                          key={index}
                           name={coEnc.full_name}
                           email={coEnc.email}
                         />
@@ -190,6 +215,7 @@ const MyProjectInfo = () => {
                   {projectData?.members?.map((member, index) => (
                     <PersonField
                       name=" Belbachir Chaimaa"
+                      key={index}
                       email={member.email}
                     />
                   ))}
@@ -198,7 +224,7 @@ const MyProjectInfo = () => {
             </div>
           )}
         </div>
-        <div className="bg-white w-1/2 shadow-custom rounded-[0.4rem] flex flex-col h-fit items-center py-6">
+        <div className="bg-white w-1/2 shadow-custom rounded-[0.4rem] flex flex-col h-fit items-center py-6 border">
           <div className="flex w-5/6 gap-3 mb-3">
             <button
               onClick={onClickDelete}
