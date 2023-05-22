@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { Calendar, Edit } from "../assets";
+import { Calendar,Delete, Edit } from "../assets";
 import {
   ProjectInfoField,
   PersonField,

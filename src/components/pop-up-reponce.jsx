@@ -104,19 +104,17 @@ const PopUpReponse = (props) => {
         <div className="w-full flex-col md:flex-row flex items-center justify-end gap-2 px-8 h-fit py-4 bg-gray-100 rounded-b-lg">
           <div
             onClick={props.onclick}
-            className="flex w-max flex-row px-5 py-3 rounded-[0.4rem] cursor-pointer border border-gray4"
-          >
+            className="flex w-max flex-row px-5 py-3 rounded-[0.4rem] cursor-pointer border border-gray4"> 
             <h1 className="text-gray3">Annuler</h1>
           </div>
           <div
             onClick={handleSubmit}
-            className="flex w-max flex-row px-5 py-3 bg-success text-white rounded-[0.4rem] cursor-pointer"
-          >
+            className="flex w-max flex-row px-5 py-3 bg-success text-white rounded-[0.4rem] cursor-pointer">
             <img src={Vector} alt="valider" />
             <h1 className="ml-2">Envoyer réponse</h1>
           </div>
+         </div>
         </div>
-      </div>
     </div>
 
     //

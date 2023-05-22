@@ -29,6 +29,8 @@ import Vector from './Vector.svg'
 import Person from './Person Ribbon.svg'
 import checkedBox from './checked-box.svg'
 import checkBox from './check-box.svg'
+import Delete from './Delete Dismiss.svg'
+
 export{
     login,
     logo,
@@ -60,5 +62,6 @@ export{
     Vector, 
     Person, 
     checkedBox, 
-    checkBox
+    checkBox,
+    Delete
 }
