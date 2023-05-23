@@ -7,6 +7,7 @@ import {
   FiVolume1,
   FiUsers,
   FiAward,
+  FiActivity,
 } from "react-icons/fi";
 
 export const StudentSidebarData = [
@@ -48,6 +49,12 @@ export const TeacherSidebarData = [
     title: "Les Projets",
     icon: <FiClipboard />,
     link: "/commite-projects",
+  },
+  {
+    id: "stats",
+    title: "Statistique",
+    icon: <FiActivity />,
+    link: "/stats",
   },
   {
     id: "annonces",
