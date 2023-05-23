@@ -20,7 +20,7 @@ const ProjectInfo = () => {
   const [value, setValue] = useState(0);
   const [isDeleteReponsePopupOpen, setIsDeleteReponsePopupOpen] = useState(false);
 
-  const { deleteProject, projectReponse, deleteProjectReponse, putProjectReponse, fetchProjectReponse } = useContext(ProjectContext);
+  const { deleteProject, projectReponse, deleteProjectReponse, fetchProjectReponse } = useContext(ProjectContext);
   const {currentPhase, phases} = useContext(PhaseContext);
 
   useEffect(() => {
@@ -380,7 +380,7 @@ const ProjectInfo = () => {
                    className="bg-primary gap-2  w-full flex items-center justify-center text-white py-3 rounded-[0.4rem] font-medium"
                    >
                     <FiEdit3 />
-                    { projectReponse  ? 'Modifier Réponse' : 'Réponse' }
+                    { projectReponse  ? 'Modifier Réponse' : 'Donner Réponse' }
                   </button>
                 
               </div>

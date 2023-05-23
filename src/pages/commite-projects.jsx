@@ -4,9 +4,10 @@ import { useNavigate } from "react-router";
 import BlueLoadingSpinner from "../components/spinner_blue";
 import { ReactComponent as Search } from "../assets/icons/Search.svg";
 import Breadcrumbs from "../components/breadcrumbs";
+import { ReactComponent as Save } from "../assets/icons/save.svg";
 
 const ComiteProjects = () => {
-  const { projects, isProjectsLoading } = useContext(ProjectContext);
+  const { projects, submitReponses} = useContext(ProjectContext);
 
   const [searchProject, setSearchProject] = useState("");
 
@@ -33,9 +34,25 @@ const ComiteProjects = () => {
 
   };
 
+  const handleSoumission = () => {
+    {projects?.map((project) =>(
+      submitReponses(project.id, true)
+    ))}
+  }
+
   return (
-    <>
+    <>      
+      <div className="flex flex-row justify-between">
       <Breadcrumbs />
+      <button 
+        onClick={handleSoumission}
+
+        className="mr-20 flex justify-center items-center gap-3 self-end h-[40px] md:h-[50px] bg-primary text-white text-sm md:text-md font-semibold rounded-[0.4rem] px-5 mb-10 lg:mb-0 mt-10 w-full md:w-auto"
+        >
+        <Save />
+        Soumetre Réponses
+        </button>
+      </div>
       <div className="w-5/6 flex flex-col">
         <h1 className="text-gray1 text-lg font-bold mb-6">
           Consulter la liste des projets
@@ -59,7 +76,7 @@ const ComiteProjects = () => {
               onChange={(e) => setSelectedStatus(e.target.value)}
             >
               <option value="all">Statuts</option>
-              <option value="En Cour">En cours</option>
+              <option value="En cours">En cours</option>
               <option value="En recour">En recours</option>
               <option value="Validé">Validé</option>
               <option value="Created">Creé</option>

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Vector } from "../assets";
 import { CheckProject, FileInput } from "../components/index.js";
 import ProjectContext from "../context/project-context";
@@ -15,8 +15,19 @@ const PopUpReponse = (props) => {
     approveReserve: false,
     pme: false,
   });
+
   const [fileInfo, setFileInfo] = useState(null);
-  const { ProjectReponse, putProjectReponse } = useContext(ProjectContext);
+
+  const { 
+    ProjectReponse, 
+    putProjectResponse, 
+    fetchProjectReponse, 
+    projectReponse } = useContext(ProjectContext);
+
+  useEffect(() => {
+    fetchProjectReponse(props.content);
+    console.log(projectReponse);
+  }, [])
 
   const handleFileUpload = (file) => {
     setFileInfo(file);
@@ -33,9 +44,13 @@ const PopUpReponse = (props) => {
     } else if (state.pme) {
       reponse = "pme";
     }
-    ProjectReponse(props.content, reponse, fileInfo.name, fileInfo.size, fileInfo.type, fileInfo.url);
-    
+    projectReponse ? 
+    putProjectResponse(props.content, projectReponse.id, reponse, fileInfo.name, fileInfo.size, fileInfo.type, fileInfo.url)
+  
+    : 
+    ProjectReponse(props.content, reponse, fileInfo.name, fileInfo.size, fileInfo.type, fileInfo.url)
   };
+    
 
   const handleValidation = () => {
     setState((prevState) => ({
