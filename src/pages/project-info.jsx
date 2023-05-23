@@ -1,13 +1,9 @@
 import React, { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { Edit } from "../assets";
-import {
-  ProjectInfoField,
-  PersonField,
-  PopUpReponse,
-} from "../components/index.js";
+import {ProjectInfoField, PersonField, PopUpReponse } from "../components/index.js";
 import ProjectContext from "../context/project-context";
-import { FiCalendar, FiEdit, FiInfo, FiLink2, FiTrash2, FiX, FiClock,FiEdit3 } from "react-icons/fi";
+import PhaseContext from "../context/phase-context";
+import { FiCalendar, FiInfo, FiLink2, FiTrash2, FiX, FiClock,FiEdit3 } from "react-icons/fi";
 import { ImageConfig } from "../utils/image-config";
 import Breadcrumbs from "../components/breadcrumbs";
 import { toast, Toaster } from "react-hot-toast";
@@ -16,12 +12,16 @@ const ProjectInfo = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const projectData = location.state;
+
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [popupContent, setPopupContent] = useState('');
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
-  const { deleteProject } = useContext(ProjectContext);
   const [projectDeleted, setProjectDeleted] = useState(false);
   const [value, setValue] = useState(0);
+  const [isDeleteReponsePopupOpen, setIsDeleteReponsePopupOpen] = useState(false);
+
+  const { deleteProject } = useContext(ProjectContext);
+  const {currentPhase, phases} = useContext(PhaseContext);
 
   const bytesToMB = (bytes) => {
     if (bytes < 1024) {
@@ -51,16 +51,12 @@ const ProjectInfo = () => {
     setIsDeletePopupOpen(false);
   };
 
-  const handleBack = () => {
-    navigate("/commite-projects");
+  const openDeleteReponsePopup = () => {
+    setIsDeleteReponsePopupOpen(true);
   };
 
-  const handleReponce = () => {
-    openPopup();
-  };
-
-  const handleDelete = () => {
-    openDeletePopup();
+  const closeDeleteReponsePopup = () => {
+    setIsDeleteReponsePopupOpen(false);
   };
 
   const handleConfirmDelete = async () => {
@@ -84,6 +80,19 @@ const ProjectInfo = () => {
     setValue(2);
   };
 
+  const handleConfirmDeleteReponse = ()=> {
+
+  }
+
+  function getDateFinValidation() {
+    for (let i = 0; i < phases?.length; i++) {
+      if (phases[i].nom_phase === "Période de validation des projets") {
+        return phases[i].date_fin;
+      }
+    }
+
+    return null; // Return null if the phase is not found
+  }
 
   return (
     <>
@@ -101,7 +110,7 @@ const ProjectInfo = () => {
               }`}
             >
               Informations
-            </button>``
+            </button>
             <button
               onClick={onClickMembers}
               className={`flex-1 py-2 rounded-[0.4rem] ${
@@ -204,8 +213,8 @@ const ProjectInfo = () => {
                     <div className="h-[1px] flex-grow bg-gray-200" />
                   </div>
                   <PersonField
-                    name={projectData?.owner}
-                    email="c.belbachir@esi-sba.dz"
+                    name={projectData?.owner.full_name}
+                    email={projectData?.owner.email}
                   />
                   <div className="flex items-center gap-3 mb-2 ">
                     <p className="text-[13px] font-medium text-gray3 ">
@@ -215,7 +224,7 @@ const ProjectInfo = () => {
                   </div>
                   {projectData.members?.map((member, index) => (
                     <PersonField
-                      name=" Belbachir Chaimaa"
+                      name={member.full_name}
                       email={member.email}
                     />
                   ))}
@@ -259,6 +268,7 @@ const ProjectInfo = () => {
                         <PersonField
                           name={coEnc.full_name}
                           email={coEnc.email}
+                          key={index}
                         />
                       ))
                     ) : (
@@ -275,47 +285,77 @@ const ProjectInfo = () => {
             </div>
           ) : (
             projectData?.reponse === '' ? (
-              <div className="w-full flex flex-col divide-y divide-dashed bg-white rounded-[0.4rem] border py-2 px-4 shadow-custom">
+              <div className="w-full flex flex-col divide-y divide-dashed bg-white rounded-[0.4rem] border py-3 px-4 shadow-custom">
+                <div className="flex items-center gap-2 text-gray4 ">
+                        <FiInfo />
+                        <p className="text-sm ">
+                          Aucune réponse n'a été spécifiée
+                        </p>
+                      </div>
               </div>
             ) : (
-              <div className="w-full flex flex-col divide-y divide-dashed bg-white rounded-[0.4rem] border py-2 px-4 shadow-custom">
-            <ProjectInfoField
-              title="Réponse"
-              content={
-                projectData?.description
-                  ? projectData?.description
-                  : "Non spécifié"
-              }
-            />
-            <div className=" px-4 py-3 bg-white w-auto">
-              <div className="flex gap-2  mb-2 text-gray3">
-                <FiLink2 />
-                <h1 className="text-xs">Rapport d'expertise</h1>
+              <div className="w-full flex flex-col bg-white rounded-[0.4rem] border py-2 px-4 shadow-custom items-end">  
+                <div className="w-full flex flex-col divide-y divide-dashed">
+                <ProjectInfoField
+                  title="Réponse"
+                  content={
+                    projectData?.description
+                      ? projectData?.description
+                      : "Non spécifié"
+                  }
+                />
+                <div className=" px-4 py-3 bg-white w-auto">
+                  <div className="flex gap-2  mb-2 text-gray3">
+                    <FiLink2 />
+                    <h1 className="text-xs">Rapport d'expertise</h1>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+              {currentPhase === ("Période de validation des projets" || "Période de validation des projets") ? 
+              (
+                <button
+                onClick={openDeleteReponsePopup}
+                className="border border-error flex gap-2 items-center justify-center flex-1 text-error rounded-[0.4rem] font-medium px-5 py-3"
+              >
+                <FiTrash2 />
+                Retirer 
+              </button> 
+              ): (
+                <div>
+                </div>
+              )
+              }
+              </div> 
+             
             )
-            
           )}
         </div>
         <div className="bg-white w-1/2 shadow-custom rounded-[0.4rem] flex flex-col h-fit items-center py-6 border">
-          <div className="flex w-5/6 gap-3 mb-3">
-            <button
-              onClick={openDeletePopup}
-              className="border border-error flex gap-2 items-center justify-center flex-1 text-error rounded-[0.4rem] font-medium px-5"
-            >
-              <FiTrash2 />
-              Retirer
-            </button>
-              <button 
-               onClick={openPopup}
-               className="bg-primary gap-2  w-full flex items-center justify-center text-white py-3 rounded-[0.4rem] font-medium"
-               >
-                <FiEdit3 />
-                Réponse
-              </button>
-            
-          </div>
+        {currentPhase === ("Période de validation des projets" || "Période de validation des projets") ? 
+              (
+                <div className="flex w-5/6 gap-3 mb-3">
+                <button
+                  onClick={openDeletePopup}
+                  className="border w-1/2  border-error flex gap-2 items-center justify-center text-error rounded-[0.4rem] font-medium px-5"
+                >
+                  <FiTrash2 />
+                  Retirer Projet
+                </button>
+                  <button 
+                   onClick={openPopup}
+                   className="bg-primary gap-2  w-full flex items-center justify-center text-white py-3 rounded-[0.4rem] font-medium"
+                   >
+                    <FiEdit3 />
+                    Réponse
+                  </button>
+                
+              </div>
+              ): (
+                <div>
+                </div>
+              )
+              }
+
           <div className="w-5/6 flex flex-col divide-y-2 divide-gray-100">
             <div className="flex gap-6 items-center py-3">
               <div className="text-gray2">
@@ -333,10 +373,10 @@ const ProjectInfo = () => {
                 <FiClock />
               </div>
               <div>
-                <p className="text-gray3 text-xs mb-1">Délai de modification</p>
-                {/* <h2 className="text-gray1 text-base font-medium">
-                  {getDateFinSoumission()}
-                </h2> */}
+                <p className="text-gray3 text-xs mb-1">Délai de validation</p>
+                <h2 className="text-gray1 text-base font-medium">
+                {getDateFinValidation()}
+                </h2>
               </div>
             </div>
           </div>
@@ -371,6 +411,43 @@ const ProjectInfo = () => {
               </div>
               <button
                 onClick={handleConfirmDelete}
+                className="flex flex-row items-center gap-2 rounded-[0.4rem] px-5 py-3 text-white bg-error cursor-pointer"
+              >
+                <FiTrash2 />
+                <h1>Oui, retirer quand meme</h1>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {isDeleteReponsePopupOpen && (
+        <div className="fixed inset-0 px-10 flex items-center justify-center bg-black bg-opacity-25">
+          <div className="w-2/5 rounded-lg flex flex-col items-start bg-white justify-center">
+            <div className="flex flex-col items-start py-4 px-10 w-full">
+              <div className="flex items-center gap-20 mb-4 w-full">
+                <h1 className="text-gray1 text-lg font-bold flex-1 ">
+                  Êtes-vous sûr de vouloir supprimer votre réponse ?
+                </h1>
+                <div
+                  onClick={closeDeleteReponsePopup}
+                  className="text-gray3 cursor-pointer"
+                >
+                  <FiX />
+                </div>
+              </div>
+              <p className="text-sm font-medium text-gray3 mb-6">
+                Toutes les informations de votre réponse seront perdues
+              </p>
+            </div>
+            <div className="w-full flex-col md:flex-row flex items-center justify-end gap-2 px-8 h-fit py-4 bg-gray-100 rounded-b-lg">
+              <div
+                onClick={closeDeleteReponsePopup}
+                className="flex flex-row justify-center px-5 py-3 rounded-[0.4rem] cursor-pointer border bg-white "
+              >
+                <h1 className=" text-gray2">Non, annuler</h1>
+              </div>
+              <button
+                onClick={handleConfirmDeleteReponse}
                 className="flex flex-row items-center gap-2 rounded-[0.4rem] px-5 py-3 text-white bg-error cursor-pointer"
               >
                 <FiTrash2 />

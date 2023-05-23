@@ -30,6 +30,7 @@ const ComiteProjects = () => {
 
   const handleClick = (project) => {
     navigate(`/commite-projects/${project.id}`, { state: project });
+
   };
 
   return (
@@ -58,9 +59,10 @@ const ComiteProjects = () => {
               onChange={(e) => setSelectedStatus(e.target.value)}
             >
               <option value="all">Statuts</option>
-              <option value="En cour">En cours</option>
-              <option value="accepté">Accepté</option>
-              <option value="refusé">Refusé</option>
+              <option value="En Cour">En cours</option>
+              <option value="En recour">En recours</option>
+              <option value="Validé">Validé</option>
+              <option value="Created">Creé</option>
             </select>
           </div>
         </div>
@@ -83,10 +85,10 @@ const ComiteProjects = () => {
                   className="border-b bg-white font-meduim text-gray3 cursor-pointer"
                 >
                   <th scope="row" className="px-6 py-4 font-medium text-gray1">
-                    {project.nom_scientifique}
+                    {project?.nom_scientifique}
                   </th>
-                  <td className="px-6 py-4">{project.owner}</td>
-                  <td className="px-6 py-4">04/10/2023</td>
+                  <td className="px-6 py-4">{project?.owner.full_name}</td>
+                  <td className="px-6 py-4">{project?.created_at}</td>
                   <td
                     className={` px-6 py-4 ${
                       project.status_reponse === "En cour"
@@ -94,7 +96,7 @@ const ComiteProjects = () => {
                         : "text-primary"
                     } `}
                   >
-                    {project.status_reponse}
+                    {project?.status_reponse}
                   </td>
                 </tr>
               ))}

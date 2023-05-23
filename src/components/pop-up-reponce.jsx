@@ -6,6 +6,7 @@ import { FiX } from "react-icons/fi";
 import ExpertiseInput from "./expertise_input";
 import { async } from "q";
 import { Toaster  } from "react-hot-toast";
+import { Navigate } from "react-router";
 
 const PopUpReponse = (props) => {
   const [state, setState] = useState({
@@ -32,7 +33,7 @@ const PopUpReponse = (props) => {
     } else if (state.pme) {
       reponse = "pme";
     }
-    ProjectReponse(props.content, reponse, fileInfo.name, fileInfo.size, fileInfo.type, fileInfo.url)
+    ProjectReponse(props.content, reponse, fileInfo.name, fileInfo.size, fileInfo.type, fileInfo.url);
   };
 
   const handleValidation = () => {

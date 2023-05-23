@@ -105,7 +105,7 @@ const DatePlanification = () => {
       const formattedDebutDate = format(debutDate, "yyyy-MM-dd");
       const formattedFinDate = format(finDate, "yyyy-MM-dd");
       if(formattedDebutDate != phase.date_debut || formattedFinDate != phase.date_fin)
-      putPhase(phase.ID, formattedDebutDate, formattedFinDate);
+      putPhase(phase.id, formattedDebutDate, formattedFinDate);
     }
     )
     

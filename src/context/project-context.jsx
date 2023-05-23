@@ -388,13 +388,17 @@ export const ProjectProvider = ({ children }) => {
           }),
         }
       );
-      if (project_reponse_response === 201) {
+      if (project_reponse_response.ok) {
         toast.success('Response submitted successfully');
       } else {
         toast.dismiss();
         toast.error('Failed to submit response');
       }
   };
+
+
+
+  
 
   const contextData = {
     createProject,

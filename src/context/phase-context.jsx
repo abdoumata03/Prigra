@@ -1,4 +1,6 @@
 import React, { createContext, useState } from "react";
+import { useNavigate } from "react-router";
+import { toast } from "react-hot-toast";
 const PhaseContext = createContext();
 
 export default PhaseContext;
@@ -7,6 +9,7 @@ export const PhaseProvider = ({ children }) => {
   const [phases, setPhases] = useState(null);
   const [isPhasesLoading, setIsPhasesLoading] = useState(false);
   const [currentPhase, setCurrentPhase] = useState("");
+  const navigate = useNavigate();
 
   const fetch_phases = async () => {
     setIsPhasesLoading(true);
@@ -38,23 +41,36 @@ export const PhaseProvider = ({ children }) => {
     });
   };
 
-  const putPhase = async (ID, date_debut, date_fin) => {
-    const phaseResponse = await fetch(
-      `https://prigra.onrender.com/diplome/phases/${ID}/`,
-      {
-        method: "PUT",
-        headers: {
-          Authorization: `JWT ${
-            JSON.parse(localStorage.getItem("authTokens")).access
-          }`,
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({
-          date_debut,
-          date_fin,
-        }),
-      }
-    )
+  const putPhase = async (id, date_debut, date_fin) => {
+    try {
+      toast.loading('Submitting response...'); 
+      const phaseResponse = await fetch(
+        `https://prigra.onrender.com/diplome/phases/${id}/`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `JWT ${
+              JSON.parse(localStorage.getItem("authTokens")).access
+            }`,
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            date_debut,
+            date_fin,
+          }),
+        }
+      )
+    if (phaseResponse.ok) {
+      toast.dismiss();
+      toast.success('Response submitted successfully');
+      navigate(0);
+    } else {
+      toast.dismiss();
+      toast.error('Failed to submit response');
+    }
+  } catch (error) {
+    console.log(error);
+  }
   };
 
   const contextData = {
