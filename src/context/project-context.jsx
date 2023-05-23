@@ -1,6 +1,7 @@
 import { createContext, useState, useContext } from "react";
 import ProfileContext from "./profile-context";
 import { async } from "q";
+import { toast } from 'react-hot-toast';
 
 const ProjectContext = createContext();
 
@@ -357,34 +358,42 @@ export const ProjectProvider = ({ children }) => {
   };
 
   const ProjectReponse = async (
-    id,
+    project_id,
     reponse,
     rapportName,
     rapportSize,
     rapportFormat,
     rapportUrl
-  ) => {
-    const project_reponse_response = await fetch(
-      `https://prigra.onrender.com/diplome/reponses/${id}/`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `JWT ${
-            JSON.parse(localStorage.getItem("authTokens")).access
-          }`,
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({
-          reponse,
-          rapport_expertise: {
-            name: rapportName,
-            size: rapportSize,
-            format: rapportFormat,
-            url: rapportUrl,
+   ) => {
+      toast.loading('Submitting response...'); 
+      const project_reponse_response = await fetch(
+        `https://prigra.onrender.com/diplome/responses/`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `JWT ${
+              JSON.parse(localStorage.getItem('authTokens')).access
+            }`,
+            'content-type': 'application/json',
           },
-        }),
+          body: JSON.stringify({
+            project_id,
+            reponse,
+            rapport_expertise: {
+              name: rapportName,
+              size: rapportSize,
+              format: rapportFormat,
+              url: rapportUrl,
+            },
+          }),
+        }
+      );
+      if (project_reponse_response === 201) {
+        toast.success('Response submitted successfully');
+      } else {
+        toast.dismiss();
+        toast.error('Failed to submit response');
       }
-    );
   };
 
   const contextData = {

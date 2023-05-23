@@ -5,7 +5,8 @@ import * as yup from "yup";
 import { ReactComponent as Save } from "../assets/icons/save.svg";
 import PhaseContext from "../context/phase-context";
 import { format } from "date-fns";
-import BlueLoadingSpinner from "../components/spinner_blue";
+import { toast, Toaster } from "react-hot-toast";
+import { async } from "q";
 
 const schema = yup.object().shape({
   debut_phase1: yup.date(),
@@ -82,7 +83,7 @@ const schema = yup.object().shape({
 });
 
 const DatePlanification = () => {
-  const { phases, putPhase, fetch_phases, isPhasesLoading } = useContext(
+  const { phases, putPhase, fetch_phases} = useContext(
     PhaseContext
   );
 
@@ -96,15 +97,20 @@ const DatePlanification = () => {
   });
 
   const submitForm = (data) => {
-    phases.forEach((index) => {
+    phases.forEach((phase, index) => {
       const debutKey = `debut_phase${index + 1}`;
       const finKey = `fin_phase${index + 1}`;
-      const debutDate = format(data[debutKey], "yyyy-MM-dd");
-      const finDate = format(data[finKey], "yyyy-MM-dd");
-      putPhase(index + 1, debutDate, finDate);
-    });
+      const debutDate = new Date(data[debutKey]); 
+      const finDate = new Date(data[finKey]); 
+      const formattedDebutDate = format(debutDate, "yyyy-MM-dd");
+      const formattedFinDate = format(finDate, "yyyy-MM-dd");
+      if(formattedDebutDate != phase.date_debut || formattedFinDate != phase.date_fin)
+      putPhase(phase.ID, formattedDebutDate, formattedFinDate);
+    }
+    )
+    
   };
-
+  
   const handleFinPhaseChange = (phaseNumber, event) => {
     const finPhaseValue = event.target.value;
     setValue(`debut_phase${phaseNumber}`, finPhaseValue);
@@ -114,13 +120,14 @@ const DatePlanification = () => {
     fetch_phases();
     console.log(phases);
     phases?.map((phase, index) => {
-      setValue(`debut_phase${index}`, phase.date_debut);
-      setValue(`fin_phase${index}`, phase.date_fin);
+      setValue(`debut_phase${index +1 }`, phase.date_debut);
+      setValue(`fin_phase${index +1 }`, phase.date_fin);
     });
   }, []);
 
   return (
     <div className="w-5/6 mt-10 flex flex-col">
+      <Toaster position='top-center' reverseOrder={false}/>
       <div className="w-4/6">
         <h1 className="text-xl font-bold text-gray-800">
           Planification Des Phases Des Projets

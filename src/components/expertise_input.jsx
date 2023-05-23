@@ -8,7 +8,7 @@ import Lottie from "lottie-react";
 import Loader from "../assets/lottie/loader.json";
 import { FiTrash2 } from "react-icons/fi";
 
-const ExpertiseInput = () => {
+const ExpertiseInput = ({ onFileUpload }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileUrl, setFileUrl] = useState("");
   const [isFileUploding, setIsFileUploading] = useState(false);
@@ -41,6 +41,12 @@ const ExpertiseInput = () => {
           console.log(url);
           setFileUrl(url);
           setIsFileUploading(false);
+          onFileUpload({
+            name: fileUploaded.name,
+            size: fileUploaded.size,
+            type: fileUploaded.type,
+            url: url,
+          });
         });
       }
     );

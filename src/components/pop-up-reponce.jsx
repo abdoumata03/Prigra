@@ -4,6 +4,8 @@ import { CheckProject, FileInput } from "../components/index.js";
 import ProjectContext from "../context/project-context";
 import { FiX } from "react-icons/fi";
 import ExpertiseInput from "./expertise_input";
+import { async } from "q";
+import { Toaster  } from "react-hot-toast";
 
 const PopUpReponse = (props) => {
   const [state, setState] = useState({
@@ -12,12 +14,17 @@ const PopUpReponse = (props) => {
     approveReserve: false,
     pme: false,
   });
+  const [fileInfo, setFileInfo] = useState(null);
   const { ProjectReponse } = useContext(ProjectContext);
+
+  const handleFileUpload = (file) => {
+    setFileInfo(file);
+  };
 
   const handleSubmit = () => {
     let reponse = "";
     if (state.approve) {
-      reponse = "approver";
+      reponse = "accepter";
     } else if (state.refuse) {
       reponse = "refuser";
     } else if (state.approveReserve) {
@@ -25,8 +32,7 @@ const PopUpReponse = (props) => {
     } else if (state.pme) {
       reponse = "pme";
     }
-
-    ProjectReponse(reponse, "rapport d'expertise");
+    ProjectReponse(props.content, reponse, fileInfo.name, fileInfo.size, fileInfo.type, fileInfo.url)
   };
 
   const handleValidation = () => {
@@ -69,6 +75,8 @@ const PopUpReponse = (props) => {
     }));
   };
 
+  
+
   return (
     <div className="fixed inset-0 px-10 flex items-center justify-center bg-black bg-opacity-25">
       <div className="w-2/5 rounded-lg flex flex-col items-start bg-white justify-center">
@@ -102,7 +110,7 @@ const PopUpReponse = (props) => {
             onclick={handlePme}
           />
           <div className="h-[1px] w-4/5 bg-gray-300 my-3 self-center" />
-          <ExpertiseInput />
+          <ExpertiseInput onFileUpload={handleFileUpload}/>
         </div>
         <div className="w-full flex-col md:flex-row flex items-center justify-end gap-2 px-8 h-fit py-4 bg-gray-100 rounded-b-lg">
           <div
@@ -119,6 +127,7 @@ const PopUpReponse = (props) => {
           </div>
          </div>
         </div>
+        <Toaster position='top-center' reverseOrder={false}/>
     </div>
   );
 };

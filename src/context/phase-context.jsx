@@ -1,5 +1,4 @@
 import React, { createContext, useState } from "react";
-
 const PhaseContext = createContext();
 
 export default PhaseContext;
@@ -55,7 +54,7 @@ export const PhaseProvider = ({ children }) => {
           date_fin,
         }),
       }
-    );
+    )
   };
 
   const contextData = {

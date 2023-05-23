@@ -4,6 +4,7 @@ import { Outlet } from "react-router";
 import ProfileContext from "../context/profile-context";
 import ProjectContext from "../context/project-context";
 import { useLocation } from "react-router";
+import BlueLoadingSpinner from "../components/spinner_blue";
 import Lottie from "lottie-react";
 import Paperplane from "../assets/lottie/paperplane.json";
 import PhaseContext from "../context/phase-context";
