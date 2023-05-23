@@ -1,10 +1,8 @@
 import { useContext, useState, useEffect } from "react";
 import ProjectContext from "../context/project-context";
 import { useNavigate } from "react-router";
-import BlueLoadingSpinner from "../components/spinner_blue";
 import { ReactComponent as Search } from "../assets/icons/Search.svg";
 import Breadcrumbs from "../components/breadcrumbs";
-import { ReactComponent as Save } from "../assets/icons/save.svg";
 
 const ComiteProjects = () => {
   const { projects, submitReponses} = useContext(ProjectContext);
@@ -42,14 +40,12 @@ const ComiteProjects = () => {
 
   return (
     <>      
-      <div className="flex flex-row justify-between">
+      <div className=" w-5/6 flex flex-row justify-between items-center">
       <Breadcrumbs />
       <button 
         onClick={handleSoumission}
-
-        className="mr-20 flex justify-center items-center gap-3 self-end h-[40px] md:h-[50px] bg-primary text-white text-sm md:text-md font-semibold rounded-[0.4rem] px-5 mb-10 lg:mb-0 mt-10 w-full md:w-auto"
+        className="flex justify-center text-success items-center gap-3 self-end h-[40px] md:h-[50px] border-success border text-sm md:text-md font-medium rounded-[0.4rem] px-5 mb-10  w-full md:w-auto"
         >
-        <Save />
         Soumetre Réponses
         </button>
       </div>
