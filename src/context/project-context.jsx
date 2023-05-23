@@ -2,6 +2,7 @@ import { createContext, useState, useContext } from "react";
 import ProfileContext from "./profile-context";
 import { async } from "q";
 import { toast } from 'react-hot-toast';
+import { Navigate, useNavigate } from "react-router";
 
 const ProjectContext = createContext();
 
@@ -10,6 +11,7 @@ export default ProjectContext;
 export const ProjectProvider = ({ children }) => {
   const [projects, setProjects] = useState(null);
   const [isProjectsLoading, setIsProjectsLoading] = useState(false);
+  const [projectReponse, setProjectReponse] = useState(null);
   const {
     projectId,
     setProjectId,
@@ -17,6 +19,7 @@ export const ProjectProvider = ({ children }) => {
     type,
     fetch_project,
   } = useContext(ProfileContext);
+  const navigate= useNavigate();
 
   const [tasksData, setTasksData] = useState([
     {
@@ -297,6 +300,7 @@ export const ProjectProvider = ({ children }) => {
   };
 
   const deleteProject = async (id) => {
+    toast.loading('deleting project...'); 
     const deleteResponse = await fetch(
       `https://prigra.onrender.com/diplome/projects/${id}/`,
       {
@@ -309,6 +313,13 @@ export const ProjectProvider = ({ children }) => {
         },
       }
     );
+    if (deleteResponse.ok) {
+      toast.dismiss();
+      toast.success('project deleted');
+    } else {
+      toast.dismiss();
+      toast.error('Failed to delete project');
+    }
   };
 
   const getProjectTasks = async (project_id) => {
@@ -358,7 +369,7 @@ export const ProjectProvider = ({ children }) => {
   };
 
   const ProjectReponse = async (
-    project_id,
+    project_pk,
     reponse,
     rapportName,
     rapportSize,
@@ -367,7 +378,7 @@ export const ProjectProvider = ({ children }) => {
    ) => {
       toast.loading('Submitting response...'); 
       const project_reponse_response = await fetch(
-        `https://prigra.onrender.com/diplome/responses/`,
+        `https://prigra.onrender.com/diplome/projects/${project_pk}/responses/`,
         {
           method: 'POST',
           headers: {
@@ -377,7 +388,6 @@ export const ProjectProvider = ({ children }) => {
             'content-type': 'application/json',
           },
           body: JSON.stringify({
-            project_id,
             reponse,
             rapport_expertise: {
               name: rapportName,
@@ -389,16 +399,80 @@ export const ProjectProvider = ({ children }) => {
         }
       );
       if (project_reponse_response.ok) {
+        toast.dismiss();
         toast.success('Response submitted successfully');
+        navigate(0);
       } else {
         toast.dismiss();
         toast.error('Failed to submit response');
       }
   };
 
+  const fetchProjectReponse = async (project_pk) => {
+    const get_project_reponse_response = await fetch(
+      `https://prigra.onrender.com/diplome/projects/${project_pk}/responses/`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem('authTokens')).access
+          }`,
+          'content-type': 'application/json',
+        },
+      }
+    )
+    const projectReponse = await get_project_reponse_response.json();
+    setProjectReponse(projectReponse[0]);
+  }
 
 
-  
+  const putProjectResponse = async (project_pk, id, ) => {
+    const put_project_reponse_response = await fetch(
+      `https://prigra.onrender.com/diplome/projects/${project_pk}/responses/${id}/`,
+      {
+        method: 'PUT',
+        headers: {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem('authTokens')).access
+          }`,
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          reponse,
+          rapport_expertise: {
+            name: rapportName,
+            size: rapportSize,
+            format: rapportFormat,
+            url: rapportUrl,
+          },
+        }),
+      }
+    )
+  }
+
+  const deleteProjectReponse = async (project_pk, id) => {
+    toast.loading('En train de supprimer la reponse...'); 
+    const delete_project_reponse_response = await fetch(
+      `https://prigra.onrender.com/diplome/projects/${project_pk}/responses/${id}/`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem('authTokens')).access
+          }`,
+          'content-type': 'application/json',
+        },
+      }
+    )
+    if (delete_project_reponse_response.ok) {
+      navigate(0);
+      toast.dismiss();
+      toast.success('Response deleted successfully');
+    } else {
+      toast.dismiss();
+      toast.error('Failed to delete response');
+    }
+  }
 
   const contextData = {
     createProject,
@@ -425,6 +499,10 @@ export const ProjectProvider = ({ children }) => {
     putProjectFile,
     getProjectTasks,
     deleteProjectTask,
+    fetchProjectReponse, 
+    deleteProjectReponse, 
+    putProjectResponse, 
+    projectReponse, 
   };
 
   return (

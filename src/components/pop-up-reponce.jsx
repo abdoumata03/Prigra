@@ -16,7 +16,7 @@ const PopUpReponse = (props) => {
     pme: false,
   });
   const [fileInfo, setFileInfo] = useState(null);
-  const { ProjectReponse } = useContext(ProjectContext);
+  const { ProjectReponse, putProjectReponse } = useContext(ProjectContext);
 
   const handleFileUpload = (file) => {
     setFileInfo(file);
@@ -34,6 +34,7 @@ const PopUpReponse = (props) => {
       reponse = "pme";
     }
     ProjectReponse(props.content, reponse, fileInfo.name, fileInfo.size, fileInfo.type, fileInfo.url);
+    
   };
 
   const handleValidation = () => {

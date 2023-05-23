@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
 import {ProjectInfoField, PersonField, PopUpReponse } from "../components/index.js";
 import ProjectContext from "../context/project-context";
@@ -20,9 +20,14 @@ const ProjectInfo = () => {
   const [value, setValue] = useState(0);
   const [isDeleteReponsePopupOpen, setIsDeleteReponsePopupOpen] = useState(false);
 
-  const { deleteProject } = useContext(ProjectContext);
+  const { deleteProject, projectReponse, deleteProjectReponse, putProjectReponse, fetchProjectReponse } = useContext(ProjectContext);
   const {currentPhase, phases} = useContext(PhaseContext);
 
+  useEffect(() => {
+    fetchProjectReponse(projectData.id);
+    console.log(projectReponse);
+  }, [])
+  
   const bytesToMB = (bytes) => {
     if (bytes < 1024) {
       return bytes + " bytes";
@@ -81,7 +86,8 @@ const ProjectInfo = () => {
   };
 
   const handleConfirmDeleteReponse = ()=> {
-
+    deleteProjectReponse(projectData.id, projectReponse?.id);
+    
   }
 
   function getDateFinValidation() {
@@ -90,7 +96,6 @@ const ProjectInfo = () => {
         return phases[i].date_fin;
       }
     }
-
     return null; // Return null if the phase is not found
   }
 
@@ -169,8 +174,8 @@ const ProjectInfo = () => {
                   <h1 className="text-xs">Fichiers attachés</h1>
                 </div>
                 <p className={`font-medium text-sm`}>
-                  {projectData?.project_files ? (
-                    projectData?.project_files?.reverse().map((item, index) => (
+                  {projectData.project_files.length != 0 ? (
+                    projectData.project_files.reverse().map((item, index) => (
                       <div
                         key={index}
                         className="bg-accent rounded-[0.4rem] px-6 py-3 mb-2 w-full flex flex-row justify-between items-center"
@@ -192,7 +197,7 @@ const ProjectInfo = () => {
                         </div>
                       </div>
                     ))
-                  ) : (
+                   ) : (
                     <div className="w-full">
                       <p className="text-gray3 font-medium">
                         Aucun fichier attaché
@@ -299,8 +304,8 @@ const ProjectInfo = () => {
                 <ProjectInfoField
                   title="Réponse"
                   content={
-                    projectData?.description
-                      ? projectData?.description
+                    projectReponse?.reponse
+                      ? projectReponse?.reponse
                       : "Non spécifié"
                   }
                 />
@@ -309,6 +314,35 @@ const ProjectInfo = () => {
                     <FiLink2 />
                     <h1 className="text-xs">Rapport d'expertise</h1>
                   </div>
+                  <p className={`font-medium text-sm`}>
+                  {projectReponse?.rapport_expertise ? (
+                      <div
+                        className="bg-accent rounded-[0.4rem] px-6 py-3 mb-2 w-full flex flex-row justify-between items-center"
+                      >
+                        <div className="w-8 mr-3">
+                          {ImageConfig[projectReponse?.rapport_expertise.format]}
+                        </div>
+                        <div className="flex flex-col flex-1 overflow-hidden">
+                          <a
+                            href={projectReponse?.rapport_expertise.url}
+                            target="_blank"
+                            className="font-medium text-sm text-gray1 mb-1 truncate"
+                          >
+                            {projectReponse?.rapport_expertise.name}
+                          </a>
+                          <p className="font-regualar text-xs text-gray3">
+                            {bytesToMB(projectReponse?.rapport_expertise.size)}
+                          </p>
+                        </div>
+                      </div>
+                  ) : (
+                    <div className="w-full">
+                      <p className="text-gray3 font-medium">
+                        Aucun fichier attaché
+                      </p>
+                    </div>
+                  )}
+                </p>
                 </div>
               </div>
               {currentPhase === ("Période de validation des projets" || "Période de validation des projets") ? 
@@ -346,7 +380,7 @@ const ProjectInfo = () => {
                    className="bg-primary gap-2  w-full flex items-center justify-center text-white py-3 rounded-[0.4rem] font-medium"
                    >
                     <FiEdit3 />
-                    Réponse
+                    { projectReponse  ? 'Modifier Réponse' : 'Réponse' }
                   </button>
                 
               </div>
