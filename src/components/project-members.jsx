@@ -244,7 +244,7 @@ const ProjectThirdStep = ({ innerRef }) => {
             </button>
           </form>
         </FormProvider>
-        {encList.length > 0 && (
+        {encList?.length > 0 && (
           <p className="text-xs text-gray3 mt-4 mb-1">Encadrants</p>
         )}
         {encList.map((item, index) => (

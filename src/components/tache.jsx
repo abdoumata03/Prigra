@@ -1,28 +1,35 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   FiActivity,
   FiArrowLeft,
   FiCalendar,
-  FiDribbble,
-  FiEdit,
   FiEdit3,
-  FiFile,
   FiFileText,
   FiPaperclip,
   FiTrash2,
   FiX,
 } from "react-icons/fi";
-import FileInput from "./file_input";
 import ProfileContext from "../context/profile-context";
 import { ImageConfig } from "../utils/image-config";
 import Select from "react-select";
-import { useForm, FormProvider } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+import ProjectContext from "../context/project-context";
+import { Toaster, toast } from "react-hot-toast";
+import WorkDoneInput from "./upload-work";
 
 const Tache = ({ item }) => {
   const [isTaskDialogOpen, setIsTaskDialogOpen] = useState(false);
   const [isEncViewTaskDialogOpen, setisEncViewTaskDialogOpen] = useState(false);
   const [isEncEditTaskDialogOpen, setIsEncEditTaskDialogOpen] = useState(false);
+  const [isDeleteTaskDialogOpen, setIsDeleteTaskDialogOpen] = useState(false);
   const { userInitialData, projectData } = useContext(ProfileContext);
+  const {
+    deleteProjectTask,
+    getProjectTasks,
+    getProjectTask,
+    putProjectTask,
+    putWorkDone,
+  } = useContext(ProjectContext);
 
   const task_statuses = [
     { label: "À faire", value: "À faire" },
@@ -54,6 +61,33 @@ const Tache = ({ item }) => {
     setIsEncEditTaskDialogOpen(false);
   };
 
+  const handleSubmitEditWorkDone = async (data) => {
+    await toast.promise(putWorkDone(data, item.id), {
+      loading: "En train de mettre à jour la tâche",
+      success: "La tâche a été mis à jour",
+      error: "Erreur lors la mise à jour du tâche",
+    });
+    setIsTaskDialogOpen(false);
+  };
+
+  const onClickDeleteTask = () => {
+    setIsDeleteTaskDialogOpen(true);
+  };
+
+  const onCloseDeleteTask = () => {
+    setIsDeleteTaskDialogOpen(false);
+  };
+
+  const onConfirmDeleteTask = async (task_id) => {
+    await toast.promise(deleteProjectTask(projectData?.id, task_id), {
+      loading: "En train de supprimer la tâche",
+      success: "La tâche a été bien supprimé",
+      error: "Erreur lors la supression de tâche",
+    });
+    setIsDeleteTaskDialogOpen(false);
+    await getProjectTasks(projectData?.id);
+  };
+
   const bytesToMB = (bytes) => {
     if (bytes < 1024) {
       return bytes + " bytes";
@@ -71,16 +105,29 @@ const Tache = ({ item }) => {
 
   const methods = useForm();
 
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    formState: { errors },
-  } = methods;
+  const { register, handleSubmit, control, formState } = methods;
 
-  const handleSubmitEditTask = (data) => {
-    console.log(data);
+  const methods2 = useForm();
+
+  const {
+    register: register2,
+    handleSubmit: handleSubmit2,
+    formState: formState2,
+  } = methods2;
+
+  const handleSubmitEditTask = async (data) => {
+    await toast.promise(putProjectTask(data, item.id), {
+      loading: "En train de modifier la tâche",
+      success: "La tâche a été bien modifié",
+      error: "Erreur lors la modification du tâche",
+    });
+    setIsEncEditTaskDialogOpen(false);
+    await getProjectTasks(projectData?.id);
   };
+
+  const isFormEdited = formState.isDirty;
+
+  useEffect(() => {}, []);
 
   return (
     <>
@@ -89,14 +136,24 @@ const Tache = ({ item }) => {
         className={`bg-white_bg rounded-md py-3 px-4 mb-2 ${isStudent &&
           "cursor-pointer"}`}
       >
+        <Toaster position="top-center" reverseOrder={false} />
+
         <div className="flex items-center justify-between mb-2">
           <h2 className="text-base text-gray1 font-medium ">{item.title}</h2>
           {isTeacher && (
-            <div
-              onClick={onClickEdit}
-              className="text-primary p-2 cursor-pointer"
-            >
-              <FiEdit3 />
+            <div className="flex items-center">
+              <div
+                onClick={onClickDeleteTask}
+                className="text-error p-2 cursor-pointer"
+              >
+                <FiTrash2 />
+              </div>
+              <div
+                onClick={onClickEdit}
+                className="text-primary p-2 cursor-pointer"
+              >
+                <FiEdit3 />
+              </div>
             </div>
           )}
         </div>
@@ -107,14 +164,14 @@ const Tache = ({ item }) => {
             onClick={onClickTask}
             className="flex gap-4 text-gray2 cursor-pointer"
           >
-            {item.workDone && (
+            {item.work_done && (
               <div className="relative">
                 <FiActivity />
 
                 <div className="h-1 w-1 bg-red-500 rounded-full absolute right-0 bottom-0" />
               </div>
             )}
-            {item.files && (
+            {item.files.length > 0 && (
               <div className="relative">
                 <FiPaperclip />
                 <div className="h-1 w-1 bg-red-500 rounded-full absolute right-0 bottom-0" />
@@ -123,13 +180,13 @@ const Tache = ({ item }) => {
           </div>
           <div className="flex gap-2 items-center text-gray2">
             <FiCalendar />
-            <p className="text-xs font-medium text-gray2">{item.endDate}</p>
+            <p className="text-xs font-medium text-gray2">{item.end_date}</p>
           </div>
         </div>
       </div>
       {/* Teacher: edit task */}
       {isEncEditTaskDialogOpen && (
-        <div className="fixed inset-0 px-10 flex items-center justify-center bg-black bg-opacity-25">
+        <div className="fixed inset-0 z-50 px-10 flex items-center justify-center bg-black bg-opacity-25">
           <form
             onSubmit={handleSubmit(handleSubmitEditTask)}
             className="w-2/5 rounded-lg flex flex-col items-start bg-white justify-center"
@@ -169,11 +226,19 @@ const Tache = ({ item }) => {
               {/* STATUS */}
               <div className="w-full mb-4">
                 <p className="text-xs text-gray2 mb-1">Statut</p>
-                <Select
-                  {...register("status")}
-                  className="bg-gray-100 border text-sm rounded-md h-10 w-full"
-                  defaultValue={{ label: item.status, value: item.status }}
-                  options={task_statuses}
+                <Controller
+                  name="status"
+                  render={({ field: { onChange } }) => (
+                    <Select
+                      options={task_statuses}
+                      defaultValue={{ label: item.status, value: item.status }}
+                      className="bg-gray-100 border text-sm rounded-md h-10 w-full"
+                      onChange={(val) => {
+                        onChange(val.value);
+                      }}
+                    />
+                  )}
+                  control={control}
                 />
               </div>
               {/* DATE DEBUT ET FIN */}
@@ -183,7 +248,7 @@ const Tache = ({ item }) => {
                   <input
                     {...register("start_date")}
                     type="date"
-                    defaultValue={item.startDate}
+                    defaultValue={item.start_date}
                     className="bg-gray-100 border text-sm text-gray1 rounded-md h-10 w-full px-3"
                   />
                 </div>
@@ -192,7 +257,7 @@ const Tache = ({ item }) => {
                   <input
                     {...register("end_date")}
                     type="date"
-                    defaultValue={item.endDate}
+                    defaultValue={item.end_date}
                     className="bg-gray-100 border text-sm text-gray1 rounded-md h-10 w-full px-3"
                   />
                 </div>
@@ -202,23 +267,61 @@ const Tache = ({ item }) => {
             <div className="w-full flex flex-col md:flex-row items-center justify-end gap-2 px-8 py-4 h-fit bg-gray-100 abolute rounded-b-lg">
               <button
                 onClick={onCloseEdit}
-                className="bg-white border font-medium py-2 px-4 text-gray1 rounded-md"
+                className="bg-white border text-sm font-medium py-2 px-4 text-gray1 rounded-md"
               >
                 Annuler
               </button>
-              <button
-                onClick={handleSubmitEditTask}
-                className="bg-primary font-medium py-2 px-4 text-white rounded-md"
-              >
+              <button className="bg-primary text-sm font-medium py-2 px-4 text-white rounded-md">
                 Confirmer
               </button>
             </div>
           </form>
         </div>
       )}
+      {/* Teacher: Delete Task */}
+      {isDeleteTaskDialogOpen && (
+        <div className="fixed inset-0 px-10 z-50 flex items-center justify-center bg-black bg-opacity-25">
+          <div className="w-2/5 rounded-lg flex flex-col items-start bg-white justify-center">
+            <div className="flex flex-col items-start py-4 px-10 w-full">
+              <div className="flex items-center gap-6 mb-4 w-full">
+                <h1 className="text-gray1 text-lg font-bold flex-1 ">
+                  Êtes-vous sûr de vouloir supprimer la tâche ?
+                </h1>
+                <div
+                  onClick={onCloseDeleteTask}
+                  className="text-gray3 cursor-pointer"
+                >
+                  <FiX />
+                </div>
+              </div>
+              <p className="text-sm font-medium text-gray3 mb-2">
+                La tâche "{item.title}" sera supprimé.
+              </p>
+            </div>
+            <div className="w-full flex flex-col md:flex-row items-center justify-end gap-2 px-8 h-fit py-4 bg-gray-100 abolute rounded-b-lg">
+              <button
+                onClick={onCloseDeleteTask}
+                className="bg-white border font-medium py-2 px-4 text-sm text-gray1 rounded-md"
+              >
+                Annuler
+              </button>
+              <button
+                onClick={() => onConfirmDeleteTask(item.id)}
+                type="button"
+                className="bg-error flex items-center gap-2 font-medium py-2 px-4 text-white rounded-md text-sm"
+              >
+                <div>
+                  <FiTrash2 />
+                </div>
+                <p>Confirmer</p>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {/* Teacher: view work done */}
       {isEncViewTaskDialogOpen && (
-        <div className="fixed inset-0 px-10 flex items-center justify-center bg-black bg-opacity-25">
+        <div className="fixed inset-0 z-50 px-10 flex items-center justify-center bg-black bg-opacity-25">
           <div className="w-2/5 rounded-lg flex flex-col items-start bg-white justify-center">
             <div className="flex flex-col items-start py-4 px-10 w-full">
               <div className="flex items-center gap-3 mb-4 w-full">
@@ -232,19 +335,23 @@ const Tache = ({ item }) => {
                   <FiX />
                 </div>
               </div>
-              <div className="mb-2 border-b w-full border-dashed">
-                <div className="flex items-center gap-2 mb-2 text-gray2">
-                  <FiFileText />
-                  <p className=" text-sm font-medium">Travail réalisé</p>
+              {item.work_done && (
+                <div className="mb-2 border-b w-full border-dashed">
+                  <div className="flex items-center gap-2 mb-2 text-gray2">
+                    <FiFileText />
+                    <p className=" text-sm font-medium">Travail réalisé</p>
+                  </div>
+                  <p className="text-sm text-gray2 mb-4">{item.work_done} </p>
                 </div>
-                <p className="text-sm text-gray2 mb-4">{item.workDone} </p>
-              </div>
+              )}
               <div className="w-full">
-                <div className="flex items-center gap-2 mb-2 text-gray2">
-                  <FiPaperclip />
-                  <p className=" text-sm font-medium">Fichiers attachés</p>
-                </div>
-                {item?.files &&
+                {item?.files?.length > 0 && (
+                  <div className="flex items-center gap-2 mb-2 text-gray2">
+                    <FiPaperclip />
+                    <p className=" text-sm font-medium">Fichiers attachés</p>
+                  </div>
+                )}
+                {item?.files?.length > 0 &&
                   item?.files?.reverse().map((item, index) => (
                     <div
                       key={index}
@@ -270,7 +377,7 @@ const Tache = ({ item }) => {
             <div className="w-full flex items-center justify-end gap-2 px-8 h-16 bg-gray-100 rounded-b-lg">
               <button
                 onClick={onCancelDialog}
-                className="bg-white flex items-center gap-2 border font-medium py-2 px-4 text-gray1 rounded-md"
+                className="bg-white flex items-center gap-2 border font-medium py-2 px-4 text-gray1 text-sm rounded-md"
               >
                 <div>
                   <FiArrowLeft />
@@ -283,8 +390,11 @@ const Tache = ({ item }) => {
       )}
       {/* Student: describe work done */}
       {isTaskDialogOpen && (
-        <div className="fixed inset-0 px-10 flex items-center justify-center bg-black bg-opacity-25">
-          <div className="w-2/5 rounded-lg flex flex-col items-start bg-white justify-center">
+        <div className="fixed z-50 inset-0 px-10 flex items-center justify-center bg-black bg-opacity-25">
+          <form
+            onSubmit={handleSubmit2(handleSubmitEditWorkDone)}
+            className="w-2/5 rounded-lg flex flex-col items-start bg-white justify-center"
+          >
             <div className="flex flex-col items-start py-4 px-10 w-full">
               <div className="flex items-center gap-3 mb-4 w-full">
                 <h1 className="text-gray1 text-lg font-bold flex-1 ">
@@ -301,25 +411,27 @@ const Tache = ({ item }) => {
                 Ajoutez un descriptif de travail réalisé
               </p>
               <textarea
-                name="descriptif"
+                {...register2("work_done")}
+                name="work_done"
                 defaultValue={item.workDone}
                 className={`h-16 resize-none w-full border rounded-md py-2 px-3 text-sm text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-6`}
                 placeholder="Describez votre avancement dans cette tâche..."
               />
-              <FileInput />
+              <WorkDoneInput task_id={item.id} />
             </div>
             <div className="w-full flex items-center justify-end gap-2 px-8 h-16 bg-gray-100 abolute rounded-b-lg">
               <button
                 onClick={onCancelDialog}
-                className="bg-white border font-medium py-2 px-4 text-gray1 rounded-md"
+                type="button"
+                className="bg-white border text-sm font-medium py-2 px-4 text-gray1 rounded-md"
               >
                 Annuler
               </button>
-              <button className="bg-primary font-medium py-2 px-4 text-white rounded-md">
+              <button className="bg-primary text-sm font-medium py-2 px-4 text-white rounded-md">
                 Confirmer
               </button>
             </div>
-          </div>
+          </form>
         </div>
       )}
     </>

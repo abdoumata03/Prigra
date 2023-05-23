@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import TableauDeBord from "../components/tableau-de-bord";
 import Tasks from "../components/taches";
 import Calendar from "../components/calendar";
 import { FiCalendar, FiGrid, FiTrello } from "react-icons/fi";
+import ProjectContext from "../context/project-context";
+import ProfileContext from "../context/profile-context";
 
 const ProjectDashboard = () => {
+  const { getProjectTasks } = useContext(ProjectContext);
+  const { projectData } = useContext(ProfileContext);
 
-  
   const tabs = [
     { titre: "Tableau de bord", icon: <FiGrid /> },
     { titre: "Tâches", icon: <FiTrello /> },
@@ -25,6 +28,10 @@ const ProjectDashboard = () => {
         return <Calendar />;
     }
   }
+
+  useEffect(() => {
+    getProjectTasks(projectData?.id);
+  }, []);
 
   return (
     <div className="w-full flex flex-col flex-grow">

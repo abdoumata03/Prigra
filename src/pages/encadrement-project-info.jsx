@@ -21,7 +21,7 @@ const EncProjectInfo = () => {
 
   return (
     <div className="flex gap-10">
-      <div className="flex grow flex-col divide-y divide-dashed bg-white rounded-[0.4rem] border py-2 px-4 shadow-custom">
+      <div className="flex grow h-fit flex-col divide-y divide-dashed bg-white rounded-[0.4rem] border py-2 px-4 shadow-custom">
         <ProjectInfoField
           title="Type de projet"
           content={projectData?.type ? projectData?.type : "Non spécifié"}
@@ -54,7 +54,7 @@ const EncProjectInfo = () => {
             <h1 className="text-xs">Fichiers attachés</h1>
           </div>
           <p className={`font-medium text-sm`}>
-            {projectData?.project_files ? (
+            {projectData?.project_files?.length > 0 ? (
               projectData?.project_files?.reverse().map((item, index) => (
                 <div
                   key={index}
@@ -111,7 +111,7 @@ const EncProjectInfo = () => {
             <div className="h-[1px] flex-grow bg-gray-200" />
           </div>
           <div>
-            {projectData?.encadrant.length > 0 ? (
+            {projectData?.encadrant?.length > 0 ? (
               projectData.encadrant?.map((Enc, index) => (
                 <>
                   <PersonField

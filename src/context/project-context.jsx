@@ -1,6 +1,6 @@
 import { createContext, useState, useContext } from "react";
 import ProfileContext from "./profile-context";
-import { async } from "q";
+import { format } from "date-fns";
 
 const ProjectContext = createContext();
 
@@ -13,46 +13,15 @@ export const ProjectProvider = ({ children }) => {
     projectId,
     setProjectId,
     setHasProject,
+    projectData,
     type,
     fetch_project,
   } = useContext(ProfileContext);
 
-  const [tasksData, setTasksData] = useState([
-    {
-      id: "J00005",
-      title: "Task 5",
-      status: "À faire",
-      description: "Implement new feature",
-      startDate: "2023-05-25",
-      endDate: "2023-06-05",
-      workDone: "Some Work",
-      files: [
-        {
-          id: 0,
-          name: "fichier",
-          size: 1254,
-          format: "png",
-          url: "www.google.com",
-        },
-      ],
-    },
-    {
-      id: "J00006",
-      title: "Task 6",
-      status: "En cours",
-      description: "Design user interface",
-      startDate: "2023-05-21",
-      endDate: "2023-05-30",
-    },
-    {
-      id: "J00007",
-      title: "Task 7",
-      status: "Complétée",
-      description: "Optimize database queries",
-      startDate: "2023-05-22",
-      endDate: "2023-05-28",
-    },
-  ]);
+  const [tasksData, setTasksData] = useState([]);
+
+  const [projectTask, setProjectTask] = useState(null);
+
   const [invitationsList, setInvitationsList] = useState([]);
 
   const [isPuttingInfo, setIsPuttingInfo] = useState(false);
@@ -225,6 +194,7 @@ export const ProjectProvider = ({ children }) => {
   };
 
   const putEnc = async (encadrant) => {
+    console.log(encadrant);
     setIsInvitationLoading(true);
 
     const put_enc_resposne = await fetch(
@@ -238,7 +208,7 @@ export const ProjectProvider = ({ children }) => {
           "content-type": "application/json",
         },
         body: JSON.stringify({
-          encadrant,
+          encadrant: encadrant[0],
         }),
       }
     );
@@ -266,7 +236,7 @@ export const ProjectProvider = ({ children }) => {
           "content-type": "application/json",
         },
         body: JSON.stringify({
-          co_encadrant,
+          co_encadrant: co_encadrant[0],
         }),
       }
     );
@@ -280,8 +250,8 @@ export const ProjectProvider = ({ children }) => {
     return put_enc_resposne.status;
   };
 
-  const putTauxAvancement = async (taux) => {
-    await fetch(`https://prigra.onrender.com/diplome/projects/${projectId}/`, {
+  const putTauxAvancement = async (project_id, taux) => {
+    await fetch(`https://prigra.onrender.com/diplome/projects/${project_id}/`, {
       method: "PUT",
       headers: {
         Authorization: `JWT ${
@@ -323,11 +293,14 @@ export const ProjectProvider = ({ children }) => {
         },
       }
     );
+
+    const task_list = await get_tasks_response.json();
+    setTasksData(task_list);
   };
 
   const deleteProjectTask = async (project_id, task_id) => {
     await fetch(
-      `https://prigra.onrender.com/diplome/projects/${project_id}/tasks/${task_id}`,
+      `https://prigra.onrender.com/diplome/projects/${project_id}/tasks/${task_id}/`,
       {
         method: "DELETE",
         headers: {
@@ -351,9 +324,98 @@ export const ProjectProvider = ({ children }) => {
           }`,
           "content-type": "application/json",
         },
-        body: JSON.stringify({ data }),
+        body: JSON.stringify({
+          title: data.title,
+          description: data.description,
+          start_date: format(data.start_date, "yyyy-MM-dd"),
+          end_date: format(data.end_date, "yyyy-MM-dd"),
+          status: data.status,
+        }),
       }
     );
+  };
+
+  const putProjectTask = async (data, task_id) => {
+    await fetch(
+      `https://prigra.onrender.com/diplome/projects/${projectData?.id}/tasks/${task_id}/`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem("authTokens")).access
+          }`,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          title: data.title,
+          description: data.description,
+          start_date: data.start_date,
+          end_date: data.end_date,
+          status: data.status,
+        }),
+      }
+    );
+  };
+
+  const putProjectTaskFile = async (name, size, format, url, task_id) => {
+    await fetch(
+      `https://prigra.onrender.com/diplome/projects/${projectData?.id}/tasks/${task_id}/`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem("authTokens")).access
+          }`,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          files: [
+            {
+              name: name,
+              format: format,
+              size: size,
+              url: url,
+            },
+          ],
+        }),
+      }
+    );
+  };
+
+  const putWorkDone = async (data, task_id) => {
+    await fetch(
+      `https://prigra.onrender.com/diplome/projects/${projectData?.id}/tasks/${task_id}/`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem("authTokens")).access
+          }`,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          work_done: data.work_done,
+        }),
+      }
+    );
+  };
+
+  const getProjectTask = async (task_id) => {
+    const project_task_response = await fetch(
+      `https://prigra.onrender.com/diplome/projects/${projectData.id}/tasks/${task_id}/`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem("authTokens")).access
+          }`,
+          "content-type": "application/json",
+        },
+      }
+    );
+
+    const project_task = await project_task_response.json();
+    setProjectTask(project_task);
   };
 
   const ProjectReponse = async (
@@ -394,14 +456,18 @@ export const ProjectProvider = ({ children }) => {
     setIsPuttingInfo,
     putProjectInfo,
     putTauxAvancement,
+    putWorkDone,
     inviteProjectMember,
     invitationsList,
     deleteFile,
     getInvitationList,
+    putProjectTask,
     activeStep,
     setActiveStep,
     putEnc,
     putCoEnc,
+    addProjectTask,
+    putProjectTaskFile,
     isPuttingInfo,
     projects,
     tasksData,
@@ -411,6 +477,7 @@ export const ProjectProvider = ({ children }) => {
     ProjectReponse,
     putProjectFile,
     getProjectTasks,
+    getProjectTask,
     deleteProjectTask,
   };
 

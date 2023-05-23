@@ -4,6 +4,7 @@ import {
   FiCalendar,
   FiClock,
   FiEdit3,
+  FiInfo,
   FiLink2,
   FiTrash2,
   FiX,

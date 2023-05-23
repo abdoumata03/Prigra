@@ -18,8 +18,8 @@ const Calendar = () => {
 
   const schedulerData = tasksData.map((item) => {
     return {
-      startDate: new Date(item.startDate),
-      endDate: new Date(item.endDate),
+      startDate: new Date(item.start_date),
+      endDate: new Date(item.end_date),
       title: item.title,
     };
   });
@@ -29,7 +29,7 @@ const Calendar = () => {
   return (
     <div className="font-eudox">
       <Paper>
-        <Typography style={{fontFamily: 'cursive'}}>
+        <Typography style={{ fontFamily: "cursive" }}>
           <Scheduler data={schedulerData}>
             <ViewState />
             <Toolbar />
