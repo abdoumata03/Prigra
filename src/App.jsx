@@ -31,6 +31,7 @@ import ProtectedProject from "./utils/protect-add-project.jsx";
 import { PhaseProvider } from "./context/phase-context.jsx";
 import AnnouncementPage from "./pages/announcement-page.jsx";
 import Encadrement from "./pages/encadrement.jsx";
+import Statistics from "./components/statistics.jsx";
 
 function App() {
   return (
@@ -78,6 +79,7 @@ function App() {
                     </Route>
                   </Route>
                   <Route element={<Profile />} path="/profile" exact />
+                  <Route element={<Statistics/>} path="/stats" exact />
                   <Route element={<Graduation />} path="/soutenance" exact />
                   <Route element={<Announcement />} path="/annonces" exact />
                   <Route

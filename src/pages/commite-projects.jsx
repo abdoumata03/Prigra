@@ -100,8 +100,13 @@ const ComiteProjects = () => {
                   <th scope="row" className="px-6 py-4 font-medium text-gray1">
                     {project?.nom_scientifique}
                   </th>
+<<<<<<< HEAD
                   <td className="px-6 py-4">{project?.owner.full_name}</td>
                   <td className="px-6 py-4">{project?.created_at}</td>
+=======
+                  <td className="px-6 py-4">{project.owner?.email}</td>
+                  <td className="px-6 py-4">04/10/2023</td>
+>>>>>>> caa02b5 (added statistics)
                   <td
                     className={` px-6 py-4 ${
                       project.status_reponse === "En cour"

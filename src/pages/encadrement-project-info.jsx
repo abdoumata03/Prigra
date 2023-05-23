@@ -92,7 +92,7 @@ const EncProjectInfo = () => {
             <div className="h-[1px] flex-grow bg-gray-200" />
           </div>
           <PersonField
-            name={projectData?.owner}
+            name={projectData?.owner.full_name}
             email="c.belbachir@esi-sba.dz"
           />
           <div className="flex items-center gap-3 mb-2 ">

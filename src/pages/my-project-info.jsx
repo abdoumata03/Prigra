@@ -136,7 +136,7 @@ const MyProjectInfo = ({}) => {
                   <h1 className="text-xs">Fichiers attachés</h1>
                 </div>
                 <p className={`font-medium text-sm`}>
-                  {projectData?.project_files ? (
+                  {projectData?.project_files?.length > 0 ? (
                     projectData?.project_files?.reverse().map((item, index) => (
                       <div
                         key={index}
@@ -180,7 +180,7 @@ const MyProjectInfo = ({}) => {
                     <div className="h-[1px] flex-grow bg-gray-200" />
                   </div>
                   <PersonField
-                    name={projectData?.owner}
+                    name={projectData?.owner.full_name}
                     email="c.belbachir@esi-sba.dz"
                   />
                   <div className="flex items-center gap-3 mb-2 ">

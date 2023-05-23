@@ -11,6 +11,9 @@ export default ProjectContext;
 
 export const ProjectProvider = ({ children }) => {
   const [projects, setProjects] = useState(null);
+
+  const [stats, setStats] = useState({});
+  
   const [isProjectsLoading, setIsProjectsLoading] = useState(false);
   const [projectReponse, setProjectReponse] = useState(null);
   const {
@@ -177,7 +180,39 @@ export const ProjectProvider = ({ children }) => {
     );
 
     const projects_response_data = await projectsResponse.json();
+
+    const result = {
+      statusCount: {},
+      typeCounts: {},
+      ownerTypeCounts: {},
+    };
+
+    projects_response_data.forEach((object) => {
+      const { type, status_reponse, owner } = object;
+
+      if (result.statusCount.hasOwnProperty(status_reponse)) {
+        result.statusCount[status_reponse]++;
+      } else {
+        result.statusCount[status_reponse] = 1;
+      }
+
+      if (result.typeCounts.hasOwnProperty(type)) {
+        result.typeCounts[type]++;
+      } else {
+        result.typeCounts[type] = 1;
+      }
+
+      const ownerType = owner.type;
+      if (result.ownerTypeCounts.hasOwnProperty(ownerType)) {
+        result.ownerTypeCounts[ownerType]++;
+      } else {
+        result.ownerTypeCounts[ownerType] = 1;
+      }
+    });
+
     setProjects(projects_response_data);
+    setStats(result);
+
     setIsProjectsLoading(false);
   };
   const getInvitationList = async () => {
@@ -591,6 +626,7 @@ export const ProjectProvider = ({ children }) => {
     invitationsList,
     deleteFile,
     getInvitationList,
+    stats,
     putProjectTask,
     activeStep,
     setActiveStep,

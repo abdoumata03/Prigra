@@ -18,9 +18,11 @@ const Breadcrumbs = () => {
     } else if (crumb === "commite-projects") {
       return "Projets";
     } else if (location.pathname.includes("commite") && !isNaN(crumb))
-      return "Détails du Projet"; 
-      else if (crumb === "encadrement")
-      return "Encadrement"; 
+      return "Détails du Projet";
+    else if (crumb === "encadrement") return "Encadrement";
+    else if (crumb === "stats") {
+      return "Statistiques";
+    }
   }
 
   const filtered_crumbs = location.pathname

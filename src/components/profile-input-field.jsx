@@ -32,7 +32,11 @@ const ProfileInputField = ({ field_name, value, icon, name }) => {
         )}
         <input
           {...(!uneditable.includes(name) ? register(name) : {})}
+<<<<<<< HEAD
           type={name === "birth_date" ? "date": undefined}
+=======
+          type={name === "birth_date" ? "date" : undefined}
+>>>>>>> caa02b5 (added statistics)
           defaultValue={value}
           disabled={uneditable.includes(name)}
           className={`shadow-custom ${

@@ -437,6 +437,116 @@ const ProjectInfo = () => {
               </p>
             </div>
             <div className="w-full flex-col md:flex-row flex items-center justify-end gap-2 px-8 h-fit py-4 bg-gray-100 rounded-b-lg">
+          </div>
+        </div>
+        <div className=" lg:w-2/5 w-full flex flex-col mb-10">
+          <div className=" w-full flex flex-row px-5 py-3 shadow-custom bg-white mb-3 rounded-[0.4rem] border items-center">
+            <FiCalendar />
+            <div className="ml-4">
+              <h1 className="text-gray3 text-xs mb-1">Date de création</h1>
+              <p className="text-gray1 font-medium">25/04/2023</p>
+            </div>
+          </div>
+          <div className="h-auto ">
+            <div className="bg-white rounded-[0.4rem] shadow-custom flex flex-col justify-center py-3 px-5 border mb-3 ">
+              <div className="flex items-center gap-3 mb-2 ">
+                <p className="text-[13px] font-medium text-gray3 ">
+                  Porteur de projet
+                </p>
+                <div className="h-[1px] flex-grow bg-gray-200" />
+              </div>
+              <PersonField
+                name={projectData?.owner.full_name}
+                email="c.belbachir@esi-sba.dz"
+              />
+              <div className="flex items-center gap-3 mb-2 ">
+                <p className="text-[13px] font-medium text-gray3 ">
+                  Membres de l'équipe
+                </p>
+                <div className="h-[1px] flex-grow bg-gray-200" />
+              </div>
+              {projectData?.members?.map((member, index) => (
+                <PersonField name=" Belbachir Chaimaa" email={member.email} />
+              ))}
+            </div>
+            <div className="bg-white rounded-[0.4rem] shadow-custom flex flex-col justify-center py-3 px-5 border mb-3">
+              <div className="flex items-center gap-3 mb-2 ">
+                <p className="text-[13px] font-medium text-gray3 ">
+                  Encadrants
+                </p>
+                <div className="h-[1px] flex-grow bg-gray-200" />
+              </div>
+              <div>
+                {projectData?.encadrant.length > 0 ? (
+                  projectData.encadrant?.map((Enc, index) => (
+                    <>
+                      <PersonField
+                        name={Enc.full_name}
+                        email={Enc.email}
+                        key={index}
+                      />
+                    </>
+                  ))
+                ) : (
+                  <div className="flex items-center gap-2 text-gray4 pb-3">
+                    <FiInfo />
+                    <p className="text-sm ">
+                      Aucun encadrant a n'a été spécifié
+                    </p>
+                  </div>
+                )}
+              </div>
+              <div className="flex items-center gap-3 mb-2 ">
+                <p className="text-[13px] font-medium text-gray3 ">
+                  Co-encadrants
+                </p>
+                <div className="h-[1px] flex-grow bg-gray-200" />
+              </div>
+              <div>
+                {projectData?.co_encadrant?.length > 0 ? (
+                  projectData.co_encadrant?.map((coEnc, index) => (
+                    <PersonField name={coEnc.full_name} email={coEnc.email} />
+                  ))
+                ) : (
+                  <div className="flex items-center gap-2 text-gray4 pb-3">
+                    <FiInfo />
+                    <p className="text-sm ">
+                      Aucun co-encadrant a n'a été spécifié
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>)}
+      {/* actions */}
+      <div className="flex flex-row justify-end gap-6">
+        <div
+          className="flex flex-row items-center px-5 py-3  text-error  rounded-[5px] border border-error cursor-pointer"
+          onClick={handleDelete}
+        >
+          <FiTrash2 />
+          <h1 className="ml-2">Retirer</h1>
+        </div>
+        <div
+          className="flex flex-row items-center gap-3 px-5 py-3 bg-info text-white rounded-[0.4rem] cursor-pointer"
+          onClick={handleReponce}
+        >
+          <FiEdit />
+          <h1 className="ml-2">Réponse</h1>
+        </div>
+      </div>
+      <div className="lg:overflow-auto lg:h-100 h-auto "></div>
+      <div className="lg:overflow-auto lg:h-100 h-auto "></div>
+      {isPopupOpen && <PopUpReponse onclick={closePopup} />}
+      {isDeletePopupOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className=" w-2/6 h-1/5 rounded bg-white_bg py-10 justify-center">
+            <h1 className=" text-[18px] text-gray2 mb-10 text-center">
+              Vous êtes sûr de supprimer ce projet ?
+            </h1>
+            <div className="flex flex-row justify-center gap-5 bottom-10">
               <div
                 onClick={closeDeletePopup}
                 className="flex flex-row justify-center px-5 py-3 rounded-[0.4rem] cursor-pointer border bg-white "

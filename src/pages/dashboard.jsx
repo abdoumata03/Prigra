@@ -16,16 +16,16 @@ const Dashboard = () => {
   const location = useLocation();
   const deletedProject = location.state;
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
       setIsLoading(true);
       await fetch_user();
+      await fetch_phases();
+      await fetch_projects();
       setIsLoading(false);
     })();
-    fetch_phases();
-    fetch_projects();
   }, [deletedProject]);
 
   return isLoading ? (
