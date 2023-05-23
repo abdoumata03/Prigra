@@ -10,9 +10,9 @@ const TableauDeBord = () => {
   const { projectData, projectId } = useContext(ProfileContext);
 
   // STATS
-  const tasksCompleted = tasksData.filter((item) => item.status === "Complétée")
+  const tasksCompleted = tasksData?.filter((item) => item.status === "Complétée")
     .length;
-  const tasksPending = tasksData.filter(
+  const tasksPending = tasksData?.filter(
     (item) => item.status === "En cours" || item.status === "À faire"
   ).length;
 

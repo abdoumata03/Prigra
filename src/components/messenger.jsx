@@ -74,7 +74,7 @@ const Messenger = ({ id }) => {
 
   return (
     <div className="bg-white shadow-custom rounded-lg py-4 px-4 flex flex-col flex-grow h-fit">
-      <h1 className="text-gray1 font-bold text-lg">Discussion</h1>
+      <h1 className="text-gray1 font-bold text-lg mb-1">Discussion</h1>
       <div className="flex h-80 overflow-auto flex-col-reverse ">
         {messagesData.map((item, id) => {
           const isSender = item.user_id === userData.id;

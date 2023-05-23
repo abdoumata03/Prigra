@@ -79,7 +79,7 @@ const ProjectThirdStep = ({ innerRef }) => {
   } = methods_enc;
 
   useEffect(() => {
-    setAddedMembers(projectData?.members.map((item) => item.email));
+    setAddedMembers(projectData?.members?.map((item) => item.email));
   }, [projectData]);
 
   useEffect(() => {
