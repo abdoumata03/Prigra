@@ -59,9 +59,6 @@ const FillInfos = () => {
     // spécialité: yup.string().required('Ce champ est obligatoire'),
   });
 
-  const storageRef = ref(storage, `/images/${selectedImage?.name}`);
-  const uploadTask = uploadBytesResumable(storageRef, selectedImage);
-
   const {
     register,
     handleSubmit,
@@ -218,7 +215,9 @@ const FillInfos = () => {
 
   const handleChange = (event) => {
     const fileUploaded = event.target.files[0];
-    setSelectedImage(fileUploaded); 
+    const storageRef = ref(storage, `/images/${fileUploaded?.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, fileUploaded);
+    setSelectedImage(fileUploaded);
     setImagePreview(URL.createObjectURL(fileUploaded));
     uploadTask.on(
       "state_changed",
@@ -232,7 +231,7 @@ const FillInfos = () => {
       }
     );
   };
- 
+
   return (
     <div
       className={`flex items-center ${
@@ -333,7 +332,6 @@ const FillInfos = () => {
 
             {/* filière ou grade */}
             <div className="flex flex-col md:flex-row justify-between gap-4">
-              
               <div className="w-full">
                 <p className="font-bold text-[13px] mb-[6px] mt-[20px] text-gray2">
                   {type === "Student" ? "Filière" : "Grade"}
@@ -449,6 +447,6 @@ const FillInfos = () => {
       )}
     </div>
   );
-}; 
+};
 
 export default FillInfos;

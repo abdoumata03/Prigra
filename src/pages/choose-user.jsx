@@ -6,6 +6,7 @@ import { ReactComponent as Ens } from "/src/assets/illustrations/enseignant.svg"
 import { useNavigate, useLocation } from "react-router";
 import React from "react";
 import AuthContext from "../context/auth-context";
+import { Toaster, toast } from "react-hot-toast";
 
 const ChooseUser = () => {
   const navigate = useNavigate();
@@ -32,33 +33,48 @@ const ChooseUser = () => {
     if (setEtu) setEtu(false);
   };
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (etu) {
       const type = "Student";
-      signupUser(
-        initialData.email,
-        initialData.password,
-        initialData.firstName,
-        initialData.lastName,
-        type
+      await toast.promise(
+        signupUser(
+          initialData.email,
+          initialData.password,
+          initialData.firstName,
+          initialData.lastName,
+          type
+        ),
+        {
+          loading: "En train d'enregistrer votre compte..",
+          success: "Votre compte a été enregistré",
+          error: "Erreur lors de l'inscription",
+        }
       );
       navigate("/verify-email", { state: { data: true } });
     } else if (ens) {
       const type = "Teacher";
-      signupUser(
-        initialData.email,
-        initialData.password,
-        initialData.firstName,
-        initialData.lastName,
-        type
+      await toast.promise(
+        signupUser(
+          initialData.email,
+          initialData.password,
+          initialData.firstName,
+          initialData.lastName,
+          type
+        ),
+        {
+          loading: "En train d'enregistrer votre compte..",
+          success: "Votre compte a été enregistré",
+          error: "Erreur lors de l'inscription",
+        }
       );
       navigate("/verify-email", { state: { data: false } });
     }
   };
 
   return (
-    <div className="App font-eudox w-full md:h-screen flex flex-col justify-center items-center bg-white">
-      <h1 className="text-xl sm:text-3xl text-center font-bold mt-12 w-3/4 md:mt-12">
+    <div className="App font-eudox w-full md:h-screen flex flex-col justify-center items-center bg-white_bg">
+      <Toaster position="top-center" reverseOrder={false} />
+      <h1 className="text-xl sm:text-3xl text-center font-bold w-3/4 ">
         {choose_roles_title}
       </h1>
       <h4 className="text-md sm:text-md text-center font-normal text-gray-500 mb-10 md:mb-14 mt-4">

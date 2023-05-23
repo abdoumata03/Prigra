@@ -104,7 +104,7 @@ export const ProfileProvider = ({ children }) => {
     }
 
     const project_response = await fetch(
-      `https://prigra.onrender.com/diplome/projects/${projectId}/`,
+      `https://prigra.onrender.com/diplome/projects/${projectData?.id}/`,
       {
         method: "GET",
         headers: {

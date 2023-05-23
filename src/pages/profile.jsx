@@ -51,7 +51,11 @@ const Profile = () => {
             <div className="mb-0 lg:mb-8 w-auto lg:w-[40%]">
               <div className="flex flex-col md:flex-row items-center gap-4 md:gap-0 mb-10">
                 <img
-                  src="https://i.ibb.co/T1r9Mzc/1679220246331.jpg"
+                  src={
+                    userData?.profil_picture
+                      ? userData?.profil_picture
+                      : "https://thumbs.dreamstime.com/b/default-profile-picture-avatar-photo-placeholder-vector-illustration-default-profile-picture-avatar-photo-placeholder-vector-189495158.jpg"
+                  }
                   alt="Avatar Picture"
                   className="w-[110px] h-[110px] rounded-full mr-6"
                 />

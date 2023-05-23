@@ -3,17 +3,21 @@ import { ReactComponent as Upload } from "../assets/illustrations/upload.svg";
 import { ImageConfig } from "../utils/image-config";
 import { storage } from "../services/firebase.jsx";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import ProjectContext from "../context/project-context";
-import ProfileContext from "../context/profile-context";
 import { Toaster, toast } from "react-hot-toast";
 import { FiTrash2 } from "react-icons/fi";
+import ProjectContext from "../context/project-context";
+import ProfileContext from "../context/profile-context";
 
-const FileInput = ({ onFileChange }) => {
-  const [fileList, setFileList] = useState([]);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const { putProjectFile, deleteFile } = useContext(ProjectContext);
+const WorkDoneInput = ({ task_id }) => {
   const { projectData } = useContext(ProfileContext);
-  const [percent, setPercent] = useState(0);
+  const {
+    tasksData,
+    putProjectTaskFile,
+    getProjectTasks,
+    deleteFile,
+  } = useContext(ProjectContext);
+
+  const task = tasksData?.find((obj) => obj.id === task_id);
 
   const bytesToMB = (bytes) => {
     if (bytes < 1024) {
@@ -31,10 +35,7 @@ const FileInput = ({ onFileChange }) => {
     const newFile = e.target.files[0];
 
     if (newFile) {
-      const updatedList = [...fileList, newFile];
-      setSelectedImage(newFile);
-      setFileList(updatedList);
-      const storageRef = ref(storage, `/files/${newFile?.name}`);
+      const storageRef = ref(storage, `/task_files/${newFile?.name}`);
       const uploadTask = toast.promise(
         uploadBytesResumable(storageRef, newFile),
         {
@@ -50,18 +51,19 @@ const FileInput = ({ onFileChange }) => {
           const percent = Math.round(
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
           ); // update progress
-          setPercent(percent);
         },
         (err) => console.log(err),
         () => {
           // download url
           getDownloadURL(uploadTask.snapshot.ref).then(async (url) => {
-            await putProjectFile(
+            await putProjectTaskFile(
               newFile.name,
               newFile.size,
               newFile.type.split("/")[1],
-              url
+              url,
+              task_id
             );
+            await getProjectTasks(projectData?.id);
           });
         }
       );
@@ -69,11 +71,12 @@ const FileInput = ({ onFileChange }) => {
   };
 
   const fileRemove = async (id) => {
-    toast.promise(deleteFile(id), {
+    await toast.promise(deleteFile(id), {
       loading: "En train de supprimer le fichier...",
       success: "Ce fichier a été supprimé",
       error: "Erreur lors la supression de fichier",
     });
+    await getProjectTasks(projectData?.id);
   };
 
   return (
@@ -103,7 +106,7 @@ const FileInput = ({ onFileChange }) => {
           accept=".jpg, .jpeg, .png, .doc, .docx, .pdf"
         />
       </label>
-      {projectData?.project_files?.reverse().map((item, index) => (
+      {task?.files?.reverse().map((item, index) => (
         <div
           key={index}
           className="bg-white shadow-custom rounded-[0.4rem] px-6 py-3 mb-2 w-full flex flex-row justify-between items-center"
@@ -129,4 +132,4 @@ const FileInput = ({ onFileChange }) => {
   );
 };
 
-export default FileInput;
+export default WorkDoneInput;

@@ -7,7 +7,7 @@ import {
   setDoc,
   getDoc,
   serverTimestamp,
-  query, 
+  query,
   orderBy,
   onSnapshot,
   limit,
@@ -15,7 +15,7 @@ import {
 import ProfileContext from "../context/profile-context";
 import { FiSend } from "react-icons/fi";
 
-const Messenger = ({id}) => {
+const Messenger = ({ id }) => {
   const { userData } = useContext(ProfileContext);
   const [message, setMessage] = useState("");
   const [messagesData, setMessagesData] = useState([]);
@@ -37,12 +37,7 @@ const Messenger = ({id}) => {
           await setDoc(projectDocRef, {});
         }
 
-        const projectColletion = collection(
-          db,
-          "projects",
-          `${id}`,
-          "chat"
-        );
+        const projectColletion = collection(db, "projects", `${id}`, "chat");
 
         // Add a new message document to the chat subcollection
         await addDoc(projectColletion, {
@@ -79,6 +74,7 @@ const Messenger = ({id}) => {
 
   return (
     <div className="bg-white shadow-custom rounded-lg py-4 px-4 flex flex-col flex-grow h-fit">
+      <h1 className="text-gray1 font-bold text-lg mb-1">Discussion</h1>
       <div className="flex h-80 overflow-auto flex-col-reverse ">
         {messagesData.map((item, id) => {
           const isSender = item.user_id === userData.id;

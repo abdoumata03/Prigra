@@ -79,7 +79,7 @@ const ProjectThirdStep = ({ innerRef }) => {
   } = methods_enc;
 
   useEffect(() => {
-    setAddedMembers(projectData?.members.map((item) => item.email));
+    setAddedMembers(projectData?.members?.map((item) => item.email));
   }, [projectData]);
 
   useEffect(() => {
@@ -205,7 +205,7 @@ const ProjectThirdStep = ({ innerRef }) => {
                 </div>
               )
           )}
-          {invitedMembers.map((item, index) => (
+          {invitedMembers?.map((item, index) => (
             <InvitedMember key={index} name={item} />
           ))}
         </div>
@@ -244,10 +244,10 @@ const ProjectThirdStep = ({ innerRef }) => {
             </button>
           </form>
         </FormProvider>
-        {encList.length > 0 && (
+        {encList?.length > 0 && (
           <p className="text-xs text-gray3 mt-4 mb-1">Encadrants</p>
         )}
-        {encList.map((item, index) => (
+        {encList?.map((item, index) => (
           <div
             className={`bg-white border shadow-custom  ${index === 0 &&
               `rounded-t-[0.4rem]`} ${index === encList.length - 1 &&
@@ -256,10 +256,10 @@ const ProjectThirdStep = ({ innerRef }) => {
             <p className="text-sm font-medium text-gray1">{item.email}</p>
           </div>
         ))}
-        {coEncList.length > 0 && (
+        {coEncList?.length > 0 && (
           <p className="text-xs text-gray3 mt-4 mb-1">Co-Encadrants</p>
         )}
-        {coEncList.map((item, index) => (
+        {coEncList?.map((item, index) => (
           <div
             className={`bg-white border shadow-custom ${index === 0 &&
               `rounded-t-[0.4rem]`} ${index === encList.length - 1 &&

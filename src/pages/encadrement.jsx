@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FiCalendar, FiFileText, FiGrid, FiTrello } from "react-icons/fi";
-import MyProjectInfo from "./my-project-info";
 import Breadcrumbs from "../components/breadcrumbs";
 import EncProjectInfo from "./encadrement-project-info";
 import EncDashboard from "./encadrement-dashboard";
 import Tasks from "../components/taches";
+import Calendar from "../components/calendar";
+import ProjectContext from "../context/project-context";
+import ProfileContext from "../context/profile-context";
 
 const Encadrement = () => {
   const tabs = [
@@ -13,6 +15,9 @@ const Encadrement = () => {
     { titre: "Tâches", icon: <FiTrello /> },
     { titre: "Calendrier", icon: <FiCalendar /> },
   ];
+
+  const { getProjectTasks } = useContext(ProjectContext);
+  const { projectData } = useContext(ProfileContext);
 
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 
@@ -25,9 +30,14 @@ const Encadrement = () => {
       case 2:
         return <Tasks />;
       case 3:
-        return <div>Calendrier</div>;
+        return <Calendar />;
     }
   }
+
+  useEffect(() => {
+    getProjectTasks(projectData?.id);
+  }, []);
+
   return (
     <div className="w-full flex flex-col flex-grow">
       <Breadcrumbs />
