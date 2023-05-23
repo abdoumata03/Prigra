@@ -81,7 +81,7 @@ const Tasks = () => {
           <p className="text-sm font-medium">Ajouter une tâche</p>
         </div>
       )}
-      <div className="flex gap-4">
+      <div className="flex gap-4 flex-wrap">
         <Column titre={"À faire"} type={"À faire"} data={tasksData} />
         <Column titre={"En cours"} type={"En cours"} data={tasksData} />
         <Column titre={"Complétées"} type={"Complétée"} data={tasksData} />

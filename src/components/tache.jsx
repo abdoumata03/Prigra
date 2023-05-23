@@ -115,6 +115,8 @@ const Tache = ({ item }) => {
     formState: formState2,
   } = methods2;
 
+  const isFormEdited = formState.isDirty;
+
   const handleSubmitEditTask = async (data) => {
     await toast.promise(putProjectTask(data, item.id), {
       loading: "En train de modifier la tâche",
@@ -124,10 +126,6 @@ const Tache = ({ item }) => {
     setIsEncEditTaskDialogOpen(false);
     await getProjectTasks(projectData?.id);
   };
-
-  const isFormEdited = formState.isDirty;
-
-  useEffect(() => {}, []);
 
   return (
     <>

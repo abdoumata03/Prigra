@@ -71,7 +71,7 @@ const WorkDoneInput = ({ task_id }) => {
   };
 
   const fileRemove = async (id) => {
-    toast.promise(deleteFile(id), {
+    await toast.promise(deleteFile(id), {
       loading: "En train de supprimer le fichier...",
       success: "Ce fichier a été supprimé",
       error: "Erreur lors la supression de fichier",
