@@ -16,7 +16,7 @@ import { Toaster, toast } from "react-hot-toast";
 
 const EncDashboard = () => {
   const { tasksData, putTauxAvancement } = useContext(ProjectContext);
-  const { projectData } = useContext(ProfileContext);
+  const { projectData, fetch_project } = useContext(ProfileContext);
 
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [sliderValue, setSliderValue] = useState(0);
@@ -39,6 +39,8 @@ const EncDashboard = () => {
       }
     );
     setIsEditDialogOpen(false);
+    await fetch_project();
+
   };
 
   const methods = useForm();
