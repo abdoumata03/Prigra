@@ -499,7 +499,6 @@ export const ProjectProvider = ({ children }) => {
       if (project_reponse_response.ok) {
         toast.dismiss();
         toast.success('la réponse a été soumis');
-        navigate(0);
       } else {
         toast.dismiss();
         toast.error('Erreur lors la soumission de projet');
@@ -554,7 +553,6 @@ export const ProjectProvider = ({ children }) => {
       }
     )
     if (put_project_reponse_response.ok) {
-      navigate(0);
       toast.dismiss();
       toast.success('la réponse a été mis à jour');
     } else {
@@ -578,7 +576,6 @@ export const ProjectProvider = ({ children }) => {
       }
     )
     if (delete_project_reponse_response.ok) {
-      navigate(0);
       toast.dismiss();
       toast.success('la réponse a été supprimée');
     } else {

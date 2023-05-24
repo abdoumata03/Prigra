@@ -21,13 +21,7 @@ const PopUpReponse = (props) => {
   const { 
     ProjectReponse, 
     putProjectResponse, 
-    fetchProjectReponse, 
     projectReponse } = useContext(ProjectContext);
-
-  useEffect(() => {
-    fetchProjectReponse(props.content);
-    console.log(projectReponse);
-  }, [])
 
   const handleFileUpload = (file) => {
     setFileInfo(file);
@@ -44,14 +38,17 @@ const PopUpReponse = (props) => {
     } else if (state.pme) {
       reponse = "pme";
     }
-    projectReponse ? 
-    putProjectResponse(props.content, projectReponse.id, reponse, fileInfo.name, fileInfo.size, fileInfo.type, fileInfo.url)
-  
-    : 
-    ProjectReponse(props.content, reponse, fileInfo.name, fileInfo.size, fileInfo.type, fileInfo.url)
+    projectReponse ? (
+    putProjectResponse(props.content, projectReponse.id, reponse, fileInfo.name, fileInfo.size, fileInfo.type, fileInfo.url),
+    props.isEdited(true),
+    props.onclick() )
+    : (
+    ProjectReponse(props.content, reponse, fileInfo.name, fileInfo.size, fileInfo.type, fileInfo.url),
+    props.isSent(true),
+    props.onclick()
+    )
   };
     
-
   const handleValidation = () => {
     setState((prevState) => ({
       ...prevState,

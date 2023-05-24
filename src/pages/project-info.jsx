@@ -19,6 +19,9 @@ const ProjectInfo = () => {
   const [projectDeleted, setProjectDeleted] = useState(false);
   const [value, setValue] = useState(0);
   const [isDeleteReponsePopupOpen, setIsDeleteReponsePopupOpen] = useState(false);
+  const [isEdited, setIsEdited] = useState(false);
+  const [isSent, setIsSent] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
 
   const { deleteProject, projectReponse, deleteProjectReponse, fetchProjectReponse } = useContext(ProjectContext);
   const {currentPhase, phases} = useContext(PhaseContext);
@@ -26,7 +29,7 @@ const ProjectInfo = () => {
   useEffect(() => {
     fetchProjectReponse(projectData.id);
     console.log(projectReponse);
-  }, [])
+  }, [isEdited, isDeleted, isSent, isEdited])
   
   const bytesToMB = (bytes) => {
     if (bytes < 1024) {
@@ -87,7 +90,8 @@ const ProjectInfo = () => {
 
   const handleConfirmDeleteReponse = ()=> {
     deleteProjectReponse(projectData.id, projectReponse?.id);
-    
+    setIsDeleted(true);
+    closeDeleteReponsePopup();
   }
 
   function getDateFinValidation() {
@@ -416,7 +420,7 @@ const ProjectInfo = () => {
           </div>
         </div>
       </div>
-      {isPopupOpen && <PopUpReponse onclick={closePopup} content={popupContent}/>}
+      {isPopupOpen && <PopUpReponse onclick={closePopup} content={popupContent} isEdited={setIsEdited} isSent={setIsSent}/>}
       {isDeletePopupOpen && (
         <div className="fixed inset-0 px-10 flex items-center justify-center bg-black bg-opacity-25">
           <div className="w-2/5 rounded-lg flex flex-col items-start bg-white justify-center">
