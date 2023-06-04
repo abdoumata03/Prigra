@@ -73,8 +73,8 @@ const Messenger = ({ id }) => {
   }, []);
 
   return (
-    <div className="bg-white shadow-custom rounded-lg py-4 px-4 flex flex-col flex-grow h-fit">
-      <h1 className="text-gray1 font-bold text-lg mb-1">Discussion</h1>
+    <div className="bg-white shadow-custom border rounded-lg py-4 px-4 flex flex-col flex-grow h-fit">
+      <h1 className="text-gray1 font-bold text-lg mb-1">Discussion du projet</h1>
       <div className="flex h-80 overflow-auto flex-col-reverse ">
         {messagesData.map((item, id) => {
           const isSender = item.user_id === userData.id;
@@ -112,7 +112,11 @@ const Messenger = ({ id }) => {
           className="bg-none bg-gray-100 justify-self-end pl-14 pr-6 text-sm rounded-full h-11 w-full"
         />
         <img
-          src="https://i.ibb.co/T1r9Mzc/1679220246331.jpg"
+          src={
+            userData.profil_picture
+              ? userData.profil_picture
+              : "https://thumbs.dreamstime.com/b/default-profile-picture-avatar-photo-placeholder-vector-illustration-default-profile-picture-avatar-photo-placeholder-vector-189495158.jpg"
+          }
           alt="Avatar Picture"
           className="h-8 w-8 rounded-full absolute left-2"
         />

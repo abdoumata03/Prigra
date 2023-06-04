@@ -1,9 +1,21 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
-import {ProjectInfoField, PersonField, PopUpReponse } from "../components/index.js";
+import {
+  ProjectInfoField,
+  PersonField,
+  PopUpReponse,
+} from "../components/index.js";
 import ProjectContext from "../context/project-context";
 import PhaseContext from "../context/phase-context";
-import { FiCalendar, FiInfo, FiLink2, FiTrash2, FiX, FiClock,FiEdit3 } from "react-icons/fi";
+import {
+  FiCalendar,
+  FiInfo,
+  FiLink2,
+  FiTrash2,
+  FiX,
+  FiClock,
+  FiEdit3,
+} from "react-icons/fi";
 import { ImageConfig } from "../utils/image-config";
 import Breadcrumbs from "../components/breadcrumbs";
 import { toast, Toaster } from "react-hot-toast";
@@ -14,7 +26,7 @@ const ProjectInfo = () => {
   const projectData = location.state;
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [popupContent, setPopupContent] = useState('');
+  const [popupContent, setPopupContent] = useState("");
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [projectDeleted, setProjectDeleted] = useState(false);
   const [value, setValue] = useState(0);
@@ -23,8 +35,13 @@ const ProjectInfo = () => {
   const [isSent, setIsSent] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
 
-  const { deleteProject, projectReponse, deleteProjectReponse, fetchProjectReponse } = useContext(ProjectContext);
-  const {currentPhase, phases} = useContext(PhaseContext);
+  const {
+    deleteProject,
+    projectReponse,
+    deleteProjectReponse,
+    fetchProjectReponse,
+  } = useContext(ProjectContext);
+  const { currentPhase, phases } = useContext(PhaseContext);
 
   useEffect(() => {
     fetchProjectReponse(projectData.id);
@@ -68,7 +85,7 @@ const ProjectInfo = () => {
   };
 
   const handleConfirmDelete = async () => {
-     await toast.promise(deleteProject(projectData.id), {
+    await toast.promise(deleteProject(projectData.id), {
       loading: "En train de retirer votre projet...",
       success: "Votre projet a été retiré",
       error: "Erreur lors la supression de votre projet",
@@ -88,7 +105,7 @@ const ProjectInfo = () => {
     setValue(2);
   };
 
-  const handleConfirmDeleteReponse = ()=> {
+  const handleConfirmDeleteReponse = () => {
     deleteProjectReponse(projectData.id, projectReponse?.id);
     setIsDeleted(true);
     closeDeleteReponsePopup();
@@ -107,7 +124,7 @@ const ProjectInfo = () => {
     <>
       <Breadcrumbs />
       <div className="flex lg:flex-row flex-col gap-10 w-full">
-      <Toaster position='top-center' reverseOrder={false}/>
+        <Toaster position="top-center" reverseOrder={false} />
         <div className="flex flex-col w-1/2 gap-0 lg:gap-6">
           <div className="flex bg-white border shadow-custom w-full py-[0.3rem] px-[0.3rem] rounded-[0.4rem] ">
             <button
@@ -127,7 +144,7 @@ const ProjectInfo = () => {
                   ? `bg-primary text-white font-medium`
                   : `bg-white text-gray2`
               }`}
-             >
+            >
               Équipe
             </button>
             <button
@@ -137,7 +154,7 @@ const ProjectInfo = () => {
                   ? `bg-primary text-white font-medium`
                   : `bg-white text-gray2`
               }`}
-             >
+            >
               Réponse
             </button>
           </div>
@@ -201,7 +218,7 @@ const ProjectInfo = () => {
                         </div>
                       </div>
                     ))
-                   ) : (
+                  ) : (
                     <div className="w-full">
                       <p className="text-gray3 font-medium">
                         Aucun fichier attaché
@@ -232,10 +249,7 @@ const ProjectInfo = () => {
                     <div className="h-[1px] flex-grow bg-gray-200" />
                   </div>
                   {projectData.members?.map((member, index) => (
-                    <PersonField
-                      name={member.full_name}
-                      email={member.email}
-                    />
+                    <PersonField name={member.full_name} email={member.email} />
                   ))}
                 </div>
                 <div className="bg-white rounded-[0.4rem] shadow-custom flex flex-col justify-center py-3 px-5 border mb-3">
@@ -292,19 +306,16 @@ const ProjectInfo = () => {
                 </div>
               </div>
             </div>
-          ) : (
-            projectData?.reponse === '' ? (
-              <div className="w-full flex flex-col divide-y divide-dashed bg-white rounded-[0.4rem] border py-3 px-4 shadow-custom">
-                <div className="flex items-center gap-2 text-gray4 ">
-                        <FiInfo />
-                        <p className="text-sm ">
-                          Aucune réponse n'a été spécifiée
-                        </p>
-                      </div>
+          ) : projectData?.reponse === "" ? (
+            <div className="w-full flex flex-col divide-y divide-dashed bg-white rounded-[0.4rem] border py-3 px-4 shadow-custom">
+              <div className="flex items-center gap-2 text-gray4 ">
+                <FiInfo />
+                <p className="text-sm ">Aucune réponse n'a été spécifiée</p>
               </div>
-            ) : (
-              <div className="w-full flex flex-col bg-white rounded-[0.4rem] border py-2 px-4 shadow-custom items-end">  
-                <div className="w-full flex flex-col divide-y divide-dashed">
+            </div>
+          ) : (
+            <div className="w-full flex flex-col bg-white rounded-[0.4rem] border py-2 px-4 shadow-custom items-end">
+              <div className="w-full flex flex-col divide-y divide-dashed">
                 <ProjectInfoField
                   title="Réponse"
                   content={
@@ -319,12 +330,14 @@ const ProjectInfo = () => {
                     <h1 className="text-xs">Rapport d'expertise</h1>
                   </div>
                   <p className={`font-medium text-sm`}>
-                  {projectReponse?.rapport_expertise ? (
-                      <div
-                        className="bg-accent rounded-[0.4rem] px-6 py-3 mb-2 w-full flex flex-row justify-between items-center"
-                      >
+                    {projectReponse?.rapport_expertise ? (
+                      <div className="bg-accent rounded-[0.4rem] px-6 py-3 mb-2 w-full flex flex-row justify-between items-center">
                         <div className="w-8 mr-3">
-                          {ImageConfig[projectReponse?.rapport_expertise.format]}
+                          {
+                            ImageConfig[
+                              projectReponse?.rapport_expertise.format
+                            ]
+                          }
                         </div>
                         <div className="flex flex-col flex-1 overflow-hidden">
                           <a
@@ -339,60 +352,55 @@ const ProjectInfo = () => {
                           </p>
                         </div>
                       </div>
-                  ) : (
-                    <div className="w-full">
-                      <p className="text-gray3 font-medium">
-                        Aucun fichier attaché
-                      </p>
-                    </div>
-                  )}
-                </p>
+                    ) : (
+                      <div className="w-full">
+                        <p className="text-gray3 font-medium">
+                          Aucun fichier attaché
+                        </p>
+                      </div>
+                    )}
+                  </p>
                 </div>
               </div>
-              {currentPhase === ("Période de validation des projets" || "Période de validation des projets") ? 
-              (
+              {currentPhase ===
+              ("Période de validation des projets" ||
+                "Période de validation des projets") ? (
                 <button
-                onClick={openDeleteReponsePopup}
-                className="border border-error flex gap-2 items-center justify-center flex-1 text-error rounded-[0.4rem] font-medium px-5 py-3"
-              >
-                <FiTrash2 />
-                Retirer 
-              </button> 
-              ): (
-                <div>
-                </div>
-              )
-              }
-              </div> 
-             
-            )
+                  onClick={openDeleteReponsePopup}
+                  className="border border-error flex gap-2 items-center justify-center flex-1 text-error rounded-[0.4rem] font-medium px-5 py-3"
+                >
+                  <FiTrash2 />
+                  Retirer
+                </button>
+              ) : (
+                <div></div>
+              )}
+            </div>
           )}
         </div>
         <div className="bg-white w-1/2 shadow-custom rounded-[0.4rem] flex flex-col h-fit items-center py-6 border">
-        {currentPhase === ("Période de validation des projets" || "Période de validation des projets") ? 
-              (
-                <div className="flex w-5/6 gap-3 mb-3">
-                <button
-                  onClick={openDeletePopup}
-                  className="border w-1/2  border-error flex gap-2 items-center justify-center text-error rounded-[0.4rem] font-medium px-5"
-                >
-                  <FiTrash2 />
-                  Retirer Projet
-                </button>
-                  <button 
-                   onClick={openPopup}
-                   className="bg-primary gap-2  w-full flex items-center justify-center text-white py-3 rounded-[0.4rem] font-medium"
-                   >
-                    <FiEdit3 />
-                    { projectReponse  ? 'Modifier Réponse' : 'Donner Réponse' }
-                  </button>
-                
-              </div>
-              ): (
-                <div>
-                </div>
-              )
-              }
+          {currentPhase ===
+          ("Période de validation des projets" ||
+            "Période de validation des projets") ? (
+            <div className="flex w-5/6 gap-3 mb-3">
+              <button
+                onClick={openDeletePopup}
+                className="border w-1/2  border-error flex gap-2 items-center justify-center text-error rounded-[0.4rem] font-medium px-5"
+              >
+                <FiTrash2 />
+                Retirer Projet
+              </button>
+              <button
+                onClick={openPopup}
+                className="bg-primary gap-2  w-full flex items-center justify-center text-white py-3 rounded-[0.4rem] font-medium"
+              >
+                <FiEdit3 />
+                {projectReponse ? "Modifier Réponse" : "Donner Réponse"}
+              </button>
+            </div>
+          ) : (
+            <div></div>
+          )}
 
           <div className="w-5/6 flex flex-col divide-y-2 divide-gray-100">
             <div className="flex gap-6 items-center py-3">
@@ -413,7 +421,7 @@ const ProjectInfo = () => {
               <div>
                 <p className="text-gray3 text-xs mb-1">Délai de validation</p>
                 <h2 className="text-gray1 text-base font-medium">
-                {getDateFinValidation()}
+                  {getDateFinValidation()}
                 </h2>
               </div>
             </div>

@@ -212,7 +212,7 @@ const FillInfos = () => {
   const handleClick = () => {
     hiddenFileInput.current.click();
   };
-
+ 
   const handleChange = (event) => {
     const fileUploaded = event.target.files[0];
     const storageRef = ref(storage, `/images/${fileUploaded?.name}`);
@@ -396,7 +396,7 @@ const FillInfos = () => {
                   <img
                     src={imagePreview}
                     alt="user pic"
-                    className="w-[50px] h-[50px] mr-6 rounded-[360px] object-contain"
+                    className="w-[50px] h-[50px] mr-6 rounded-[360px] object-contain bg-white"
                   />
                 ) : (
                   <img

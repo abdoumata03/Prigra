@@ -1,7 +1,7 @@
 import { createContext, useState, useContext } from "react";
 import ProfileContext from "./profile-context";
 import { async } from "q";
-import { toast } from 'react-hot-toast';
+import { toast } from "react-hot-toast";
 import { Navigate, useNavigate } from "react-router";
 import { format } from "date-fns";
 
@@ -13,7 +13,9 @@ export const ProjectProvider = ({ children }) => {
   const [projects, setProjects] = useState(null);
 
   const [stats, setStats] = useState({});
-  
+  const [Soutenances, setSoutenances] = useState([]);
+  const [ProjectSoutenance, setProjectSoutenance] = useState([]);
+
   const [isProjectsLoading, setIsProjectsLoading] = useState(false);
   const [projectReponse, setProjectReponse] = useState(null);
   const {
@@ -24,7 +26,7 @@ export const ProjectProvider = ({ children }) => {
     type,
     fetch_project,
   } = useContext(ProfileContext);
-  const navigate= useNavigate();
+  const navigate = useNavigate();
 
   const [tasksData, setTasksData] = useState([]);
 
@@ -306,7 +308,7 @@ export const ProjectProvider = ({ children }) => {
   };
 
   const deleteProject = async (id) => {
-    toast.loading('deleting project...'); 
+    toast.loading("deleting project...");
     const deleteResponse = await fetch(
       `https://prigra.onrender.com/diplome/projects/${id}/`,
       {
@@ -321,10 +323,10 @@ export const ProjectProvider = ({ children }) => {
     );
     if (deleteResponse.ok) {
       toast.dismiss();
-      toast.success('project deleted');
+      toast.success("project deleted");
     } else {
       toast.dismiss();
-      toast.error('Failed to delete project');
+      toast.error("Failed to delete project");
     }
   };
 
@@ -506,40 +508,17 @@ export const ProjectProvider = ({ children }) => {
   };
 
   const fetchProjectReponse = async (project_pk) => {
-    const get_project_reponse_response = await fetch(
+    
+    toast.loading("En train de soumetre la réponse...");
+    const project_reponse_response = await fetch(
       `https://prigra.onrender.com/diplome/projects/${project_pk}/responses/`,
       {
-        method: 'GET',
+        method: "POST",
         headers: {
           Authorization: `JWT ${
-            JSON.parse(localStorage.getItem('authTokens')).access
+            JSON.parse(localStorage.getItem("authTokens")).access
           }`,
-          'content-type': 'application/json',
-        },
-      }
-    )
-    const projectReponse = await get_project_reponse_response.json();
-    setProjectReponse(projectReponse[0]);
-  }
-
-  const putProjectResponse = async (
-    project_pk, 
-    id,
-    reponse,
-    rapportName,
-    rapportSize,
-    rapportFormat,
-    rapportUrl ) => {
-      toast.loading('En train de modifier la réponse...');
-    const put_project_reponse_response = await fetch(
-      `https://prigra.onrender.com/diplome/projects/${project_pk}/responses/${id}/`,
-      {
-        method: 'PUT',
-        headers: {
-          Authorization: `JWT ${
-            JSON.parse(localStorage.getItem('authTokens')).access
-          }`,
-          'content-type': 'application/json',
+          "content-type": "application/json",
         },
         body: JSON.stringify({
           reponse,
@@ -551,66 +530,143 @@ export const ProjectProvider = ({ children }) => {
           },
         }),
       }
-    )
-    if (put_project_reponse_response.ok) {
+    );
+    if (project_reponse_response.ok) {
       toast.dismiss();
-      toast.success('la réponse a été mis à jour');
+      toast.success("la réponse a été soumis");
+      navigate(0);
     } else {
       toast.dismiss();
-      toast.error('Erreur lors la mise à jour de projet');
+      toast.error("Erreur lors la soumission de projet");
     }
-  }
+  };
+
+
+  const getProjectSoutenance = async (id) => {
+    const soutenance_response = await fetch(
+      `https://prigra.onrender.com/diplome/soutenances/${id}/`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem("authTokens")).access
+          }`,
+          "content-type": "application/json",
+        },
+      }
+    );
+
+    const soutenance_data = await soutenance_response.json();
+    setProjectSoutenance(soutenance_data);
+  };
+
+  const getSoutenances = async () => {
+    const soutenances_response = await fetch(
+      `https://prigra.onrender.com/diplome/soutenances/`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem("authTokens")).access
+          }`,
+          "content-type": "application/json",
+        },
+      }
+    );
+
+    const soutenances_data = await soutenances_response.json();
+    setSoutenances(soutenances_data);
+  };
+
+  const putProjectResponse = async (
+    project_pk,
+    id,
+    reponse,
+    rapportName,
+    rapportSize,
+    rapportFormat,
+    rapportUrl
+  ) => {
+    toast.loading("En train de modifier la réponse...");
+    const put_project_reponse_response = await fetch(
+      `https://prigra.onrender.com/diplome/projects/${project_pk}/responses/${id}/`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem("authTokens")).access
+          }`,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          reponse,
+          rapport_expertise: {
+            name: rapportName,
+            size: rapportSize,
+            format: rapportFormat,
+            url: rapportUrl,
+          },
+        }),
+      }
+    );
+    if (put_project_reponse_response.ok) {
+      toast.dismiss();
+      toast.success("la réponse a été mis à jour");
+    } else {
+      toast.dismiss();
+      toast.error("Erreur lors la mise à jour de projet");
+    }
+  };
 
   const deleteProjectReponse = async (project_pk, id) => {
-    toast.loading('En train de supprimer la réponse...'); 
+    toast.loading("En train de supprimer la réponse...");
     const delete_project_reponse_response = await fetch(
       `https://prigra.onrender.com/diplome/projects/${project_pk}/responses/${id}/`,
       {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
           Authorization: `JWT ${
-            JSON.parse(localStorage.getItem('authTokens')).access
+            JSON.parse(localStorage.getItem("authTokens")).access
           }`,
-          'content-type': 'application/json',
+          "content-type": "application/json",
         },
       }
-    )
+    );
     if (delete_project_reponse_response.ok) {
       toast.dismiss();
-      toast.success('la réponse a été supprimée');
+      toast.success("la réponse a été supprimée");
     } else {
       toast.dismiss();
-      toast.error('Erreur lors la suppression de réponse');
+      toast.error("Erreur lors la suppression de réponse");
     }
-  }
+  };
 
   const submitReponses = async (project_id, is_all) => {
-    toast.loading('En train d\'envoyer les réponses...');
+    toast.loading("En train d'envoyer les réponses...");
     const submit_response = await fetch(
       `https://prigra.onrender.com/diplome/submit/`,
       {
-        method: 'POST',
+        method: "POST",
         headers: {
           Authorization: `JWT ${
-            JSON.parse(localStorage.getItem('authTokens')).access
+            JSON.parse(localStorage.getItem("authTokens")).access
           }`,
-          'content-type': 'application/json',
+          "content-type": "application/json",
         },
         body: JSON.stringify({
-          project_id, 
-          is_all, 
+          project_id,
+          is_all,
         }),
       }
-    )
+    );
     if (submit_response.ok) {
       toast.dismiss();
-      toast.success('les réponses ont été envoyées');
+      toast.success("les réponses ont été envoyées");
     } else {
       toast.dismiss();
-      toast.error('Erreur lors l\'envoi des réponses');
-    } 
-
-  }
+      toast.error("Erreur lors l'envoi des réponses");
+    }
+  };
   const contextData = {
     createProject,
     isInvitationLoading,
@@ -642,11 +698,14 @@ export const ProjectProvider = ({ children }) => {
     getProjectTasks,
     getProjectTask,
     deleteProjectTask,
-    fetchProjectReponse, 
-    deleteProjectReponse, 
-    putProjectResponse, 
-    projectReponse, 
+    fetchProjectReponse,
+    deleteProjectReponse,
+    putProjectResponse,
+    projectReponse,
     submitReponses,
+    getSoutenances,
+    getProjectSoutenance,
+    ProjectSoutenance,
   };
 
   return (

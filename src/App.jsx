@@ -32,6 +32,8 @@ import { PhaseProvider } from "./context/phase-context.jsx";
 import AnnouncementPage from "./pages/announcement-page.jsx";
 import Encadrement from "./pages/encadrement.jsx";
 import Statistics from "./components/statistics.jsx";
+import ProjectSoutenances from "./components/projets-soutenance.jsx";
+import PlanSoutenance from "./components/plan-soutenance.jsx";
 
 function App() {
   return (
@@ -79,8 +81,14 @@ function App() {
                     </Route>
                   </Route>
                   <Route element={<Profile />} path="/profile" exact />
-                  <Route element={<Statistics/>} path="/stats" exact />
-                  <Route element={<Graduation />} path="/soutenance" exact />
+                  <Route element={<Statistics />} path="/stats" exact />
+                  <Route element={<Graduation />} path="/soutenances" exact>
+                    <Route
+                      element={<PlanSoutenance />}
+                      path="/soutenances/project/:id"
+                      exact
+                    />
+                  </Route>
                   <Route element={<Announcement />} path="/annonces" exact />
                   <Route
                     element={<AnnouncementPage />}

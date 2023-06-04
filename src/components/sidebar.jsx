@@ -1,7 +1,8 @@
 import React, { useContext, useState } from "react";
 import { logo } from "../assets";
 import {
-  StudentSidebarData,
+  AtsSidebarData,
+  PdpSidebarData,
   TeacherEncadrantSidebarData,
 } from "../constants/sidebar-data";
 import { TeacherSidebarData } from "../constants/sidebar-data";
@@ -18,13 +19,16 @@ const Sidebar = () => {
 
   const location = useLocation();
 
-  const [selectedItemIndex, setSelectedItemIndex] = useState(
-    StudentSidebarData.findIndex((item) => location.pathname.includes(item.id))
-  );
+  const isTeacherPdp =
+    userData?.is_comite_scientifique_incubateur === false &&
+    userData?.is_encadrant === false &&
+    userData?.is_jury === false;
 
   function getSidebarData() {
     if (userInitialData?.type === "Student") {
-      return StudentSidebarData;
+      return PdpSidebarData;
+    } else if (userInitialData?.type === "Teacher" && isTeacherPdp) {
+      return PdpSidebarData;
     } else if (
       userInitialData?.type === "Teacher" &&
       userData?.is_comite_scientifique_incubateur === true
@@ -36,11 +40,13 @@ const Sidebar = () => {
     ) {
       return TeacherEncadrantSidebarData;
     }
+
+    return AtsSidebarData;
   }
 
-  const isStudent = userInitialData?.type == "Student";
-
-  const SidebarData = isStudent ? StudentSidebarData : TeacherSidebarData;
+  const [selectedItemIndex, setSelectedItemIndex] = useState(
+    getSidebarData().findIndex((item) => location.pathname.includes(item.id))
+  );
 
   return (
     <div className="flex flex-col border-r border-gray-200 justify-start fixed h-screen items-center py-10 w-[18%] bg-white shadow-custom">

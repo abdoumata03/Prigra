@@ -20,7 +20,7 @@ const TableauDeBord = () => {
   return (
     <div className="flex flex-row gap-8 flex-grow h-full">
       <div className="flex flex-col gap-3">
-        <div className="bg-white w-full flex-grow py-6 px-6 rounded-md shadow-custom">
+        <div className="bg-white w-full flex-grow border py-6 px-6 rounded-md shadow-custom">
           <div className="flex mb-6 text-gray2 items-center gap-2">
             <FiPercent />
             <h1 className="font-bold">Taux d'avancement</h1>

@@ -5,7 +5,7 @@ import { ReactComponent as Search } from "../assets/icons/Search.svg";
 import Breadcrumbs from "../components/breadcrumbs";
 
 const ComiteProjects = () => {
-  const { projects, submitReponses} = useContext(ProjectContext);
+  const { projects, submitReponses } = useContext(ProjectContext);
 
   const [searchProject, setSearchProject] = useState("");
 
@@ -29,30 +29,27 @@ const ComiteProjects = () => {
 
   const handleClick = (project) => {
     navigate(`/commite-projects/${project.id}`, { state: project });
-
   };
 
   const handleSoumission = () => {
-    {projects?.map((project) =>(
-      submitReponses(project.id, true)
-    ))}
-  }
+    {
+      projects?.map((project) => submitReponses(project.id, true));
+    }
+  };
 
   return (
-    <>      
-      <div className=" w-5/6 flex flex-row justify-between items-center">
-      <Breadcrumbs />
-      <button 
-        onClick={handleSoumission}
-        className="flex justify-center text-success items-center gap-3 self-end h-[40px] md:h-[50px] border-success border text-sm md:text-md font-medium rounded-[0.4rem] px-5 mb-10  w-full md:w-auto"
+    <>
+      <div className="w-11/12 flex flex-row justify-between items-center">
+        <Breadcrumbs />
+        <button
+          onClick={handleSoumission}
+          className="flex justify-center text-success items-center gap-3 self-end h-[40px] md:h-[50px] border-success border text-sm md:text-md font-medium rounded-[0.4rem] px-5 mb-10  w-full md:w-auto"
         >
-        Soumetre Réponses
+          Soummetre les réponses
         </button>
       </div>
-      <div className="w-5/6 flex flex-col">
-        <h1 className="text-gray1 text-lg font-bold mb-6">
-          Consulter la liste des projets
-        </h1>
+      <div className="flex flex-col w-11/12">
+        <h1 className="text-gray1 text-lg font-bold mb-6">Liste des projets</h1>
         <div className="flex flex-row justify-between mb-10">
           <div className="relative  w-1/2  flex flex-row items-center">
             <input

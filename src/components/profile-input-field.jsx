@@ -35,9 +35,9 @@ const ProfileInputField = ({ field_name, value, icon, name }) => {
           type={name === "birth_date" ? "date" : undefined}
           defaultValue={value}
           disabled={uneditable.includes(name)}
-          className={`shadow-custom ${
-            icon ? `pl-10` : `pl-5`
-          } border-[1px] rounded-[0.4rem] w-full text-[12px] md:text-sm h-[35px] md:h-[45px] font-medium disabled:bg-white disabled:text-gray1 text-gray3`}
+          className={`shadow-custom ${icon ? `pl-10` : `pl-5`} border-[1px] ${
+            name === "birth_date" ? "pr-5" : ""
+          } rounded-[0.4rem] w-full text-[12px] md:text-sm h-[35px] md:h-[45px] font-medium disabled:bg-white disabled:text-gray1 text-gray3`}
         />
       </div>
     </div>

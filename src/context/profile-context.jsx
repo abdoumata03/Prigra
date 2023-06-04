@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import { useNavigate } from "react-router";
 
 const ProfileContext = createContext();
 
@@ -123,8 +124,8 @@ export const ProfileProvider = ({ children }) => {
     }
   };
 
-  const putUserTypeInfo = (data) => {
-    fetch(
+  const putUserTypeInfo = async (data) => {
+    await fetch(
       `https://prigra.onrender.com/base/${userInitialData.type}/${userInitialData.type_id}/`,
       {
         method: "PUT",
@@ -138,12 +139,32 @@ export const ProfileProvider = ({ children }) => {
         body: JSON.stringify(data),
       }
     );
+    await fetch_user();
+  };
+
+  const deleteProfilePicture = async () => {
+    await fetch(
+      `https://prigra.onrender.com/base/${userInitialData.type}/${userInitialData.type_id}/`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem("authTokens")).access
+          }`,
+          "content-type": "application/json",
+        },
+
+        body: JSON.stringify({ profil_picture: "" }),
+      }
+    );
+    await fetch_user();
   };
 
   const contextData = {
     fetch_user,
     hasProject,
     userData,
+    deleteProfilePicture,
     projectId,
     setProjectId,
     isLoading,

@@ -22,7 +22,7 @@ const Dashboard = () => {
     (async () => {
       setIsLoading(true);
       await fetch_user();
-      await fetch_phases();
+     // await fetch_phases();
       await fetch_projects();
       setIsLoading(false);
     })();

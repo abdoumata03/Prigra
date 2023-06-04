@@ -7,27 +7,50 @@ const Breadcrumbs = () => {
   let currentPath = "";
 
   function getCrumbName(crumb) {
-    if (crumb === "project") {
-      return "Mon Projet";
-    } else if (crumb === "edit") {
-      return "Modifier";
-    } else if (crumb === "profile") {
-      return "Mon Profile";
-    } else if (crumb === "annonces") {
-      return "Annonces";
-    } else if (crumb === "commite-projects") {
-      return "Projets";
-    } else if (location.pathname.includes("commite") && !isNaN(crumb))
-      return "Détails du Projet";
-    else if (crumb === "encadrement") return "Encadrement";
-    else if (crumb === "stats") {
-      return "Statistiques";
+    switch (crumb) {
+      case "project":
+        if (!location.pathname.includes("soutenances")) {
+          return "Mon Projet";
+        } else {
+          return "Projet";
+        }
+      case "edit":
+        return "Modifier";
+      case "profile":
+        return "Mon Profile";
+      case "annonces":
+        return "Annonces";
+      case "commite-projects":
+        return "Projets";
+      case "encadrement":
+        return "Encadrement";
+      case "stats":
+        return "Statistiques";
+      case "soutenances":
+        return "Soutenances";
+      case crumb:
+        if (location.pathname.includes("commite") && !isNaN(crumb)) {
+          return "Détails du Projet";
+        } else if (location.pathname.includes("soutenances/project")) {
+          return "Plannifier";
+        }
+        break;
     }
   }
 
   const filtered_crumbs = location.pathname
     .split("/")
-    .filter((crumb) => crumb !== "");
+    .filter((crumb) => crumb !== "")
+    .filter((crumb, index, crumbs) => {
+      if (
+        crumb === "project" &&
+        index < crumbs.length - 1 &&
+        crumbs[index - 1] === "soutenances"
+      ) {
+        return false; // Ignore "project" when followed by "soutenances"
+      }
+      return true;
+    });
 
   const crumbs = filtered_crumbs.map((crumb, i) => {
     currentPath += `/${crumb}`;

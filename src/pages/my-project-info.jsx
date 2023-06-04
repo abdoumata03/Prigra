@@ -181,7 +181,7 @@ const MyProjectInfo = ({}) => {
                   </div>
                   <PersonField
                     name={projectData?.owner.full_name}
-                    email="c.belbachir@esi-sba.dz"
+                    email={projectData?.owner.email}
                   />
                   <div className="flex items-center gap-3 mb-2 ">
                     <p className="text-[13px] font-medium text-gray3 ">
@@ -189,7 +189,7 @@ const MyProjectInfo = ({}) => {
                     </p>
                     <div className="h-[1px] flex-grow bg-gray-200" />
                   </div>
-                  {projectData.members?.map((member, index) => (
+                  {projectData?.members?.map((member, index) => (
                     <PersonField
                       name=" Belbachir Chaimaa"
                       email={member.email}
@@ -205,7 +205,7 @@ const MyProjectInfo = ({}) => {
                   </div>
                   <div>
                     {projectData?.encadrant.length > 0 ? (
-                      projectData.encadrant?.map((Enc, index) => (
+                      projectData?.encadrant?.map((Enc, index) => (
                         <>
                           <PersonField
                             name={Enc.full_name}
@@ -230,8 +230,8 @@ const MyProjectInfo = ({}) => {
                     <div className="h-[1px] flex-grow bg-gray-200" />
                   </div>
                   <div>
-                    {projectData.co_encadrant?.length > 0 ? (
-                      projectData.co_encadrant?.map((coEnc, index) => (
+                    {projectData?.co_encadrant?.length > 0 ? (
+                      projectData?.co_encadrant?.map((coEnc, index) => (
                         <PersonField
                           name={coEnc.full_name}
                           email={coEnc.email}

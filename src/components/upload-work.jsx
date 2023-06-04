@@ -39,7 +39,7 @@ const WorkDoneInput = ({ task_id }) => {
       const uploadTask = toast.promise(
         uploadBytesResumable(storageRef, newFile),
         {
-          loading: `En train d'uploader le fichier...`,
+          loading: "En train d'uploader le fichier...",
           error: "Erreur lors l'upload du fichier",
           success: "Le fichier a été bien ajouté",
         }

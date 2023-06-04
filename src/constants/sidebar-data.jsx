@@ -10,7 +10,7 @@ import {
   FiActivity,
 } from "react-icons/fi";
 
-export const StudentSidebarData = [
+export const PdpSidebarData = [
   {
     id: "profile",
     title: "Mon profile",
@@ -27,13 +27,28 @@ export const StudentSidebarData = [
     id: "soutenance",
     title: "Soutenance",
     icon: <FiAward />,
-    link: "/soutenance",
+    link: "/soutenances",
   },
   {
     id: "annonces",
     title: "Annonces",
     icon: <FiVolume1 />,
     link: "/annonces",
+  },
+];
+
+export const AtsSidebarData = [
+  {
+    id: "profile",
+    title: "Mon profile",
+    icon: <FiUser />,
+    link: "/profile",
+  },
+  {
+    id: "soutenance",
+    title: "Soutenance",
+    icon: <FiAward />,
+    link: "/soutenances",
   },
 ];
 
@@ -69,7 +84,6 @@ export const TeacherSidebarData = [
     link: "/date-planification",
   },
 ];
-
 export const TeacherEncadrantSidebarData = [
   {
     id: "profile",

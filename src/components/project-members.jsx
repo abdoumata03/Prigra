@@ -150,7 +150,7 @@ const ProjectThirdStep = ({ innerRef }) => {
           </p>
           <div className="flex">
             <img
-              src="https://i.ibb.co/T1r9Mzc/1679220246331.jpg"
+              src="https://thumbs.dreamstime.com/b/default-profile-picture-avatar-photo-placeholder-vector-illustration-default-profile-picture-avatar-photo-placeholder-vector-189495158.jpg"
               alt="Avatar Picture"
               className="w-[40px] h-[40px] mr-4 rounded-full"
             />
