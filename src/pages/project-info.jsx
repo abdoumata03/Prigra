@@ -41,13 +41,17 @@ const ProjectInfo = () => {
     deleteProjectReponse,
     fetchProjectReponse,
   } = useContext(ProjectContext);
+
   const { currentPhase, phases } = useContext(PhaseContext);
 
   useEffect(() => {
-    fetchProjectReponse(projectData.id);
-    console.log(projectReponse);
-  }, [isEdited, isDeleted, isSent, isEdited])
-  
+    
+    (async () => {
+     await fetchProjectReponse(projectData.id);
+     console.log(currentPhase);
+    })();
+  }, [projectReponse])
+
   const bytesToMB = (bytes) => {
     if (bytes < 1024) {
       return bytes + " bytes";
@@ -59,6 +63,7 @@ const ProjectInfo = () => {
       return (bytes / 1073741824).toFixed(2) + " GB";
     }
   };
+
   const openPopup = () => {
     setIsPopupOpen(true);
     setPopupContent(projectData.id);
@@ -258,7 +263,7 @@ const ProjectInfo = () => {
                       Encadrants
                     </p>
                     <div className="h-[1px] flex-grow bg-gray-200" />
-                  </div>
+                  </div>  
                   <div>
                     {projectData?.encadrant.length > 0 ? (
                       projectData.encadrant?.map((Enc, index) => (
@@ -277,7 +282,7 @@ const ProjectInfo = () => {
                           Aucun encadrant a n'a été spécifié
                         </p>
                       </div>
-                    )}
+                    )}  
                   </div>
                   <div className="flex items-center gap-3 mb-2 ">
                     <p className="text-[13px] font-medium text-gray3 ">
@@ -306,7 +311,7 @@ const ProjectInfo = () => {
                 </div>
               </div>
             </div>
-          ) : projectData?.reponse === "" ? (
+          ) : !projectReponse ? (
             <div className="w-full flex flex-col divide-y divide-dashed bg-white rounded-[0.4rem] border py-3 px-4 shadow-custom">
               <div className="flex items-center gap-2 text-gray4 ">
                 <FiInfo />
@@ -335,7 +340,7 @@ const ProjectInfo = () => {
                         <div className="w-8 mr-3">
                           {
                             ImageConfig[
-                              projectReponse?.rapport_expertise.format
+                              'pdf'
                             ]
                           }
                         </div>
@@ -362,26 +367,17 @@ const ProjectInfo = () => {
                   </p>
                 </div>
               </div>
-              {currentPhase ===
-              ("Période de validation des projets" ||
-                "Période de validation des projets") ? (
                 <button
                   onClick={openDeleteReponsePopup}
-                  className="border border-error flex gap-2 items-center justify-center flex-1 text-error rounded-[0.4rem] font-medium px-5 py-3"
+                  className={`border border-error flex gap-2 items-center justify-center flex-1 text-error rounded-[0.4rem] font-medium px-5 py-3`} 
                 >
                   <FiTrash2 />
                   Retirer
                 </button>
-              ) : (
-                <div></div>
-              )}
             </div>
           )}
         </div>
         <div className="bg-white w-1/2 shadow-custom rounded-[0.4rem] flex flex-col h-fit items-center py-6 border">
-          {currentPhase ===
-          ("Période de validation des projets" ||
-            "Période de validation des projets") ? (
             <div className="flex w-5/6 gap-3 mb-3">
               <button
                 onClick={openDeletePopup}
@@ -392,15 +388,20 @@ const ProjectInfo = () => {
               </button>
               <button
                 onClick={openPopup}
-                className="bg-primary gap-2  w-full flex items-center justify-center text-white py-3 rounded-[0.4rem] font-medium"
+                disabled={currentPhase != ("Période de validation des projets" ||
+                "Période de dépôt de recours")}
+                className={` gap-2  w-full flex items-center justify-center py-3 rounded-[0.4rem] font-medium ${
+                  (currentPhase === ("Période de validation des projets" || "Période de dépôt de recours"))
+                    ? "bg-primary text-white "
+                    : "text-gray3 border border-gray5 bg-white"
+                }`}
               >
                 <FiEdit3 />
-                {projectReponse ? "Modifier Réponse" : "Donner Réponse"}
+                 {projectReponse &&
+              projectReponse ? "Modifier Réponse" : "Donner Réponse"
+                 }
               </button>
             </div>
-          ) : (
-            <div></div>
-          )}
 
           <div className="w-5/6 flex flex-col divide-y-2 divide-gray-100">
             <div className="flex gap-6 items-center py-3">

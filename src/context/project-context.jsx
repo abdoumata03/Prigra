@@ -508,37 +508,21 @@ export const ProjectProvider = ({ children }) => {
   };
 
   const fetchProjectReponse = async (project_pk) => {
-    
-    toast.loading("En train de soumetre la réponse...");
-    const project_reponse_response = await fetch(
+    const project_fetch_response = await fetch(
       `https://prigra.onrender.com/diplome/projects/${project_pk}/responses/`,
       {
-        method: "POST",
+        method: "GET",
         headers: {
           Authorization: `JWT ${
             JSON.parse(localStorage.getItem("authTokens")).access
           }`,
           "content-type": "application/json",
         },
-        body: JSON.stringify({
-          reponse,
-          rapport_expertise: {
-            name: rapportName,
-            size: rapportSize,
-            format: rapportFormat,
-            url: rapportUrl,
-          },
-        }),
       }
     );
-    if (project_reponse_response.ok) {
-      toast.dismiss();
-      toast.success("la réponse a été soumis");
-      navigate(0);
-    } else {
-      toast.dismiss();
-      toast.error("Erreur lors la soumission de projet");
-    }
+    const reponse_data = await project_fetch_response.json();
+    setProjectReponse(reponse_data[0]);
+    
   };
 
 

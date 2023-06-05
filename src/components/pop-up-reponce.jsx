@@ -30,13 +30,13 @@ const PopUpReponse = (props) => {
   const handleSubmit = () => {
     let reponse = "";
     if (state.approve) {
-      reponse = "accepter";
+      reponse = "ACCEPTÉ";
     } else if (state.refuse) {
-      reponse = "refuser";
+      reponse = "REJETÉ";
     } else if (state.approveReserve) {
-      reponse = "approveReserve";
+      reponse = "RECOURS";
     } else if (state.pme) {
-      reponse = "pme";
+      reponse = "PME";
     }
     projectReponse ? (
     putProjectResponse(props.content, projectReponse.id, reponse, fileInfo.name, fileInfo.size, fileInfo.type, fileInfo.url),
@@ -88,7 +88,6 @@ const PopUpReponse = (props) => {
       approveReserve: false,
     }));
   };
-
   
 
   return (

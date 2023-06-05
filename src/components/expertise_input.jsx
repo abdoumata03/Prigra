@@ -79,7 +79,7 @@ const ExpertiseInput = ({ onFileUpload }) => {
               id="dropzone-file"
               type="file"
               class="hidden"
-              accept=".jpg, .jpeg, .png, .doc, .docx, .pdf"
+              accept=".pdf"
             />
           </label>
         </div>

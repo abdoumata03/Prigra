@@ -96,25 +96,28 @@ const DatePlanification = () => {
     resolver: yupResolver(schema),
   });
 
-  const submitForm = (data) => {
-    phases.forEach((phase, index) => {
-      const debutKey = `debut_phase${index + 1}`;
-      const finKey = `fin_phase${index + 1}`;
-      const debutDate = new Date(data[debutKey]); 
-      const finDate = new Date(data[finKey]); 
-      const formattedDebutDate = format(debutDate, "yyyy-MM-dd");
-      const formattedFinDate = format(finDate, "yyyy-MM-dd");
-      if(formattedDebutDate != phase.date_debut || formattedFinDate != phase.date_fin)
-      putPhase(phase.id, formattedDebutDate, formattedFinDate);
-    }
-    )
-    
+  const submitForm = async (data) => { 
+     try {
+     phases.forEach((phase, index) => {
+        const debutKey = `debut_phase${index + 1}`;
+        const finKey = `fin_phase${index + 1}`;
+        const debutDate = new Date(data[debutKey]); 
+        const finDate = new Date(data[finKey]); 
+        const formattedDebutDate = format(debutDate, "yyyy-MM-dd");
+        const formattedFinDate = format(finDate, "yyyy-MM-dd");
+        if(formattedDebutDate != phase.date_debut || formattedFinDate != phase.date_fin)
+        putPhase(phase.id, formattedDebutDate, formattedFinDate);
+      })
+      toast.success('Response submitted successfully');
+     } catch (e) {
+      toast.error('Failed to submit response');
+     }
   };
   
-  const handleFinPhaseChange = (phaseNumber, event) => {
-    const finPhaseValue = event.target.value;
-    setValue(`debut_phase${phaseNumber}`, finPhaseValue);
-  };
+  // const handleFinPhaseChange = (phaseNumber, event) => {
+  //   const finPhaseValue = event.target.value;
+  //   setValue(`debut_phase${phaseNumber}`, finPhaseValue);
+  // };
 
   useEffect(() => {
     fetch_phases();
@@ -162,7 +165,7 @@ const DatePlanification = () => {
                 name="fin_phase1"
                 required
                 className="text-base rounded-md bg-white w-full h-10 pl-4 text-gray3 outline-none"
-                onChange={(event) => handleFinPhaseChange(2, event)}
+                //onChange={(event) => handleFinPhaseChange(2, event)}
               />
               {errors.fin_phase1 && (
                 <p className="text-red-500 text-sm ml-2">
@@ -199,7 +202,7 @@ const DatePlanification = () => {
                 name="fin_phase2"
                 required
                 className="text-base rounded-md bg-white w-full h-10 pl-4 text-gray3 outline-none"
-                onChange={(event) => handleFinPhaseChange(3, event)}
+                //onChange={(event) => handleFinPhaseChange(3, event)}
               />
               {errors.fin_phase2 && (
                 <p className="text-red-500 text-sm ml-2">
@@ -238,7 +241,7 @@ const DatePlanification = () => {
                 name="fin_phase3"
                 required
                 className="text-base rounded-md bg-white w-full h-10 pl-4 text-gray3 outline-none"
-                onChange={(event) => handleFinPhaseChange(4, event)}
+                //onChange={(event) => handleFinPhaseChange(4, event)}
               />
               {errors.fin_phase3 && (
                 <p className="text-red-500 text-sm ml-2">

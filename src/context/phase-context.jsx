@@ -1,6 +1,5 @@
 import React, { createContext, useState } from "react";
 import { useNavigate } from "react-router";
-import { toast } from "react-hot-toast";
 const PhaseContext = createContext();
 
 export default PhaseContext;
@@ -43,7 +42,6 @@ export const PhaseProvider = ({ children }) => {
 
   const putPhase = async (id, date_debut, date_fin) => {
     try {
-      toast.loading('Submitting response...'); 
       const phaseResponse = await fetch(
         `https://prigra.onrender.com/diplome/phases/${id}/`,
         {
@@ -61,13 +59,7 @@ export const PhaseProvider = ({ children }) => {
         }
       )
     if (phaseResponse.ok) {
-      toast.dismiss();
-      toast.success('Response submitted successfully');
-      navigate(0);
-    } else {
-      toast.dismiss();
-      toast.error('Failed to submit response');
-    }
+      navigate(0);}
   } catch (error) {
     console.log(error);
   }
