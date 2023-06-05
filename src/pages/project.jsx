@@ -25,7 +25,10 @@ const Project = () => {
       return <ProjectDashboard />;
     }
 
-    if (!hasProject && currentPhase.includes("soumission")) {
+    if (
+      !hasProject
+      // && currentPhase.includes("soumission")
+    ) {
       return <EmptyProject />;
     }
 

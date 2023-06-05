@@ -96,7 +96,7 @@ const InfoSoutenance = () => {
           </div>
           <PersonField
             name={"Sidi Mohammed BENSLIMANE"}
-            email={ProjectSoutenance?.president_jury.email}
+            email={ProjectSoutenance?.president_jury?.email}
           />
           <div className="flex items-center gap-3 mb-2 ">
             <p className="text-[13px] font-medium text-gray3 ">Membres</p>
@@ -106,7 +106,7 @@ const InfoSoutenance = () => {
           {ProjectSoutenance?.invité && (
             <PersonField
               name={"Mimoun MALKI"}
-              email={ProjectSoutenance?.invité.email}
+              email={ProjectSoutenance?.invité?.email}
               invité={true}
             />
           )}

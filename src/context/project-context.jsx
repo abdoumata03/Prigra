@@ -304,7 +304,7 @@ export const ProjectProvider = ({ children }) => {
       body: JSON.stringify({
         taux_avancement: taux,
       }),
-    });
+    }); 
   };
 
   const deleteProject = async (id) => {

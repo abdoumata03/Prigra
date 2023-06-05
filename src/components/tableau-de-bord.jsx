@@ -9,6 +9,7 @@ const TableauDeBord = () => {
   const { tasksData } = useContext(ProjectContext);
   const { projectData, projectId } = useContext(ProfileContext);
 
+
   // STATS
   const tasksCompleted = tasksData?.filter(
     (item) => item.status === "Complétée"
@@ -52,7 +53,7 @@ const TableauDeBord = () => {
           />
         </div>
       </div>
-      <Messenger id={projectId} />
+      <Messenger chat_id={projectId} />
     </div>
   );
 };

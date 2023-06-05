@@ -6,6 +6,7 @@ import PreSoutenance from "../components/pre-soutenance";
 import ProjectSoutenances from "../components/projets-soutenance";
 import { Outlet, useLocation } from "react-router";
 import SoutenancePending from "../components/soutenance-pending";
+import NoValidProject from "../components/no-valid-project";
 
 const Graduation = () => {
   const { userInitialData, projectData, userData } = useContext(ProfileContext);
@@ -26,9 +27,10 @@ const Graduation = () => {
         return true;
       }
     }
-
   }
 
+
+  console.log(projectData?.status_reponse.toLowerCase());
   function renderContent() {
     if (isPdp()) {
       if (projectData?.is_authorized && projectData?.soutenance) {
@@ -36,7 +38,11 @@ const Graduation = () => {
       } else if (projectData?.is_authorized && !projectData?.soutenance) {
         return <SoutenancePending />;
       }
-      return <PreSoutenance />;
+      if (projectData?.status_reponse.toLowerCase() === "en_cours") {
+        return <NoValidProject/>
+      } else if (projectData?.status_reponse.toLowerCase() === "validé") {
+        return <PreSoutenance />;
+      }
     }
     return location?.pathname.includes("soutenances/project") ? (
       <Outlet />
@@ -47,6 +53,7 @@ const Graduation = () => {
 
   return (
     <>
+      {console.log(isPdp())}
       <Breadcrumbs />
       {renderContent()}
     </>

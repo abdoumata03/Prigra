@@ -45,7 +45,6 @@ const ProjectInfo = () => {
   const { currentPhase, phases } = useContext(PhaseContext);
 
   useEffect(() => {
-    
     (async () => {
      await fetchProjectReponse(projectData.id);
      console.log(currentPhase);
