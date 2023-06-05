@@ -65,11 +65,7 @@ const MyProjectInfo = ({}) => {
   };
 
   const handleConfirmDelete = async () => {
-    await toast.promise(deleteProject(projectId), {
-      loading: "En train de retirer votre projet...",
-      success: "Votre projet a été retiré",
-      error: "Erreur lors la supression de votre projet",
-    });
+    await deleteProject(projectId);
     navigate(0);
   };
 
@@ -180,8 +176,8 @@ const MyProjectInfo = ({}) => {
                     <div className="h-[1px] flex-grow bg-gray-200" />
                   </div>
                   <PersonField
-                    name={projectData?.owner.full_name}
-                    email={projectData?.owner.email}
+                    name={projectData?.owner?.full_name}
+                    email={projectData?.owner?.email}
                   />
                   <div className="flex items-center gap-3 mb-2 ">
                     <p className="text-[13px] font-medium text-gray3 ">
@@ -189,12 +185,20 @@ const MyProjectInfo = ({}) => {
                     </p>
                     <div className="h-[1px] flex-grow bg-gray-200" />
                   </div>
-                  {projectData?.members?.map((member, index) => (
-                    <PersonField
-                      name=" Belbachir Chaimaa"
-                      email={member.email}
-                    />
-                  ))}
+                  {projectData?.members?.length > 1 ? (
+                    projectData?.members
+                      ?.slice(1)
+                      .map((member, index) => (
+                        <PersonField
+                          name={member.full_name}
+                          email={member.email}
+                        />
+                      ))
+                  ) : (
+                    <p className="text-sm text-gray3 text-center py-3">
+                      Votre projet n'a pas encore des membres
+                    </p>
+                  )}
                 </div>
                 <div className="bg-white rounded-[0.4rem] shadow-custom flex flex-col justify-center py-3 px-5 border mb-3">
                   <div className="flex items-center gap-3 mb-2 ">

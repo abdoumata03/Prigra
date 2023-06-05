@@ -59,7 +59,8 @@ const ChooseType = () => {
               diplôme-un brevet d'invention"
             </p>
             <a
-              href="https://www.univ-usto.dz/wp-content/uploads/2022/11/1275.pdf"
+              href="https://bit.ly/3MOg1qo"
+              target="_blank"
               className="text-primary text-sm"
             >
               <div className="flex items-center gap-2">

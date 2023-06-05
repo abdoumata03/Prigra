@@ -16,7 +16,7 @@ import { Toaster, toast } from "react-hot-toast";
 
 const EncDashboard = () => {
   const { tasksData, putTauxAvancement } = useContext(ProjectContext);
-  const { projectData, fetch_project } = useContext(ProfileContext);
+  const { projectData, fetch_projectn, projectId } = useContext(ProfileContext);
 
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [sliderValue, setSliderValue] = useState(0);
@@ -40,7 +40,6 @@ const EncDashboard = () => {
     );
     setIsEditDialogOpen(false);
     await fetch_project();
-
   };
 
   const methods = useForm();
@@ -151,7 +150,7 @@ const EncDashboard = () => {
         )}
       </div>
       <div className="flex grow">
-        <Messenger id={projectData?.id} />
+        <Messenger chat_id={projectId} />
       </div>
     </div>
   );

@@ -103,7 +103,11 @@ const ProjectSoutenances = () => {
                     {capitalizeFirstLetter(project?.owner.full_name)}
                   </td>
                   <td scope="row" className="px-6 py-4 font-medium text-gray1">
-                    {capitalizeFirstLetter(project?.encadrant[0].full_name)}
+                    {project?.encadrant.length > 0 ? (
+                      capitalizeFirstLetter(project?.encadrant[0]?.full_name)
+                    ) : (
+                      <p>/</p>
+                    )}
                   </td>
                   <td scope="row" className="px-6 py-4 font-medium text-gray1">
                     {project?.is_authorized ? (

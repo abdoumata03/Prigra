@@ -11,12 +11,18 @@ const EmptyProject = () => {
   const navigate = useNavigate();
 
   const handleClick = async () => {
-    setIsCreatingProject(true);
-    await createProject();
-    setIsCreatingProject(false);
-
-    navigate("/project/edit", { forceRefresh: true });
-    toast.success("Votre projet a été crée");
+    try {
+      setIsCreatingProject(true);
+      await toast.promise(createProject(), {
+        loading: "En train de créer un projet...",
+        success: "Votre projet a été crée",
+        error: "Erreur lors la création de votre projet...",
+      });
+      setIsCreatingProject(false);
+      navigate("/project/edit", { forceRefresh: true });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (

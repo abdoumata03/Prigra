@@ -15,10 +15,14 @@ import {
 import ProfileContext from "../context/profile-context";
 import { FiSend } from "react-icons/fi";
 
-const Messenger = ({ id }) => {
+const Messenger = ({ chat_id }) => {
   const { userData } = useContext(ProfileContext);
   const [message, setMessage] = useState("");
   const [messagesData, setMessagesData] = useState([]);
+
+
+  console.log(chat_id);
+
 
   function isNotEmpty(str) {
     return str || str.length > 0;
@@ -28,7 +32,7 @@ const Messenger = ({ id }) => {
 
     if (isNotEmpty(message.trim())) {
       try {
-        const projectDocRef = doc(db, "projects", `${id}`);
+        const projectDocRef = doc(db, "projects", `${chat_id}`);
 
         const projectDocSnap = await getDoc(projectDocRef);
 
@@ -37,13 +41,13 @@ const Messenger = ({ id }) => {
           await setDoc(projectDocRef, {});
         }
 
-        const projectColletion = collection(db, "projects", `${id}`, "chat");
+        const projectColletion = collection(db, "projects", `${chat_id}`, "chat");
 
         // Add a new message document to the chat subcollection
         await addDoc(projectColletion, {
           sender: userData.first_name,
           content: message,
-          user_id: userData.id,
+          user_id: userData.user_id,
           timestamp: serverTimestamp(),
         });
 
@@ -58,7 +62,7 @@ const Messenger = ({ id }) => {
 
   useEffect(() => {
     const q = query(
-      collection(db, "projects", `${id}`, "chat"),
+      collection(db, "projects", `${chat_id}`, "chat"),
       orderBy("timestamp", "desc"),
       limit(50)
     );
@@ -77,7 +81,7 @@ const Messenger = ({ id }) => {
       <h1 className="text-gray1 font-bold text-lg mb-1">Discussion du projet</h1>
       <div className="flex h-80 overflow-auto flex-col-reverse ">
         {messagesData.map((item, id) => {
-          const isSender = item.user_id === userData.id;
+          const isSender = item.user_id === userData.user_id;
           return (
             <div className={`flex flex-col ${isSender && `items-end`}`}>
               {!isSender && (
