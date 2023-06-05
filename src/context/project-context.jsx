@@ -508,12 +508,7 @@ export const ProjectProvider = ({ children }) => {
   };
 
   const fetchProjectReponse = async (project_pk) => {
-<<<<<<< HEAD
     const project_fetch_response = await fetch(
-=======
-    toast.loading("En train de soumetre la réponse...");
-    const project_reponse_response = await fetch(
->>>>>>> b9265e3 (creer soutenance)
       `https://prigra.onrender.com/diplome/projects/${project_pk}/responses/`,
       {
         method: "GET",
@@ -527,7 +522,6 @@ export const ProjectProvider = ({ children }) => {
     );
     const reponse_data = await project_fetch_response.json();
     setProjectReponse(reponse_data[0]);
-    
   };
 
   const getProjectSoutenance = async (id) => {
