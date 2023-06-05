@@ -304,7 +304,7 @@ export const ProjectProvider = ({ children }) => {
       body: JSON.stringify({
         taux_avancement: taux,
       }),
-    }); 
+    });
   };
 
   const deleteProject = async (id) => {
@@ -475,40 +475,45 @@ export const ProjectProvider = ({ children }) => {
     rapportSize,
     rapportFormat,
     rapportUrl
-   ) => {
-      toast.loading('En train de soumetre la réponse...'); 
-      const project_reponse_response = await fetch(
-        `https://prigra.onrender.com/diplome/projects/${project_pk}/responses/`,
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `JWT ${
-              JSON.parse(localStorage.getItem('authTokens')).access
-            }`,
-            'content-type': 'application/json',
+  ) => {
+    toast.loading("En train de soumetre la réponse...");
+    const project_reponse_response = await fetch(
+      `https://prigra.onrender.com/diplome/projects/${project_pk}/responses/`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem("authTokens")).access
+          }`,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          reponse,
+          rapport_expertise: {
+            name: rapportName,
+            size: rapportSize,
+            format: rapportFormat,
+            url: rapportUrl,
           },
-          body: JSON.stringify({
-            reponse,
-            rapport_expertise: {
-              name: rapportName,
-              size: rapportSize,
-              format: rapportFormat,
-              url: rapportUrl,
-            },
-          }),
-        }
-      );
-      if (project_reponse_response.ok) {
-        toast.dismiss();
-        toast.success('la réponse a été soumis');
-      } else {
-        toast.dismiss();
-        toast.error('Erreur lors la soumission de projet');
+        }),
       }
+    );
+    if (project_reponse_response.ok) {
+      toast.dismiss();
+      toast.success("la réponse a été soumis");
+    } else {
+      toast.dismiss();
+      toast.error("Erreur lors la soumission de projet");
+    }
   };
 
   const fetchProjectReponse = async (project_pk) => {
+<<<<<<< HEAD
     const project_fetch_response = await fetch(
+=======
+    toast.loading("En train de soumetre la réponse...");
+    const project_reponse_response = await fetch(
+>>>>>>> b9265e3 (creer soutenance)
       `https://prigra.onrender.com/diplome/projects/${project_pk}/responses/`,
       {
         method: "GET",
@@ -524,7 +529,6 @@ export const ProjectProvider = ({ children }) => {
     setProjectReponse(reponse_data[0]);
     
   };
-
 
   const getProjectSoutenance = async (id) => {
     const soutenance_response = await fetch(
@@ -651,6 +655,36 @@ export const ProjectProvider = ({ children }) => {
       toast.error("Erreur lors l'envoi des réponses");
     }
   };
+
+  const createProjectSoutenance = async (project_id, data) => {
+    const list = [];
+    list.push(data["jury_1"]);
+    list.push(data["jury_2"]);
+
+    const soutenance_response = await fetch(
+      `https://prigra.onrender.com/diplome/soutenances/create/`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `JWT ${
+            JSON.parse(localStorage.getItem("authTokens")).access
+          }`,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          projet_id: project_id,
+          lieu: data["lieu"],
+          heure: data["heure"],
+          mode: data["mode"],
+          nature: data["nature"],
+          date_soutenance: data["date"],
+          president_jury: data["président"],
+          jury: list,
+        }),
+      }
+    );
+  };
+
   const contextData = {
     createProject,
     isInvitationLoading,
@@ -690,6 +724,7 @@ export const ProjectProvider = ({ children }) => {
     getSoutenances,
     getProjectSoutenance,
     ProjectSoutenance,
+    createProjectSoutenance,
   };
 
   return (

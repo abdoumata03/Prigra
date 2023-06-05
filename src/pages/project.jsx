@@ -14,6 +14,8 @@ const Project = () => {
 
   const status = projectData?.status_reponse?.toLowerCase();
 
+  console.log(status);
+
   const location = useLocation();
 
   const renderContent = () => {
@@ -21,7 +23,7 @@ const Project = () => {
       return <Outlet />;
     }
 
-    if (status === "created") {
+    if (status === "en_cours") {
       return <ProjectDashboard />;
     }
 

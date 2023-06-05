@@ -39,7 +39,11 @@ const Graduation = () => {
         return <SoutenancePending />;
       }
       if (projectData?.status_reponse.toLowerCase() === "en_cours") {
+<<<<<<< HEAD
         return <NoValidProject/>
+=======
+        return <NoValidProject />;
+>>>>>>> b9265e3 (creer soutenance)
       } else if (projectData?.status_reponse.toLowerCase() === "validé") {
         return <PreSoutenance />;
       }
