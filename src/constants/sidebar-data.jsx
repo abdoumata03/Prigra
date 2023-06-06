@@ -8,6 +8,7 @@ import {
   FiUsers,
   FiAward,
   FiActivity,
+  FiFileText,
 } from "react-icons/fi";
 
 export const PdpSidebarData = [
@@ -28,6 +29,12 @@ export const PdpSidebarData = [
     title: "Soutenance",
     icon: <FiAward />,
     link: "/soutenances",
+  },
+  {
+    id: "deliberation",
+    title: "Déliberation",
+    icon: <FiFileText />,
+    link: "/deliberation",
   },
   {
     id: "annonces",

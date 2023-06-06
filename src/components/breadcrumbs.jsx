@@ -30,6 +30,8 @@ const Breadcrumbs = () => {
         return "Soutenances";
       case "jury":
         return "Délibiration";
+      case "deliberation":
+        return "Ma déliberation";
       case crumb:
         if (location.pathname.includes("commite") && !isNaN(crumb)) {
           return "Détails du Projet";

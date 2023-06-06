@@ -719,6 +719,25 @@ export const ProjectProvider = ({ children }) => {
     });
   };
 
+  const createDelibiration = async (sout_id, data) => {
+    await fetch(`https://prigra.onrender.com/diplome/deliberations/`, {
+      method: "POST",
+      headers: {
+        Authorization: `JWT ${
+          JSON.parse(localStorage.getItem("authTokens")).access
+        }`,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        soutenance_id: sout_id,
+        student: data["email"],
+        note: data["note"],
+        mention: data["mention"],
+        appreciation: data["appréciation"],
+      }),
+    });
+  };
+
   const contextData = {
     createProject,
     isInvitationLoading,
@@ -760,6 +779,7 @@ export const ProjectProvider = ({ children }) => {
     ProjectSoutenance,
     createProjectSoutenance,
     authorizeProject,
+    createDelibiration
   };
 
   return (

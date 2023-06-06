@@ -15,6 +15,7 @@ import ProjectContext from "../context/project-context";
 import ProfileContext from "../context/profile-context";
 import PersonField from "./person-filed";
 import Select from "react-select";
+import { Toaster, toast } from "react-hot-toast";
 
 const Jury = () => {
   const methods = useForm();
@@ -28,22 +29,26 @@ const Jury = () => {
   } = methods;
 
   const { projectData } = useContext(ProfileContext);
+  const { createDelibiration } = useContext(ProjectContext);
 
   const formattedMembers = projectData?.members.map((member) => ({
     label: member.full_name,
     value: member.email,
   }));
 
-  const submitDelibiration = (data) => {
+  const submitDelibiration = async (data) => {
     console.log(data);
+    await toast.promise(createDelibiration(projectData.soutenance?.id, data), {
+      loading: "Requete en cours..",
+      success: "Membre déliberé",
+      error: "Erreur lors de la déliberation...",
+    });
   };
-
-  console.log(Date.parse(projectData.soutenance?.date_soutenance));
-  console.log(Date.now());
 
   return (
     <>
       <Breadcrumbs />
+      <Toaster position="top-center" reverseOrder={false} />
       {Date.parse(projectData.soutenance?.date_soutenance) <= Date.now() ? (
         <div className="flex gap-16">
           <form
@@ -149,22 +154,15 @@ const Jury = () => {
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3 mb-2 ">
                 <p className="text-[13px] font-medium text-gray3 ">
-                  Porteur de projet
-                </p>
-                <div className="h-[1px] flex-grow bg-gray-200" />
-              </div>
-              <PersonField
-                name={projectData?.owner.full_name}
-                email={projectData?.owner.email}
-              />
-              <div className="flex items-center gap-3 mb-2 ">
-                <p className="text-[13px] font-medium text-gray3 ">
                   Membres de l'équipe
                 </p>
                 <div className="h-[1px] flex-grow bg-gray-200" />
               </div>
               {projectData.members?.map((member, index) => (
-                <PersonField name={member.full_name} email={member.email} />
+                <div className="flex">
+                  <PersonField name={member.full_name} email={member.email} />
+                  <p>{member.deliberation?.note}</p>
+                </div>
               ))}
             </div>
           </div>
