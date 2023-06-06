@@ -508,12 +508,7 @@ export const ProjectProvider = ({ children }) => {
   };
 
   const fetchProjectReponse = async (project_pk) => {
-<<<<<<< HEAD
     const project_fetch_response = await fetch(
-=======
-    toast.loading("En train de soumetre la réponse...");
-    const project_reponse_response = await fetch(
->>>>>>> b9265e3 (creer soutenance)
       `https://prigra.onrender.com/diplome/projects/${project_pk}/responses/`,
       {
         method: "GET",
@@ -679,6 +674,7 @@ export const ProjectProvider = ({ children }) => {
           nature: data["nature"],
           date_soutenance: data["date"],
           president_jury: data["président"],
+          invité: data["jury_2"],
           jury: list,
         }),
       }
