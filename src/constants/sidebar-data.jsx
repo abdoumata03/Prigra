@@ -8,6 +8,7 @@ import {
   FiUsers,
   FiAward,
   FiActivity,
+  FiFileText,
 } from "react-icons/fi";
 
 export const PdpSidebarData = [
@@ -28,6 +29,12 @@ export const PdpSidebarData = [
     title: "Soutenance",
     icon: <FiAward />,
     link: "/soutenances",
+  },
+  {
+    id: "deliberation",
+    title: "Déliberation",
+    icon: <FiFileText />,
+    link: "/deliberation",
   },
   {
     id: "annonces",
@@ -96,6 +103,27 @@ export const TeacherEncadrantSidebarData = [
     title: "Encadrement",
     icon: <FiUsers />,
     link: "/encadrement",
+  },
+];
+
+export const TeacherEncadrantJurySidebarData = [
+  {
+    id: "profile",
+    title: "Mon Profile",
+    icon: <FiUser />,
+    link: "/profile",
+  },
+  {
+    id: "encadrement",
+    title: "Encadrement",
+    icon: <FiUsers />,
+    link: "/encadrement",
+  },
+  {
+    id: "jury",
+    title: "Délibiration",
+    icon: <FiAward />,
+    link: "/jury",
   },
 ];
 

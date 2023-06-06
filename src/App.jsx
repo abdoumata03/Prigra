@@ -34,6 +34,8 @@ import Encadrement from "./pages/encadrement.jsx";
 import Statistics from "./components/statistics.jsx";
 import ProjectSoutenances from "./components/projets-soutenance.jsx";
 import PlanSoutenance from "./components/plan-soutenance.jsx";
+import Jury from "./components/jury.jsx";
+import Deliberation from "./components/student-delibiration.jsx";
 
 function App() {
   return (
@@ -82,6 +84,12 @@ function App() {
                   </Route>
                   <Route element={<Profile />} path="/profile" exact />
                   <Route element={<Statistics />} path="/stats" exact />
+                  <Route element={<Jury />} path="/jury" exact />
+                  <Route
+                    element={<Deliberation />}
+                    path="/deliberation"
+                    exact
+                  />
                   <Route element={<Graduation />} path="/soutenances" exact>
                     <Route
                       element={<PlanSoutenance />}

@@ -12,9 +12,14 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 let initialFormValues;
 
 const Profile = () => {
-  const { userData, putUserTypeInfo, deleteProfilePicture } = useContext(
-    ProfileContext
-  );
+  const {
+    userData,
+    userInitialData,
+    putUserTypeInfo,
+    deleteProfilePicture,
+  } = useContext(ProfileContext);
+
+  const [userType, setUserType] = useState(userInitialData?.type);
 
   const [IsDeletingProfilePicture, setIsDeletingProfilePicture] = useState(
     false
@@ -186,11 +191,13 @@ const Profile = () => {
                 <ProfileInputField
                   field_name={"Numéro de téléphone"}
                   name={"phone_number"}
+                  input_type={"number"}
                   value={userData?.phone_number}
                 />
                 <ProfileInputField
                   field_name={"Date de naissance"}
                   name={"birth_date"}
+                  input_type={"date"}
                   value={userData?.birth_date}
                 />
               </div>

@@ -288,6 +288,7 @@ const FillInfos = () => {
               type="date"
               name="birth_date"
               placeholder="JJ/MM/AAAA"
+              max={"2004-01-01"}
               className="text-[16px] rounded-[0.4rem] bg-gray-50 w-auto h-[50px] pl-[24px] pr-4 text-gray3"
             />
             <p className="text-error text-sm ml-2">{errors.date?.message}</p>
@@ -298,7 +299,7 @@ const FillInfos = () => {
             </p>
             <input
               {...register("phone_number")}
-              type="text"
+              type="number"
               name="phone_number"
               placeholder="0-xxx-xx-xx-xx"
               className="text-[16px] rounded-[0.4rem] bg-gray-50 w-auto h-[50px] pl-[24px] text-gray3"

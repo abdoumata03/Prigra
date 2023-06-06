@@ -7,6 +7,7 @@ import { Toaster } from "react-hot-toast";
 import Breadcrumbs from "../components/breadcrumbs";
 import ProjectDashboard from "./project-dashboard";
 import PhaseContext from "../context/phase-context";
+import Refused from "../components/projet-refuse";
 
 const Project = () => {
   const { hasProject, projectData } = useContext(ProfileContext);
@@ -14,27 +15,30 @@ const Project = () => {
 
   const status = projectData?.status_reponse?.toLowerCase();
 
-  console.log(status);
-
   const location = useLocation();
+
+  console.log(currentPhase);
 
   const renderContent = () => {
     if (location?.pathname.includes("edit")) {
       return <Outlet />;
     }
 
-    if (status === "en_cours") {
+    if (projectData?.reponse === "ACCEPTÉ") {
       return <ProjectDashboard />;
     }
 
-    if (
-      !hasProject
-      // && currentPhase.includes("soumission")
-    ) {
+    if (projectData?.reponse === "REJETÉ") {
+      return <Refused />;
+    }
+
+    if (!hasProject && currentPhase.includes("soumission")) {
       return <EmptyProject />;
     }
 
-    return <MyProjectInfo />;
+    if (hasProject && currentPhase.includes("validation")) {
+      return <MyProjectInfo />;
+    }
   };
 
   return (

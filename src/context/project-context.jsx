@@ -522,7 +522,6 @@ export const ProjectProvider = ({ children }) => {
     );
     const reponse_data = await project_fetch_response.json();
     setProjectReponse(reponse_data[0]);
-    
   };
 
   const getProjectSoutenance = async (id) => {
@@ -656,29 +655,87 @@ export const ProjectProvider = ({ children }) => {
     list.push(data["jury_1"]);
     list.push(data["jury_2"]);
 
-    const soutenance_response = await fetch(
-      `https://prigra.onrender.com/diplome/soutenances/create/`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `JWT ${
-            JSON.parse(localStorage.getItem("authTokens")).access
-          }`,
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({
-          projet_id: project_id,
-          lieu: data["lieu"],
-          heure: data["heure"],
-          mode: data["mode"],
-          nature: data["nature"],
-          date_soutenance: data["date"],
-          president_jury: data["président"],
-          invité: data["jury_2"],
-          jury: list,
-        }),
+    try {
+      toast.loading("Requête en cours...");
+      const soutenance_response = await fetch(
+        `https://prigra.onrender.com/diplome/soutenances/create/`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `JWT ${
+              JSON.parse(localStorage.getItem("authTokens")).access
+            }`,
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            projet_id: project_id,
+            lieu: data["lieu"],
+            heure: data["heure"],
+            mode: data["mode"],
+            nature: data["nature"],
+            date_soutenance: data["date"],
+            president_jury: data["président"],
+            invité: data["jury_3"],
+            jury: list,
+          }),
+        }
+      );
+      if (soutenance_response.ok) {
+        toast.dismiss();
+        toast.success("La soutenance du projet a été plannifiée");
+      } else {
+        const resp = await soutenance_response.json();
+        const resp_body = JSON.stringify(resp);
+
+        if (resp_body.includes("non authorisé")) {
+          toast.dismiss();
+          toast.error("Ce projet n'est pas autorisé par l'encadrant");
+        } else if (resp_body.includes("déja")) {
+          toast.dismiss();
+          toast.error("Une soutenance pour ce projet a été déja plannifié");
+        } else {
+          toast.dismiss();
+          toast.error("Erreur lors la création de soutenance");
+        }
       }
-    );
+    } catch (error) {
+      toast.dismiss();
+      toast.error(error);
+    }
+  };
+
+  const authorizeProject = async (authorization) => {
+    await fetch(`https://prigra.onrender.com/diplome/projects/${projectId}/`, {
+      method: "PUT",
+      headers: {
+        Authorization: `JWT ${
+          JSON.parse(localStorage.getItem("authTokens")).access
+        }`,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        is_authorized: authorization,
+      }),
+    });
+  };
+
+  const createDelibiration = async (sout_id, data) => {
+    await fetch(`https://prigra.onrender.com/diplome/deliberations/`, {
+      method: "POST",
+      headers: {
+        Authorization: `JWT ${
+          JSON.parse(localStorage.getItem("authTokens")).access
+        }`,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        soutenance_id: sout_id,
+        student: data["email"],
+        note: data["note"],
+        mention: data["mention"],
+        appreciation: data["appréciation"],
+      }),
+    });
   };
 
   const contextData = {
@@ -721,6 +778,8 @@ export const ProjectProvider = ({ children }) => {
     getProjectSoutenance,
     ProjectSoutenance,
     createProjectSoutenance,
+    authorizeProject,
+    createDelibiration
   };
 
   return (

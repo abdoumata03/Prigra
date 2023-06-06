@@ -5,7 +5,7 @@ import ProjectContext from "../context/project-context";
 import { FiX } from "react-icons/fi";
 import ExpertiseInput from "./expertise_input";
 import { async } from "q";
-import { Toaster  } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { Navigate } from "react-router";
 
 const PopUpReponse = (props) => {
@@ -18,10 +18,9 @@ const PopUpReponse = (props) => {
 
   const [fileInfo, setFileInfo] = useState(null);
 
-  const { 
-    ProjectReponse, 
-    putProjectResponse, 
-    projectReponse } = useContext(ProjectContext);
+  const { ProjectReponse, putProjectResponse, projectReponse } = useContext(
+    ProjectContext
+  );
 
   const handleFileUpload = (file) => {
     setFileInfo(file);
@@ -38,17 +37,30 @@ const PopUpReponse = (props) => {
     } else if (state.pme) {
       reponse = "PME";
     }
-    projectReponse ? (
-    putProjectResponse(props.content, projectReponse.id, reponse, fileInfo.name, fileInfo.size, fileInfo.type, fileInfo.url),
-    props.isEdited(true),
-    props.onclick() )
-    : (
-    ProjectReponse(props.content, reponse, fileInfo.name, fileInfo.size, fileInfo.type, fileInfo.url),
-    props.isSent(true),
-    props.onclick()
-    )
+    projectReponse
+      ? (putProjectResponse(
+          props.content,
+          projectReponse.id,
+          reponse,
+          fileInfo.name,
+          fileInfo.size,
+          fileInfo.type,
+          fileInfo.url
+        ),
+        props.isEdited(true),
+        props.onclick())
+      : (ProjectReponse(
+          props.content,
+          reponse,
+          fileInfo.name,
+          fileInfo.size,
+          fileInfo.type,
+          fileInfo.url
+        ),
+        props.isSent(true),
+        props.onclick());
   };
-    
+
   const handleValidation = () => {
     setState((prevState) => ({
       ...prevState,
@@ -88,7 +100,6 @@ const PopUpReponse = (props) => {
       approveReserve: false,
     }));
   };
-  
 
   return (
     <div className="fixed inset-0 px-10 flex items-center justify-center bg-black bg-opacity-25">
@@ -123,7 +134,7 @@ const PopUpReponse = (props) => {
             onclick={handlePme}
           />
           <div className="h-[1px] w-4/5 bg-gray-300 my-3 self-center" />
-          <ExpertiseInput onFileUpload={handleFileUpload}/>
+          <ExpertiseInput onFileUpload={handleFileUpload} />
         </div>
         <div className="w-full flex-col md:flex-row flex items-center justify-end gap-2 px-8 h-fit py-4 bg-gray-100 rounded-b-lg">
           <div
@@ -134,13 +145,14 @@ const PopUpReponse = (props) => {
           </div>
           <div
             onClick={handleSubmit}
-            className="flex w-max flex-row px-5 py-3 bg-success text-white rounded-[0.4rem] cursor-pointer">
+            className="flex w-max flex-row px-5 py-3 bg-success text-white rounded-[0.4rem] cursor-pointer"
+          >
             <img src={Vector} alt="valider" />
             <h1 className="ml-2">Envoyer réponse</h1>
           </div>
-         </div>
         </div>
-        <Toaster position='top-center' reverseOrder={false}/>
+      </div>
+      <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
 };

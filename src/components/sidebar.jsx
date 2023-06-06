@@ -4,6 +4,7 @@ import {
   AtsSidebarData,
   PdpSidebarData,
   TeacherEncadrantSidebarData,
+  TeacherEncadrantJurySidebarData,
 } from "../constants/sidebar-data";
 import { TeacherSidebarData } from "../constants/sidebar-data";
 import { LogoutData } from "../constants/sidebar-data";
@@ -38,7 +39,7 @@ const Sidebar = () => {
       userInitialData?.type === "Teacher" &&
       userData?.is_encadrant === true
     ) {
-      return TeacherEncadrantSidebarData;
+      return TeacherEncadrantJurySidebarData;
     }
 
     return AtsSidebarData;

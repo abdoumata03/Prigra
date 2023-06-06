@@ -30,7 +30,9 @@ const ProjectInfo = () => {
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [projectDeleted, setProjectDeleted] = useState(false);
   const [value, setValue] = useState(0);
-  const [isDeleteReponsePopupOpen, setIsDeleteReponsePopupOpen] = useState(false);
+  const [isDeleteReponsePopupOpen, setIsDeleteReponsePopupOpen] = useState(
+    false
+  );
   const [isEdited, setIsEdited] = useState(false);
   const [isSent, setIsSent] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
@@ -46,10 +48,10 @@ const ProjectInfo = () => {
 
   useEffect(() => {
     (async () => {
-     await fetchProjectReponse(projectData.id);
-     console.log(currentPhase);
+      await fetchProjectReponse(projectData.id);
+      console.log(currentPhase);
     })();
-  }, [projectReponse])
+  }, [projectReponse]);
 
   const bytesToMB = (bytes) => {
     if (bytes < 1024) {
@@ -113,7 +115,7 @@ const ProjectInfo = () => {
     deleteProjectReponse(projectData.id, projectReponse?.id);
     setIsDeleted(true);
     closeDeleteReponsePopup();
-  }
+  };
 
   function getDateFinValidation() {
     for (let i = 0; i < phases?.length; i++) {
@@ -199,8 +201,9 @@ const ProjectInfo = () => {
                   <h1 className="text-xs">Fichiers attachés</h1>
                 </div>
                 <p className={`font-medium text-sm`}>
-                  {projectData.project_files.length != 0 ? (
-                    projectData.project_files.reverse().map((item, index) => (
+                  {projectData.project_files &&
+                  projectData.project_files?.length != 0 ? (
+                    projectData.project_files?.reverse().map((item, index) => (
                       <div
                         key={index}
                         className="bg-accent rounded-[0.4rem] px-6 py-3 mb-2 w-full flex flex-row justify-between items-center"
@@ -262,7 +265,7 @@ const ProjectInfo = () => {
                       Encadrants
                     </p>
                     <div className="h-[1px] flex-grow bg-gray-200" />
-                  </div>  
+                  </div>
                   <div>
                     {projectData?.encadrant.length > 0 ? (
                       projectData.encadrant?.map((Enc, index) => (
@@ -281,7 +284,7 @@ const ProjectInfo = () => {
                           Aucun encadrant a n'a été spécifié
                         </p>
                       </div>
-                    )}  
+                    )}
                   </div>
                   <div className="flex items-center gap-3 mb-2 ">
                     <p className="text-[13px] font-medium text-gray3 ">
@@ -336,13 +339,7 @@ const ProjectInfo = () => {
                   <p className={`font-medium text-sm`}>
                     {projectReponse?.rapport_expertise ? (
                       <div className="bg-accent rounded-[0.4rem] px-6 py-3 mb-2 w-full flex flex-row justify-between items-center">
-                        <div className="w-8 mr-3">
-                          {
-                            ImageConfig[
-                              'pdf'
-                            ]
-                          }
-                        </div>
+                        <div className="w-8 mr-3">{ImageConfig["pdf"]}</div>
                         <div className="flex flex-col flex-1 overflow-hidden">
                           <a
                             href={projectReponse?.rapport_expertise.url}
@@ -366,41 +363,46 @@ const ProjectInfo = () => {
                   </p>
                 </div>
               </div>
-                <button
-                  onClick={openDeleteReponsePopup}
-                  className={`border border-error flex gap-2 items-center justify-center flex-1 text-error rounded-[0.4rem] font-medium px-5 py-3`} 
-                >
-                  <FiTrash2 />
-                  Retirer
-                </button>
+              <button
+                onClick={openDeleteReponsePopup}
+                className={`border border-error flex gap-2 items-center justify-center flex-1 text-error rounded-[0.4rem] font-medium px-5 py-3`}
+              >
+                <FiTrash2 />
+                Retirer
+              </button>
             </div>
           )}
         </div>
         <div className="bg-white w-1/2 shadow-custom rounded-[0.4rem] flex flex-col h-fit items-center py-6 border">
-            <div className="flex w-5/6 gap-3 mb-3">
-              <button
-                onClick={openDeletePopup}
-                className="border w-1/2  border-error flex gap-2 items-center justify-center text-error rounded-[0.4rem] font-medium px-5"
-              >
-                <FiTrash2 />
-                Retirer Projet
-              </button>
-              <button
-                onClick={openPopup}
-                disabled={currentPhase != ("Période de validation des projets" ||
-                "Période de dépôt de recours")}
-                className={` gap-2  w-full flex items-center justify-center py-3 rounded-[0.4rem] font-medium ${
-                  (currentPhase === ("Période de validation des projets" || "Période de dépôt de recours"))
-                    ? "bg-primary text-white "
-                    : "text-gray3 border border-gray5 bg-white"
-                }`}
-              >
-                <FiEdit3 />
-                 {projectReponse &&
-              projectReponse ? "Modifier Réponse" : "Donner Réponse"
-                 }
-              </button>
-            </div>
+          <div className="flex w-5/6 gap-3 mb-3">
+            <button
+              onClick={openDeletePopup}
+              className="border w-1/2  border-error flex gap-2 items-center justify-center text-error rounded-[0.4rem] font-medium px-5"
+            >
+              <FiTrash2 />
+              Retirer Projet
+            </button>
+            <button
+              onClick={openPopup}
+              disabled={
+                currentPhase !=
+                ("Période de validation des projets" ||
+                  "Période de dépôt de recours")
+              }
+              className={` gap-2  w-1/2 flex items-center justify-center py-3 rounded-[0.4rem] font-medium ${
+                currentPhase ===
+                ("Période de validation des projets" ||
+                  "Période de dépôt de recours")
+                  ? "bg-primary text-white "
+                  : "text-gray3 border border-gray5 bg-white"
+              }`}
+            >
+              <FiEdit3 />
+              {projectReponse && projectReponse
+                ? "Modifier Réponse"
+                : "Donner Réponse"}
+            </button>
+          </div>
 
           <div className="w-5/6 flex flex-col divide-y-2 divide-gray-100">
             <div className="flex gap-6 items-center py-3">
@@ -428,7 +430,14 @@ const ProjectInfo = () => {
           </div>
         </div>
       </div>
-      {isPopupOpen && <PopUpReponse onclick={closePopup} content={popupContent} isEdited={setIsEdited} isSent={setIsSent}/>}
+      {isPopupOpen && (
+        <PopUpReponse
+          onclick={closePopup}
+          content={popupContent}
+          isEdited={setIsEdited}
+          isSent={setIsSent}
+        />
+      )}
       {isDeletePopupOpen && (
         <div className="fixed inset-0 px-10 flex items-center justify-center bg-black bg-opacity-25">
           <div className="w-2/5 rounded-lg flex flex-col items-start bg-white justify-center">
