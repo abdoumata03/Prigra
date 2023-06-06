@@ -11,7 +11,7 @@ const Announcement = () => {
           Annonces Récentes
         </h1>
       </div>
-      <div className="grid gap-x-4 gap-y-6 grid-cols-5">
+      <div className="grid gap-x-2 gap-y-6 grid-cols-3">
         <AnnouncementCard />
         <AnnouncementCard />
         <AnnouncementCard />

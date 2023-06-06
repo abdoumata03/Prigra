@@ -37,12 +37,7 @@ const Jury = () => {
   }));
 
   const submitDelibiration = async (data) => {
-    console.log(data);
-    await toast.promise(createDelibiration(projectData.soutenance?.id, data), {
-      loading: "Requete en cours..",
-      success: "Membre déliberé",
-      error: "Erreur lors de la déliberation...",
-    });
+    await toast.promise(createDelibiration(projectData.soutenance?.id, data));
   };
 
   return (
@@ -144,7 +139,7 @@ const Jury = () => {
             <h1 className="text-lg font-bold text-gray1 mb-3">
               Intitulé du projet
             </h1>
-            <p className="text-base text-gray1">
+            <p className="text-sm text-gray1">
               {projectData?.nom_scientifique}
             </p>
             <hr className="mb-4 mt-4" />
@@ -152,16 +147,17 @@ const Jury = () => {
               Membres de l'équipe
             </h1>
             <div className="flex flex-col gap-3">
-              <div className="flex items-center gap-3 mb-2 ">
-                <p className="text-[13px] font-medium text-gray3 ">
-                  Membres de l'équipe
-                </p>
-                <div className="h-[1px] flex-grow bg-gray-200" />
-              </div>
               {projectData.members?.map((member, index) => (
-                <div className="flex">
+                <div className="flex items-center justify-between">
                   <PersonField name={member.full_name} email={member.email} />
-                  <p>{member.deliberation?.note}</p>
+                  <div className="flex flex-col items-end">
+                    <p className="text-sm font-bold">
+                      {member.deliberation?.note}/20
+                    </p>
+                    <p className="text-sm font-regular text-gray2">
+                      {member.deliberation?.mention}
+                    </p>
+                  </div>
                 </div>
               ))}
             </div>

@@ -29,20 +29,24 @@ const Graduation = () => {
     }
   }
 
-
   console.log(projectData?.status_reponse.toLowerCase());
   function renderContent() {
-    if (isPdp()) {
+    if (isPdp() && userData?.project_id) {
       if (projectData?.is_authorized && projectData?.soutenance) {
         return <InfoSoutenance />;
       } else if (projectData?.is_authorized && !projectData?.soutenance) {
         return <SoutenancePending />;
       }
-      if (projectData?.status_reponse.toLowerCase() === "en_cours") {
-        return <NoValidProject/>
+      if (
+        projectData?.status_reponse.toLowerCase() === "en_cours" ||
+        projectData?.status_reponse.toLowerCase() === "soumission"
+      ) {
+        return <NoValidProject />;
       } else if (projectData?.status_reponse.toLowerCase() === "validé") {
         return <PreSoutenance />;
       }
+    } else if (isPdp() && !userData?.project_id) {
+      return <NoValidProject />;
     }
     return location?.pathname.includes("soutenances/project") ? (
       <Outlet />

@@ -34,8 +34,8 @@ const ProfileInputField = ({ field_name, value, icon, name, input_type }) => {
           {...(!uneditable.includes(name) ? register(name) : {})}
           type={input_type}
           defaultValue={value}
-          pattern={input_type === "number" && "\d*"}
-          max={name === "birth_date" && "2004-01-01"}
+          pattern={input_type === "number" ? "d*" : undefined}
+          max={name === "birth_date" ? "2004-01-01" : undefined}
           disabled={uneditable.includes(name)}
           className={`shadow-custom ${icon ? `pl-10` : `pl-5`} border-[1px] ${
             name === "birth_date" ? "pr-5" : ""

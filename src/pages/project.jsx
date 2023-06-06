@@ -36,7 +36,11 @@ const Project = () => {
       return <EmptyProject />;
     }
 
-    if (hasProject && currentPhase.includes("validation")) {
+    if (
+      hasProject &&
+      (currentPhase.includes("validation") ||
+        currentPhase.includes("soumission"))
+    ) {
       return <MyProjectInfo />;
     }
   };

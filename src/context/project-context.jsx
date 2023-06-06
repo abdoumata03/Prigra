@@ -720,22 +720,41 @@ export const ProjectProvider = ({ children }) => {
   };
 
   const createDelibiration = async (sout_id, data) => {
-    await fetch(`https://prigra.onrender.com/diplome/deliberations/`, {
-      method: "POST",
-      headers: {
-        Authorization: `JWT ${
-          JSON.parse(localStorage.getItem("authTokens")).access
-        }`,
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        soutenance_id: sout_id,
-        student: data["email"],
-        note: data["note"],
-        mention: data["mention"],
-        appreciation: data["appréciation"],
-      }),
-    });
+    try {
+      toast.loading("Requete en cours...");
+      const resp = await fetch(
+        `https://prigra.onrender.com/diplome/deliberations/`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `JWT ${
+              JSON.parse(localStorage.getItem("authTokens")).access
+            }`,
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            soutenance_id: sout_id,
+            student: data["email"],
+            note: data["note"],
+            mention: data["mention"],
+            appreciation: data["appréciation"],
+          }),
+        }
+      );
+
+      if (resp_body.ok) {
+        toast.dismiss();
+        toast.success("Etudiant déliberé");
+      } else {
+        const resp_body = await resp.json();
+        if (JSON.stringify(resp_body).includes("has deliberation")) {
+          throw new Error("Etudiant déja déliberé!");
+        }
+      }
+    } catch (error) {
+      toast.dismiss();
+      toast.error("Etudiant déja déliberé");
+    }
   };
 
   const contextData = {
@@ -779,7 +798,7 @@ export const ProjectProvider = ({ children }) => {
     ProjectSoutenance,
     createProjectSoutenance,
     authorizeProject,
-    createDelibiration
+    createDelibiration,
   };
 
   return (
