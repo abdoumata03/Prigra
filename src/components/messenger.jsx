@@ -21,8 +21,6 @@ const Messenger = ({ chat_id }) => {
   const [messagesData, setMessagesData] = useState([]);
 
 
-  console.log(chat_id);
-
 
   function isNotEmpty(str) {
     return str || str.length > 0;

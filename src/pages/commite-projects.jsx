@@ -23,7 +23,7 @@ const ComiteProjects = () => {
     if (status === "all") {
       return filteredSearchProjects;
     } else {
-      return projects.filter((project) => project.status_reponse === status);
+      return projects.filter((project) => project.reponse === status);
     }
   };
 
@@ -31,10 +31,8 @@ const ComiteProjects = () => {
     navigate(`/commite-projects/${project.id}`, { state: project });
   };
 
-  const handleSoumission = () => {
-    {
-      projects?.map((project) => submitReponses(project.id, true));
-    }
+  const handleSoumission = async () => {
+    projects?.map((project) => submitReponses(project.id, true));
   };
 
   return (
@@ -69,10 +67,9 @@ const ComiteProjects = () => {
               onChange={(e) => setSelectedStatus(e.target.value)}
             >
               <option value="all">Statuts</option>
-              <option value="En cours">En cours</option>
-              <option value="En recour">En recours</option>
-              <option value="Validé">Validé</option>
-              <option value="Created">Creé</option>
+              <option value="RECOURS">En recours</option>
+              <option value="ACCEPTÉ">Accepté</option>
+              <option value="REJETÉ">Rejeté</option>
             </select>
           </div>
         </div>
@@ -88,28 +85,38 @@ const ComiteProjects = () => {
               </tr>
             </thead>
             <tbody>
-              {filterProjects(selectedStatus)?.map((project, index) => (
-                <tr
-                  key={index}
-                  onClick={() => handleClick(project)}
-                  className="border-b bg-white font-meduim text-gray3 cursor-pointer"
-                >
-                  <th scope="row" className="px-6 py-4 font-medium text-gray1">
-                    {project?.nom_scientifique}
-                  </th>
-                  <td className="px-6 py-4">{project?.owner?.full_name}</td>
-                  <td className="px-6 py-4">{project?.created_at}</td>
-                  <td
-                    className={` px-6 py-4 ${
-                      project.status_reponse === "En cour"
-                        ? "text-primary"
-                        : "text-primary"
-                    } `}
+              {filterProjects(selectedStatus)?.map((project, index) => {
+                const getColor = () => {
+                  if (project.reponse === "ACCEPTÉ") {
+                    return "text-success";
+                  } else if (project.reponse === "REJETÉ") {
+                    return "text-error";
+                  } else if (project.reponse === "RECOURS") {
+                    return "text-primary";
+                  }
+
+                  return "text-gray3";
+                };
+                return (
+                  <tr
+                    key={index}
+                    onClick={() => handleClick(project)}
+                    className="border-b bg-white font-meduim text-gray3 cursor-pointer"
                   >
-                    {project?.status_reponse}
-                  </td>
-                </tr>
-              ))}
+                    <th
+                      scope="row"
+                      className="px-6 py-4 font-medium text-gray1"
+                    >
+                      {project?.nom_scientifique}
+                    </th>
+                    <td className="px-6 py-4">{project?.owner?.full_name}</td>
+                    <td className="px-6 py-4">{project?.created_at}</td>
+                    <td className={` px-6 py-4 ${getColor()} `}>
+                      {project?.reponse ? project?.reponse : "Aucune réponse"}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

@@ -3,7 +3,7 @@ import { FiAtSign } from "react-icons/fi";
 import { IconContext } from "react-icons";
 import { useFormContext } from "react-hook-form";
 
-const ProfileInputField = ({ field_name, value, icon, name }) => {
+const ProfileInputField = ({ field_name, value, icon, name, input_type }) => {
   const uneditable = [
     "full_name",
     "email",
@@ -32,8 +32,10 @@ const ProfileInputField = ({ field_name, value, icon, name }) => {
         )}
         <input
           {...(!uneditable.includes(name) ? register(name) : {})}
-          type={name === "birth_date" ? "date" : undefined}
+          type={input_type}
           defaultValue={value}
+          pattern={input_type === "number" && "\d*"}
+          max={name === "birth_date" && "2004-01-01"}
           disabled={uneditable.includes(name)}
           className={`shadow-custom ${icon ? `pl-10` : `pl-5`} border-[1px] ${
             name === "birth_date" ? "pr-5" : ""

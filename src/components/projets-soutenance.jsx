@@ -37,9 +37,27 @@ const ProjectSoutenances = () => {
     if (filter === "Tout") {
       return filteredSearchProjects;
     } else if (filter === "Plannifié") {
-      return filteredSearchProjects.filter((project) => project.soutenance);
-    } else if (filter === "Non plannifié") {
-      return filteredSearchProjects.filter((project) => !project.soutenance);
+      return filteredSearchProjects.filter(
+        (project) => project?.is_authorized && project.soutenance
+      );
+    } else if (filter === "Non autorisé") {
+      return filteredSearchProjects.filter(
+        (project) => !project?.is_authorized && !project.soutenance
+      );
+    } else if (filter === "Autorisé") {
+      return filteredSearchProjects.filter(
+        (project) => project?.is_authorized && !project.soutenance
+      );
+    }
+  };
+
+  const getProjectStatus = (project) => {
+    if (project?.is_authorized && project.soutenance) {
+      return <p className="text-success">Plannifié</p>;
+    } else if (!project?.is_authorized && !project.soutenance) {
+      return <p className="text-error">Non autorisé</p>;
+    } else if (project?.is_authorized && !project.soutenance) {
+      return <p className="text-primary">Autorisé</p>;
     }
   };
 
@@ -72,7 +90,8 @@ const ProjectSoutenances = () => {
             >
               <option selected>Tout</option>
               <option value="Plannifié">Plannifié</option>
-              <option value="Non plannifié">Non plannifié</option>
+              <option value="Autorisé">Autorisé</option>
+              <option value="Non autorisé">Non autorisé</option>
             </select>
           </div>
         </div>
@@ -110,11 +129,7 @@ const ProjectSoutenances = () => {
                     )}
                   </td>
                   <td scope="row" className="px-6 py-4 font-medium text-gray1">
-                    {project?.is_authorized ? (
-                      <p className="text-success">Plannifié</p>
-                    ) : (
-                      <p className="text-error">Non plannifié</p>
-                    )}
+                    <p className="text-primary">{getProjectStatus(project)}</p>
                   </td>
                 </tr>
               );

@@ -99,6 +99,27 @@ export const TeacherEncadrantSidebarData = [
   },
 ];
 
+export const TeacherEncadrantJurySidebarData = [
+  {
+    id: "profile",
+    title: "Mon Profile",
+    icon: <FiUser />,
+    link: "/profile",
+  },
+  {
+    id: "encadrement",
+    title: "Encadrement",
+    icon: <FiUsers />,
+    link: "/encadrement",
+  },
+  {
+    id: "jury",
+    title: "Délibiration",
+    icon: <FiAward />,
+    link: "/jury",
+  },
+];
+
 export const LogoutData = [
   {
     title: "Se déconnecter",

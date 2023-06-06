@@ -57,12 +57,13 @@ export const PhaseProvider = ({ children }) => {
             date_fin,
           }),
         }
-      )
-    if (phaseResponse.ok) {
-      navigate(0);}
-  } catch (error) {
-    console.log(error);
-  }
+      );
+      if (phaseResponse.ok) {
+        navigate(0);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const contextData = {

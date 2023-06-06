@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import ProjectContext from "../context/project-context";
 import {
+  FiAward,
   FiCheck,
   FiCheckCircle,
   FiClock,
@@ -15,11 +16,17 @@ import ProfileContext from "../context/profile-context";
 import { Toaster, toast } from "react-hot-toast";
 
 const EncDashboard = () => {
-  const { tasksData, putTauxAvancement } = useContext(ProjectContext);
-  const { projectData, fetch_projectn, projectId } = useContext(ProfileContext);
+  const { tasksData, putTauxAvancement, authorizeProject } = useContext(
+    ProjectContext
+  );
+  const { projectData, fetch_project, projectId } = useContext(ProfileContext);
 
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [sliderValue, setSliderValue] = useState(0);
+  const [
+    IsAuthorizeProjectDialogOpen,
+    setIsAuthorizeProjectDialogOpen,
+  ] = useState(false);
 
   const onHideEdit = () => {
     setIsEditDialogOpen(false);
@@ -27,6 +34,22 @@ const EncDashboard = () => {
 
   const openEditDialog = () => {
     setIsEditDialogOpen(true);
+  };
+
+  const onClickAuthorize = () => {
+    setIsAuthorizeProjectDialogOpen(true);
+  };
+
+  const onHideAuthorizeDialog = () => {
+    setIsAuthorizeProjectDialogOpen(false);
+  };
+
+  const onAuthorizeProject = async (authorization) => {
+    await toast.promise(authorizeProject(authorization), {
+      loading: "Requete en cours",
+      error: "Erreur lors de l'authorization du projet",
+      success: "Ce projet est autorisé pour la soutenance",
+    });
   };
 
   const onSubmitTaux = async (data) => {
@@ -52,12 +75,42 @@ const EncDashboard = () => {
     (item) => item.status === "En cours" || item.status === "À faire"
   ).length;
 
+  const renderComponent = () => {
+    if (projectData?.is_authorized && !projectData?.soutenance) {
+      return (
+        <p className="text-success text-sm font-medium">
+          Ce projet est autorisé pour la soutenance
+        </p>
+      );
+    } else if (!projectData?.is_authorized && !projectData?.soutenance) {
+      return (
+        <button
+          type="button"
+          className="flex gap-2 items-center text-primary"
+          onClick={() => onClickAuthorize(true)}
+        >
+          <FiAward />
+          <p className=" text-sm font-medium cursor-pointer w-fit">
+            Autoriser pour la soutenance
+          </p>
+        </button>
+      );
+    } else if (projectData?.is_authorized && projectData?.soutenance) {
+      return (
+        <div className="flex gap-2 text-success items-center">
+          <FiCheck />
+          <p className="text-sm font-medium">Pret pour la soutenance</p>
+        </div>
+      );
+    }
+  };
+
   return (
     <div className="flex flex-col lg:flex-row gap-10">
       <Toaster position="top-center" reverseOrder={false} />
       <div className="flex flex-col gap-4 w-full lg:w-2/5">
-        <div className="bg-white flex-grow py-6 px-6 rounded-md shadow-custom">
-          <div className="flex justify-between mb-6">
+        <div className="bg-white flex-grow border py-6 px-6 rounded-md shadow-custom">
+          <div className="flex justify-between mb-4">
             <div className="flex text-gray2 items-center gap-2">
               <FiPercent />
               <h1 className="font-bold">Taux d'avancement</h1>
@@ -77,14 +130,15 @@ const EncDashboard = () => {
             </span>
             d'avancement
           </p>
-          <div className="w-full bg-gray-200 rounded-full h-3 mb-2">
+          <div className="w-full bg-gray-200 rounded-full h-3 mb-4">
             <div
               class="bg-blue-600 h-3 rounded-full"
               style={{ width: `${projectData?.taux_avancement}%` }}
             ></div>
           </div>
+          {renderComponent()}
         </div>
-        <div className="flex gap-3 lg:gap-0 lg:justify-between">
+        <div className="flex gap-3 lg:gap-3 lg:justify-between">
           <StatCard
             title={`Tâches Complétées`}
             value={tasksCompleted}
@@ -96,6 +150,42 @@ const EncDashboard = () => {
             icon={<FiClock />}
           />
         </div>
+
+        {IsAuthorizeProjectDialogOpen && (
+          <div className="fixed inset-0 px-10 flex items-center justify-center bg-black bg-opacity-25">
+            <form
+              onSubmit={handleSubmit(() => onAuthorizeProject(true))}
+              className="w-2/5 rounded-lg flex flex-col items-start bg-white justify-center"
+            >
+              <div className="flex flex-col items-start py-4 px-10 w-full">
+                <div className="flex items-center gap-20 mb-4 w-full">
+                  <h1 className="text-gray1 text-lg font-bold flex-1 ">
+                    Autoriser le projet pour la soutenance?
+                  </h1>
+                  <div
+                    onClick={onHideAuthorizeDialog}
+                    className="text-gray3 cursor-pointer"
+                  >
+                    <FiX />
+                  </div>
+                </div>
+                <p>Une soutenance sera plannifié par le service des stages</p>
+              </div>
+              <div className="w-full flex-col md:flex-row flex items-center justify-end gap-2 px-8 h-fit py-4 bg-gray-100 rounded-b-lg">
+                <div
+                  onClick={onHideAuthorizeDialog}
+                  className="flex flex-row font-medium justify-center text-sm px-5 py-3 rounded-[0.4rem] cursor-pointer border bg-white "
+                >
+                  <h1 className=" text-gray2">Annuler</h1>
+                </div>
+                <button className="flex flex-row font-medium text-sm items-center gap-2 rounded-[0.4rem] px-5 py-3 text-white bg-info cursor-pointer">
+                  <FiCheck />
+                  <h1>Confirmer</h1>
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
 
         {isEditDialogOpen && (
           <div className="fixed inset-0 px-10 flex items-center justify-center bg-black bg-opacity-25">
