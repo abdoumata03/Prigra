@@ -4,7 +4,6 @@ import ProfileContext from "../context/profile-context";
 import { useContext, useState } from "react";
 import { FiInfo } from "react-icons/fi";
 import { ReactComponent as Congratulation } from "/src/assets/illustrations/congras.svg";
-import PersonField from "./person-filed";
 import ProjectInfoField from "./project-info-field";
 
 const Deliberation = () => {
