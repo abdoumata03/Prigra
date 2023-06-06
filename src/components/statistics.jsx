@@ -68,7 +68,7 @@ const Statistics = () => {
               value={projects?.length}
             />
           </div>
-          {/*<div className="bg-white shadow-custom rounded-md border flex py-6 px-10">
+          <div className="bg-white shadow-custom rounded-md border flex py-6 px-10">
             <div className="flex flex-col">
               <p className="text-gray3 font-medium text-sm mb-6">
                 Par type de projet
@@ -108,7 +108,7 @@ const Statistics = () => {
             <div>
               <PrettyPie data={statusData} />
             </div>
-  </div>*/}
+  </div>
         </div>
         <div className="flex gap-4">
           <div className="bg-white shadow-custom rounded-md border flex py-6 px-4">
